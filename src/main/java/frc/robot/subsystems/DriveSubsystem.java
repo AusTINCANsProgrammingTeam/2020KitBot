@@ -63,11 +63,11 @@ public class DriveSubsystem extends SubsystemBase {
     l_encoder = mLeft1.getEncoder();
     r_encoder = mLeft1.getEncoder();
 
-    kP = 0.00010; 
+    kP = 0.00011; 
     kI = 0;
     kD = .0000; 
     kIz = 0; 
-    kFF = 0.000175; 
+    kFF = 0.000185; 
     kMaxOutput = 1; 
     kMinOutput = -1;
 

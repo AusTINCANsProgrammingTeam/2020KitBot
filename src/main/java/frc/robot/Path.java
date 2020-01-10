@@ -10,10 +10,13 @@ public class Path{
     private ArrayList rightString = new ArrayList<>();
     private ArrayList leftString = new ArrayList<>();
     private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
-    public Path(){}    
+    private String pathName;
+    public Path(String PathName){
+        pathName = PathName;
+    }    
 
     public ArrayList returnLeftList() throws IOException{
-            File file = new File("/paths/StraightTen.left.pf1.csv");
+            File file = new File(pathName + "left.pf1.csv");
             Scanner sc = new Scanner(file);
             String[] testArray;
         
@@ -27,7 +30,7 @@ public class Path{
     }
 
     public ArrayList returnRightList() throws IOException{
-        File file = new File("/paths/StraightTen.right.pf1.csv");
+        File file = new File(pathName + "right.pf1.csv");
         Scanner sc = new Scanner(file);
         String[] testArray;
         sc.next();

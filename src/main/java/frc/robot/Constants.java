@@ -36,7 +36,15 @@ public final class Constants {
     public final static int SLOT_1 = 1;
     public final static int SLOT_2 = 2;
     public final static int SLOT_3 = 3;
-  
+    
+    public final static double kP = 0.00011,
+    kI = 0,
+    kD = .0000,
+    kIz = 0,
+    kFF = 0.000185, 
+    kMaxOutput = 1, 
+    kMinOutput = -1;
+
   
     public final static int kSlot_Distance = SLOT_0;
     public final static int kSlot_Turning = SLOT_1;

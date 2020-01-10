@@ -11,8 +11,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.Aiming;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RunPath;
 import frc.robot.commands.RunVelocity;
@@ -32,9 +37,16 @@ public class RobotContainer {
   public static DriveSubsystem mDriveSubsystem = new DriveSubsystem();
   public static DriveCommand mDriveCommand = new DriveCommand();
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
-  public static Path path = new Path();
-  public static ArrayList leftArray;
-  public static ArrayList rightArray;
+  public static Path path1 = new Path("/paths/StraightTen.");
+  public static Path path2 = new Path("/paths/Turn.");
+  public static ArrayList leftArray1;
+  public static ArrayList rightArray1;
+  public static ArrayList leftArray2;
+  public static ArrayList rightArray2;
+  public static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  public static NetworkTableEntry tx = table.getEntry("tx");
+  public static NetworkTableEntry ty = table.getEntry("ty");
+  public static NetworkTableEntry ta = table.getEntry("ta");
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -42,8 +54,10 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     try{
-      rightArray = path.returnRightList();
-      leftArray = path.returnLeftList();
+      rightArray1 = path1.returnRightList();
+      leftArray1 = path1.returnLeftList();
+      rightArray2 = path2.returnRightList();
+      leftArray2 = path2.returnLeftList();
     }
       catch(IOException e){
         LOGGER.warning("real really test");
@@ -58,8 +72,10 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    mOI.buttonOne.whenPressed(new RunPath(leftArray, rightArray));
+    mOI.buttonOne.whenPressed(new RunPath(leftArray1, rightArray1));
+    mOI.buttonThree.whenPressed(new RunPath(leftArray2, rightArray2));
     mOI.buttonTwo.whenPressed(new toggleOff());
+    mOI.buttonFive.whileHeld(new Aiming(), true);
   }
 
 
@@ -68,8 +84,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  //public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-  //  return m_autoCommand;
-  //}
+    return new RunPath(leftArray1, rightArray1);
+  }
 }

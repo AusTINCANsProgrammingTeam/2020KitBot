@@ -7,6 +7,8 @@
 
 package frc.robot;
 
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -22,7 +24,7 @@ import frc.robot.commands.DriveCommand;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
+  private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
   private RobotContainer m_robotContainer;
 
   /**
@@ -34,6 +36,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
   /**
@@ -41,13 +44,20 @@ public class Robot extends TimedRobot {
    * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
    *
    * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updating.
+   * LiveWindow and SmartDashboard integrated updatin
+   *g.
    */
   @Override
   public void robotPeriodic() {
     SmartDashboard.putNumber("Left Velocity", -1 * m_robotContainer.mDriveSubsystem.leftVelocity());    
     SmartDashboard.putNumber("Right Velocity", -1 * m_robotContainer.mDriveSubsystem.rightVelocity());
     m_robotContainer.mDriveSubsystem.updatePID();
+    double x = m_robotContainer.tx.getDouble(0.0);
+    double y = m_robotContainer.ty.getDouble(0.0);
+    double area = m_robotContainer.ta.getDouble(0.0);
+    SmartDashboard.putNumber("LimelightX", x);
+    SmartDashboard.putNumber("LimelightY", y);
+    SmartDashboard.putNumber("LimelightArea", area);
     // Runs the Smcheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -76,6 +86,7 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
+      LOGGER.warning("got");
     }
   }
 
@@ -84,6 +95,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    CommandScheduler.getInstance().run();
   }
 
   @Override
