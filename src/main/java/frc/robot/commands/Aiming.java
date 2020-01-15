@@ -61,7 +61,10 @@ public class Aiming extends CommandBase {
      leftCommand = leftCommand + steering_adjust;
      rightCommand = rightCommand - steering_adjust;
      
+    if(tx != 0)
     RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(1),leftCommand);
+    else
+    RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(1),joystick.getRawAxis(2));
   }
 
   // Called once the command ends or is interrupted.
