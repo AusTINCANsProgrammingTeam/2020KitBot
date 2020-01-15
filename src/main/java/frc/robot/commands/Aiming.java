@@ -48,19 +48,20 @@ public class Aiming extends CommandBase {
   @Override
   public void execute() {
     double tx = SmartDashboard.getNumber("LimelightX", 0);
-    double min_command = .1;
+    double min_command = .2;
     double steering_adjust = 0.0;
+    double leftCommand = 0;
+    double rightCommand =0;
     if(tx>1.0){
-        steering_adjust = .03 * tx;
+        steering_adjust = .013 * tx +min_command;
     }
-    else if(tx<1.0){
-        steering_adjust = .03 * tx;
+    else if(tx<-1.0){
+        steering_adjust = .013 * tx -min_command;
     }
-    if(steering_adjust > min_command)
-    RobotContainer.mDriveSubsystem.arcadeDrive(0.0,steering_adjust);
-    else
-    RobotContainer.mDriveSubsystem.arcadeDrive(0.0,min_command);
-    LOGGER.warning("test");
+     leftCommand = leftCommand + steering_adjust;
+     rightCommand = rightCommand - steering_adjust;
+     
+    RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(1),leftCommand);
   }
 
   // Called once the command ends or is interrupted.

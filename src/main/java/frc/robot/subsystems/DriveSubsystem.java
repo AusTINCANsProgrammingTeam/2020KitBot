@@ -91,7 +91,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void arcadeDrive(double velocity, double heading){
-    this.differentialDrive.arcadeDrive(velocity, heading * .70, true);
+    this.differentialDrive.arcadeDrive(velocity, heading, true);
+  }
+
+  public void tankDrive(double lVelocity, double rVelocity){
+    this.differentialDrive.tankDrive(lVelocity, rVelocity);
   }
 
   public void updatePID(){
