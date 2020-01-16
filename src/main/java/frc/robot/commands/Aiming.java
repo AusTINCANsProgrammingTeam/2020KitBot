@@ -12,6 +12,7 @@ import frc.robot.OI;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.*;
 
 import java.util.logging.Logger;
 
@@ -27,6 +28,7 @@ public class Aiming extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private static final Logger LOGGER = Logger.getLogger(DriveCommand.class.getName());
   private Joystick joystick = new Joystick(OI.joystick);
+  double tx = SmartDashboard.getNumber("LimelightX", 0);
 
   /**
    * Creates a new ExampleCommand.
@@ -41,17 +43,17 @@ public class Aiming extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double tx = SmartDashboard.getNumber("LimelightX", 0);
+    Robot.m_robotContainer.light.setValue(3);
+    tx = SmartDashboard.getNumber("LimelightX", 0);
     double min_command = .2;
     double steering_adjust = 0.0;
     double leftCommand = 0;
-    double rightCommand =0;
+    double rightCommand = 0;
     if(tx>1.0){
         steering_adjust = .013 * tx +min_command;
     }
@@ -70,12 +72,18 @@ public class Aiming extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.mDriveCommand.schedule();
+    RobotContainer.light.setValue(1);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return false;
+    //return ((tx<1.0  && tx> -1.0) && tx != 0);
+  }
+
+  public void lightEnable(){
+    LOGGER.warning("wtf");
+    Robot.m_robotContainer.light.setNumber(3);
   }
 }

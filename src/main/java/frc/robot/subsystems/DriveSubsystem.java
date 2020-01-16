@@ -11,6 +11,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Robot;
+import frc.robot.commands.DriveCommand;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
@@ -153,6 +155,8 @@ public double fpsToRPM(double fps){
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
+   // Robot.m_robotContainer.mDriveCommand.schedule();
+   new DriveCommand();
   }
 }
+

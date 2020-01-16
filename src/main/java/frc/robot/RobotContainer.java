@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.Aiming;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.RunPath;
+import frc.robot.commands.RunPath; 
 import frc.robot.commands.RunVelocity;
 import frc.robot.commands.toggleOff;
 import frc.robot.subsystems.DriveSubsystem;
@@ -47,6 +47,8 @@ public class RobotContainer {
   public static NetworkTableEntry tx = table.getEntry("tx");
   public static NetworkTableEntry ty = table.getEntry("ty");
   public static NetworkTableEntry ta = table.getEntry("ta");
+  public static NetworkTableEntry light = table.getEntry("ledMode");
+
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -63,6 +65,7 @@ public class RobotContainer {
         LOGGER.warning("real really test");
       }
      configureButtonBindings();
+     mDriveSubsystem.setDefaultCommand(mDriveCommand);
    }
 
   /**
@@ -75,7 +78,7 @@ public class RobotContainer {
     mOI.buttonOne.whenPressed(new RunPath(leftArray1, rightArray1));
     mOI.buttonThree.whenPressed(new RunPath(leftArray2, rightArray2));
     mOI.buttonTwo.whenPressed(new toggleOff());
-    mOI.buttonFive.whileHeld(new Aiming(), true);
+    mOI.buttonFive.whileHeld(new Aiming(), false);
   }
 
 
