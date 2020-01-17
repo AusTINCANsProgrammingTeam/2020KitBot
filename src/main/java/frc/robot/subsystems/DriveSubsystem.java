@@ -65,30 +65,22 @@ public class DriveSubsystem extends SubsystemBase {
     l_encoder = mLeft1.getEncoder();
     r_encoder = mLeft1.getEncoder();
 
-    kP = 0.00011; 
-    kI = 0;
-    kD = .0000; 
-    kIz = 0; 
-    kFF = 0.000185; 
-    kMaxOutput = 1; 
-    kMinOutput = -1;
-
-    l_pidController.setP(kP);
-    l_pidController.setI(kI);
-    l_pidController.setD(kD);
-    l_pidController.setIZone(kIz);
-    l_pidController.setFF(kFF);
-    l_pidController.setOutputRange(kMinOutput, kMaxOutput);
-    r_pidController.setP(kP);
-    r_pidController.setI(kI);
-    r_pidController.setD(kD);
-    r_pidController.setIZone(kIz);
-    r_pidController.setFF(kFF);
-    r_pidController.setOutputRange(kMinOutput, kMaxOutput);
-    SmartDashboard.putNumber("P Gain", kP);
-    SmartDashboard.putNumber("I Gain", kI);
-    SmartDashboard.putNumber("D Gain", kD);
-    SmartDashboard.putNumber("FF Value", kFF);
+    l_pidController.setP(Constants.kP);
+    l_pidController.setI(Constants.kI);
+    l_pidController.setD(Constants.kD);
+    l_pidController.setIZone(Constants.kIz);
+    l_pidController.setFF(Constants.kFF);
+    l_pidController.setOutputRange(Constants.kMinOutput, Constants.kMaxOutput);
+    r_pidController.setP(Constants.kP);
+    r_pidController.setI(Constants.kI);
+    r_pidController.setD(Constants.kD);
+    r_pidController.setIZone(Constants.kIz);
+    r_pidController.setFF(Constants.kFF);
+    r_pidController.setOutputRange(Constants.kMinOutput, Constants.kMaxOutput);
+    SmartDashboard.putNumber("P Gain", Constants.kP);
+    SmartDashboard.putNumber("I Gain", Constants.kI);
+    SmartDashboard.putNumber("D Gain", Constants.kD);
+    SmartDashboard.putNumber("FF Value", Constants.kFF);
     differentialDrive.setSafetyEnabled(false);
   }
 
@@ -155,7 +147,6 @@ public double fpsToRPM(double fps){
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-   // Robot.m_robotContainer.mDriveCommand.schedule();
    new DriveCommand();
   }
 }

@@ -29,7 +29,10 @@ public class Aiming extends CommandBase {
   private static final Logger LOGGER = Logger.getLogger(DriveCommand.class.getName());
   private Joystick joystick = new Joystick(OI.joystick);
   double tx = SmartDashboard.getNumber("LimelightX", 0);
-
+  double minSteerAdjust = .2;
+  double steering_adjust = 0.0;
+  double headingCommand = 0;
+  double p = .013;
   /**
    * Creates a new ExampleCommand.
    *
@@ -50,21 +53,16 @@ public class Aiming extends CommandBase {
   public void execute() {
     Robot.m_robotContainer.light.setValue(3);
     tx = SmartDashboard.getNumber("LimelightX", 0);
-    double min_command = .2;
-    double steering_adjust = 0.0;
-    double leftCommand = 0;
-    double rightCommand = 0;
     if(tx>1.0){
-        steering_adjust = .013 * tx +min_command;
+        steering_adjust = p * tx +minSteerAdjust;
     }
     else if(tx<-1.0){
-        steering_adjust = .013 * tx -min_command;
+        steering_adjust = p * tx -minSteerAdjust;
     }
-     leftCommand = leftCommand + steering_adjust;
-     rightCommand = rightCommand - steering_adjust;
+     headingCommand = headingCommand + steering_adjust;
      
     if(tx != 0)
-    RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(1),leftCommand);
+    RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(1),headingCommand);
     else
     RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(1),joystick.getRawAxis(2));
   }
@@ -80,10 +78,5 @@ public class Aiming extends CommandBase {
   public boolean isFinished() {
     return false;
     //return ((tx<1.0  && tx> -1.0) && tx != 0);
-  }
-
-  public void lightEnable(){
-    LOGGER.warning("wtf");
-    Robot.m_robotContainer.light.setNumber(3);
   }
 }

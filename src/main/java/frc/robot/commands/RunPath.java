@@ -59,7 +59,6 @@ public class RunPath extends CommandBase {
     SmartDashboard.putNumber("Right Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
 
     i++;
-    LOGGER.warning(i +"");
   }
 
   // Called once the command ends or is interrupted.
