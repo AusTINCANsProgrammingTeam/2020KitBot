@@ -2,13 +2,14 @@ package frc.robot;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner; 
 import java.util.logging.*;
 
+import edu.wpi.first.wpilibj.Filesystem;
+
 public class Path{
-    private ArrayList rightString = new ArrayList<>();
-    private ArrayList leftString = new ArrayList<>();
+    private ArrayList<String> m_rightString = new ArrayList<String>();
+    private ArrayList<String> m_leftString = new ArrayList<String>();
     private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
     private String pathName;
     public Path(String PathName){
@@ -23,10 +24,10 @@ public class Path{
         sc.next();
         while(sc.hasNext()){
             testArray = sc.next().split(",");
-            leftString.add(testArray[4]);
+            m_leftString.add(testArray[4]);
         }
         
-        return leftString;
+        return m_leftString;
     }
 
     public ArrayList returnRightList() throws IOException{
@@ -36,8 +37,8 @@ public class Path{
         sc.next();
         while(sc.hasNext()){
             testArray = sc.next().split(",");
-            rightString.add(testArray[4]);
+            m_rightString.add(testArray[4]);
         }
-        return rightString;
+        return m_rightString;
     }
 }

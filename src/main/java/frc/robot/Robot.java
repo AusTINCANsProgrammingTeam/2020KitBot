@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ScheduleCommand;
-import frc.robot.commands.DriveCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -37,7 +35,7 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    m_robotContainer.light.setValue(1);
+    RobotContainer.light.setValue(Constants.LL_LIGHT_ON);
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
   }
 
@@ -46,17 +44,16 @@ public class Robot extends TimedRobot {
    * diagnostics that you want ran during disabled, autonomous, teleoperated and test.
    *
    * <p>This runs after the mode specific periodic functions, but before
-   * LiveWindow and SmartDashboard integrated updatin
-   *g.
+   * LiveWindow and SmartDashboard integrated updating.
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("Left Velocity", -1 * m_robotContainer.mDriveSubsystem.leftVelocity());    
-    SmartDashboard.putNumber("Right Velocity", -1 * m_robotContainer.mDriveSubsystem.rightVelocity());
-    m_robotContainer.mDriveSubsystem.updatePID();
-    double x = m_robotContainer.tx.getDouble(0.0);
-    double y = m_robotContainer.ty.getDouble(0.0);
-    double area = m_robotContainer.ta.getDouble(0.0);
+    SmartDashboard.putNumber("Left Velocity", -1 * RobotContainer.mDriveSubsystem.leftVelocity());    
+    SmartDashboard.putNumber("Right Velocity", -1 * RobotContainer.mDriveSubsystem.rightVelocity());
+    RobotContainer.mDriveSubsystem.updatePID();
+    double x = RobotContainer.tx.getDouble(0.0);
+    double y = RobotContainer.ty.getDouble(0.0);
+    double area = RobotContainer.ta.getDouble(0.0);
     SmartDashboard.putNumber("LimelightX", x);
     SmartDashboard.putNumber("LimelightY", y);
     SmartDashboard.putNumber("LimelightArea", area);
@@ -88,7 +85,6 @@ public class Robot extends TimedRobot {
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
-      LOGGER.warning("got");
     }
   }
 
@@ -109,7 +105,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    //m_robotContainer.mDriveCommand.schedule();
   }
 
   /**

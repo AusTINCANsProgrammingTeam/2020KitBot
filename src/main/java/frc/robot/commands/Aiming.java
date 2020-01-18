@@ -10,8 +10,6 @@ package frc.robot.commands;
 import frc.robot.Constants;
 import frc.robot.OI;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.*;
 
 import java.util.logging.Logger;
@@ -19,7 +17,6 @@ import java.util.logging.Logger;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.commands.*;
 
 /**
  * An example command that uses an example subsystem.
@@ -29,8 +26,11 @@ public class Aiming extends CommandBase {
   private static final Logger LOGGER = Logger.getLogger(DriveCommand.class.getName());
   private Joystick joystick = new Joystick(OI.joystick);
   double tx = SmartDashboard.getNumber("LimelightX", 0);
+  double ty = SmartDashboard.getNumber("LimelightY", 0);
+  double d = 0;
+  
   double minSteerAdjust = .2;
-  double steering_adjust = 0.0;
+  double steeringAdjust = 0.0;
   double headingCommand = 0;
   double p = .013;
   /**
@@ -49,34 +49,37 @@ public class Aiming extends CommandBase {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
+  // tx is the degrees the limelight detects we are off by the target 
+  // adjust p until it works
   @Override
   public void execute() {
-    Robot.m_robotContainer.light.setValue(3);
+    //RobotContainer.light.setValue(Constants.LL_LIGHT_ON);
     tx = SmartDashboard.getNumber("LimelightX", 0);
+    ty = SmartDashboard.getNumber("LimelightY", 0);
+    d = 73.5/Math.tan(Math.toRadians(ty+63));
+    LOGGER.warning(d + "");
     if(tx>1.0){
-        steering_adjust = p * tx +minSteerAdjust;
+        steeringAdjust = p * tx +minSteerAdjust;
     }
     else if(tx<-1.0){
-        steering_adjust = p * tx -minSteerAdjust;
+        steeringAdjust = p * tx -minSteerAdjust;
     }
-     headingCommand = headingCommand + steering_adjust;
      
     if(tx != 0)
-    RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(1),headingCommand);
+      RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(Constants.VELOCITY_CONTROL),steeringAdjust);
     else
-    RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(1),joystick.getRawAxis(2));
+      RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(Constants.VELOCITY_CONTROL),joystick.getRawAxis(Constants.HEADING_CONTROL));
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.light.setValue(1);
+   // RobotContainer.light.setValue(Constants.LL_LIGHT_OFF);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     return false;
-    //return ((tx<1.0  && tx> -1.0) && tx != 0);
   }
 }

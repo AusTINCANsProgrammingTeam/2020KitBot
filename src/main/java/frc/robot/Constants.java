@@ -36,20 +36,29 @@ public final class Constants {
     public final static int SLOT_1 = 1;
     public final static int SLOT_2 = 2;
     public final static int SLOT_3 = 3;
+    public final static int VELOCITY_CONTROL=1;
+    public final static int HEADING_CONTROL=2;
     
-    public final static double kP = 0.00011,
-    kI = 0,
-    kD = .0000,
-    kIz = 0,
-    kFF = 0.000185, 
-    kMaxOutput = 1, 
-    kMinOutput = -1;
-
+    public final static double kP = 0.00011;
+    public final static double kI = 0;
+    public final static double  kD = .0000;
+    public final static double kIz = 0;
+    public final static double kFF = 0.000185;
+    public final static double kMaxOutput = 1;
+    public final static double kMinOutput = -1;
   
     public final static int kSlot_Distance = SLOT_0;
     public final static int kSlot_Turning = SLOT_1;
     public final static int kSlot_Velocity = SLOT_2;
     public final static int kSlot_MotProf = SLOT_3;
+
+    public final static int LL_LIGHT_DEFAULT = 0;
+    public final static int LL_LIGHT_OFF = 1;
+    public final static int LL_LIGHT_BLINK = 2;
+    public final static int LL_LIGHT_ON = 3;
+    
   
     public static boolean onOrOff = false;
+    
 }
+

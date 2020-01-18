@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.Robot;
 import frc.robot.commands.DriveCommand;
 
 import com.revrobotics.CANEncoder;
@@ -19,7 +18,6 @@ import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANError;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import java.util.logging.*;
 
