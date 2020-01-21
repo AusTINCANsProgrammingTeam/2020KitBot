@@ -10,7 +10,9 @@ package frc.robot.commands;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
+import java.io.File;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -56,7 +58,6 @@ public class RunPath extends CommandBase {
       RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
       SmartDashboard.putNumber("Left Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));    
       SmartDashboard.putNumber("Right Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
-      LOGGER.warning("Time: " + timer.get() + " I: " + i + "Set point: " + RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())) + " Current Velocity:  "  +  RobotContainer.mDriveSubsystem.leftVelocity());
       i++;
     }
   
