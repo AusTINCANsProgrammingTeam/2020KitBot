@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.Scanner; 
 import java.util.logging.*;
 
-import edu.wpi.first.wpilibj.Filesystem;
-
 public class Path{
     private ArrayList<String> m_rightString = new ArrayList<String>();
     private ArrayList<String> m_leftString = new ArrayList<String>();
@@ -16,7 +14,7 @@ public class Path{
         pathName = PathName;
     }    
 
-    public ArrayList returnLeftList() throws IOException{
+    public ArrayList<String> returnLeftList() throws IOException{
             File file = new File(pathName + "left.pf1.csv");
             Scanner sc = new Scanner(file);
             String[] testArray;
@@ -26,11 +24,11 @@ public class Path{
             testArray = sc.next().split(",");
             m_leftString.add(testArray[4]);
         }
-        
+        sc.close();
         return m_leftString;
     }
 
-    public ArrayList returnRightList() throws IOException{
+    public ArrayList<String> returnRightList() throws IOException{
         File file = new File(pathName + "right.pf1.csv");
         Scanner sc = new Scanner(file);
         String[] testArray;
@@ -39,6 +37,7 @@ public class Path{
             testArray = sc.next().split(",");
             m_rightString.add(testArray[4]);
         }
+        sc.close();
         return m_rightString;
     }
 }

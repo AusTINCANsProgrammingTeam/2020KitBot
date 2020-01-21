@@ -61,7 +61,7 @@ public class DriveSubsystem extends SubsystemBase {
     r_pidController = mRight1.getPIDController();
 
     l_encoder = mLeft1.getEncoder();
-    r_encoder = mLeft1.getEncoder();
+    r_encoder = mRight1.getEncoder();
 
     l_pidController.setP(Constants.kP);
     l_pidController.setI(Constants.kI);
@@ -145,7 +145,6 @@ public double fpsToRPM(double fps){
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-   new DriveCommand();
   }
 }
 

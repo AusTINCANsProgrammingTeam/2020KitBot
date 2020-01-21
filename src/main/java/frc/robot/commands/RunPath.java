@@ -34,7 +34,7 @@ public class RunPath extends CommandBase {
   public RunPath(List leftPath, List rightPath) {
     this.rightPath = rightPath;
     this.leftPath = leftPath;
-    timeToRun = .020 * (leftPath.size()-1);
+    timeToRun = .020 * (leftPath.size());
     timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.mDriveSubsystem);
@@ -51,12 +51,15 @@ public class RunPath extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(-1*RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));
-    RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
-    SmartDashboard.putNumber("Left Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));    
-    SmartDashboard.putNumber("Right Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
-
-    i++;
+    if(i< leftPath.size()){
+      RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(-1*RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));
+      RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
+      SmartDashboard.putNumber("Left Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));    
+      SmartDashboard.putNumber("Right Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
+      LOGGER.warning("Time: " + timer.get() + " I: " + i + "Set point: " + RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())) + " Current Velocity:  "  +  RobotContainer.mDriveSubsystem.leftVelocity());
+      i++;
+    }
+  
   }
 
   // Called once the command ends or is interrupted.
@@ -69,6 +72,7 @@ public class RunPath extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-      return timer.get() >= timeToRun;
+    return i >= leftPath.size();  
+    //return timer.get() >= timeToRun;
   }
 }

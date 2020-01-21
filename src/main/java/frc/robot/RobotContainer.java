@@ -36,8 +36,8 @@ public class RobotContainer {
   public static DriveSubsystem mDriveSubsystem = new DriveSubsystem();
   public static DriveCommand mDriveCommand = new DriveCommand();
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
-  private static Path path1 = new Path("./paths/StraightTen.");
-  private static Path path2 = new Path("./paths/Turn.");
+  private static Path path1 = new Path("/paths/Rook6f.");
+  private static Path path2 = new Path("/paths/Knight6f5l.");
   private static ArrayList<String> leftArray1;
   private static ArrayList<String>  rightArray1;
   private static ArrayList<String>  leftArray2;
@@ -88,6 +88,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new RunPath(leftArray1, rightArray1);
+    return new RunPath(leftArray2, rightArray2);
   }
 }

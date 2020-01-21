@@ -53,11 +53,10 @@ public class Aiming extends CommandBase {
   // adjust p until it works
   @Override
   public void execute() {
-    //RobotContainer.light.setValue(Constants.LL_LIGHT_ON);
+    RobotContainer.light.setValue(Constants.LL_LIGHT_ON);
     tx = SmartDashboard.getNumber("LimelightX", 0);
     ty = SmartDashboard.getNumber("LimelightY", 0);
-    d = 73.5/Math.tan(Math.toRadians(ty+63));
-    LOGGER.warning(d + "");
+    //d = 73.5/Math.tan(Math.toRadians(ty+63));
     if(tx>1.0){
         steeringAdjust = p * tx +minSteerAdjust;
     }
@@ -74,7 +73,7 @@ public class Aiming extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-   // RobotContainer.light.setValue(Constants.LL_LIGHT_OFF);
+    RobotContainer.light.setValue(Constants.LL_LIGHT_OFF);
   }
 
   // Returns true when the command should end.
