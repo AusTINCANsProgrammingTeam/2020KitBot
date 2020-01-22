@@ -8,6 +8,8 @@
 package frc.robot;
 
 import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
@@ -19,10 +21,10 @@ import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.Aiming;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.RunPath; 
+import frc.robot.commands.RunTrajectory;
 import frc.robot.commands.toggleOff;
 import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.Path;
+import edu.wpi.first.wpilibj.trajectory.*;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -30,18 +32,14 @@ import frc.robot.Path;
  * periodic methods (other than the scheduler calls).  Instead, the structure of the robot
  * (including subsystems, commands, and button mappings) should be declared here.
  */
-public class RobotContainer {
+public class RobotContainer{
   // The robot's subsystems and commands are defined here...
   public static OI mOI = new OI();
   public static DriveSubsystem mDriveSubsystem = new DriveSubsystem();
   public static DriveCommand mDriveCommand = new DriveCommand();
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
-  private static Path path1 = new Path("/paths/Rook6f.");
-  private static Path path2 = new Path("/paths/Knight6f5l.");
-  private static ArrayList<String> leftArray1;
-  private static ArrayList<String>  rightArray1;
-  private static ArrayList<String>  leftArray2;
-  private static ArrayList<String>  rightArray2;
+  private static Trajectory trajectory1;
+  private static Trajectory trajectory2;
   public static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   public static NetworkTableEntry tx = table.getEntry("tx");
   public static NetworkTableEntry ty = table.getEntry("ty");
@@ -55,14 +53,12 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     try{
-      rightArray1 = path1.returnRightList();
-      leftArray1 = path1.returnLeftList();
-      rightArray2 = path2.returnRightList();
-      leftArray2 = path2.returnLeftList();
+    trajectory1 = TrajectoryUtil.fromPathweaverJson(Paths.get("/paths/Rook6f.json"));
+    trajectory2 = TrajectoryUtil.fromPathweaverJson(Paths.get("/paths/Knight6f5l.json"));
+    }catch(Exception e){
+      e.printStackTrace();
     }
-      catch(IOException e){
-        LOGGER.warning("real really test");
-      }
+    
      configureButtonBindings();
      mDriveSubsystem.setDefaultCommand(mDriveCommand);
    }
@@ -74,8 +70,8 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    mOI.buttonOne.whenPressed(new RunPath(leftArray1, rightArray1));
-    mOI.buttonThree.whenPressed(new RunPath(leftArray2, rightArray2));
+    mOI.buttonOne.whenPressed(new RunTrajectory(trajectory1));
+    mOI.buttonThree.whenPressed(new RunTrajectory(trajectory2));
     mOI.buttonTwo.whenPressed(new toggleOff());
     mOI.buttonFive.whileHeld(new Aiming(), false);
   }
@@ -87,7 +83,8 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An ExampleCommand will run in autonomous
-    return new RunPath(leftArray2, rightArray2);
+    // A RunTrajectory command will run in autonomous
+    RunTrajectory runTrajectory = new RunTrajectory(trajectory2);
+    return runTrajectory.getCommand();
   }
 }
