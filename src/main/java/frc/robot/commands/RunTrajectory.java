@@ -66,7 +66,7 @@ public class RunTrajectory extends CommandBase {
 
     this.ramseteCommand = new RamseteCommand(
       trajectory,
-      RobotContainer.mDriveSubsystem::getPose,
+      RobotContainer.mDriveSubsystem.getPose(),
       new RamseteController(AutoConstants.kRamseteB, AutoConstants.kRamseteZeta),
       new SimpleMotorFeedforward (
         DriveConstants.ksVolts,
@@ -78,7 +78,8 @@ public class RunTrajectory extends CommandBase {
       new PIDController(DriveConstants.kPDriveVel, 0, 0),
       new PIDController(DriveConstants.kPDriveVel, 0, 0),
       // RamseteCommand passes volts to the callback
-      RobotContainer.mDriveSubsystem::tankDriveVolts, RobotContainer.mDriveSubsystem
+      RobotContainer.mDriveSubsystem::tankDriveVolts(0,0), 
+      RobotContainer.mDriveSubsystem
     );
  
       
