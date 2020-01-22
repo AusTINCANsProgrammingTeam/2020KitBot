@@ -10,7 +10,10 @@ package frc.robot.commands;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -29,11 +32,18 @@ public class RunPath extends CommandBase {
   private List leftPath;
   private double timeToRun;
   private Timer timer;
+  public BufferedWriter out;
   int i = 0;
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
 
 
   public RunPath(List leftPath, List rightPath) {
+    try {
+      File f = new File("plswork.txt");
+      out = new BufferedWriter(new FileWriter(f));
+    } catch (IOException e) {
+      LOGGER.warning("WEWEWEWEWEWEWEWEWEWEEW THIS DIDNT WROK WEWEWEWEWEWEWEWEWEWEWEWEWEWEWEWEWEWEWE");
+    }
     this.rightPath = rightPath;
     this.leftPath = leftPath;
     timeToRun = .020 * (leftPath.size());
@@ -44,18 +54,30 @@ public class RunPath extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
+  public void initialize(){
     i = 0;
     timer.reset();
     timer.start();
+    try {
+      out.write("LCommandedVelocity,RCommandedVelocity \n");
+    } catch (IOException e) {
+      LOGGER.warning("WEWEWEWEWEWEWEWEWEWEEW THIS DIDNT WROK WEWEWEWEWEWEWEWEWEWEWEWEWEWEWEWEWEWEWE");
+
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
+  public void execute(){
     if(i< leftPath.size()){
       RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(-1*RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));
       RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
+      try {
+        out.write(Double.valueOf(leftPath.get(i).toString()) + "," + Double.valueOf(rightPath.get(i).toString()));
+      } catch (IOException e) {
+        LOGGER.warning("WEWEWEWEWEWEWEWEWEWEEW THIS DIDNT WROK WEWEWEWEWEWEWEWEWEWEWEWEWEWEWEWEWEWEWE");
+
+      }
       SmartDashboard.putNumber("Left Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));    
       SmartDashboard.putNumber("Right Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
       i++;
