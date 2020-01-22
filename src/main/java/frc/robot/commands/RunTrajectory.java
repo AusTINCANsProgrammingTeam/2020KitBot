@@ -9,6 +9,8 @@ package frc.robot.commands;
 
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
+import frc.robot.DriveConstants;
+import frc.robot.AutoConstants;
 
 import java.util.List;
 import java.util.logging.Logger;

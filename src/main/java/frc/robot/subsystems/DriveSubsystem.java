@@ -85,7 +85,14 @@ public class DriveSubsystem extends SubsystemBase {
   public void arcadeDrive(double velocity, double heading){
     this.differentialDrive.arcadeDrive(velocity, heading, true);
   }
+  
+  public void tankDriveVolts(double leftVolts, double rightVolts) {
 
+    this.mLeft1.setVoltage(leftVolts);
+    this.mRight1.setVoltage(rightVolts);
+
+  }
+  
   public void tankDrive(double lVelocity, double rVelocity){
     this.differentialDrive.tankDrive(lVelocity, rVelocity);
   }
