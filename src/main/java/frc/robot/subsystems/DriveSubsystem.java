@@ -30,6 +30,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import java.util.function.BiConsumer;
+import java.util.function.Supplier;
 import java.util.logging.*;
 
 public class DriveSubsystem extends SubsystemBase {
@@ -47,6 +48,7 @@ public class DriveSubsystem extends SubsystemBase {
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
     private DifferentialDriveOdometry mOdometry;
+    private Supplier<DifferentialDriveWheelSpeeds> wheelSpeed;
 
     public DriveSubsystem() {
     
@@ -166,8 +168,10 @@ public class DriveSubsystem extends SubsystemBase {
     }
 
     public DifferentialDriveWheelSpeeds getWheelSpeeds() {
-        return new DifferentialDriveWheelSpeeds(l_encoder.getVelocity(), r_encoder.getVelocity());
+        return new DifferentialDriveWheelSpeeds(leftVelocity(),rightVelocity());
     }
+
+    
 
     public double fpsToRPM(double fps) {
         fps = fps * 12;
