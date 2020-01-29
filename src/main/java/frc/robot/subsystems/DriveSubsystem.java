@@ -25,6 +25,8 @@ import java.util.logging.*;
 public class DriveSubsystem extends SubsystemBase {
     private CANSparkMax mLeft1;
     private CANSparkMax mLeft2;
+    private CANSparkMax mLeft3;
+    private CANSparkMax mRight3;
     private CANSparkMax mRight1;
     private CANSparkMax mRight2;
     private CANPIDController l_pidController;
@@ -38,22 +40,32 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     mLeft1 = new CANSparkMax(1, MotorType.kBrushless);
     mLeft2 = new CANSparkMax(2, MotorType.kBrushless);
-    mRight1 = new CANSparkMax(3, MotorType.kBrushless);
-    mRight2 = new CANSparkMax(4, MotorType.kBrushless);
+    mLeft3 = new CANSparkMax(3,MotorType.kBrushless);
+    mRight1 = new CANSparkMax(5, MotorType.kBrushless);
+    mRight2 = new CANSparkMax(6, MotorType.kBrushless);
+    mRight3 = new CANSparkMax(8, MotorType.kBrushless);
     mLeft1.restoreFactoryDefaults();
     mLeft2.restoreFactoryDefaults();
+    mLeft3.restoreFactoryDefaults();
     mRight1.restoreFactoryDefaults();
     mRight2.restoreFactoryDefaults();
+    mRight3.restoreFactoryDefaults();
     mLeft1.enableVoltageCompensation(12);
     mLeft2.enableVoltageCompensation(12);
+    mLeft3.enableVoltageCompensation(12);
     mRight1.enableVoltageCompensation(12);
     mRight2.enableVoltageCompensation(12);
+    mRight3.enableVoltageCompensation(12);
     mLeft1.setIdleMode(IdleMode.kBrake);
     mLeft2.setIdleMode(IdleMode.kBrake);
+    mLeft3.setIdleMode(IdleMode.kBrake);
     mRight1.setIdleMode(IdleMode.kBrake);
     mRight2.setIdleMode(IdleMode.kBrake);
+    mRight3.setIdleMode(IdleMode.kBrake);
     mLeft2.follow(mLeft1);
+    mLeft3.follow(mLeft1);
     mRight2.follow(mRight1);
+    mRight3.follow(mRight1);
     differentialDrive = new DifferentialDrive(mLeft1, mRight1);
 
 
@@ -85,6 +97,8 @@ public class DriveSubsystem extends SubsystemBase {
   public void arcadeDrive(double velocity, double heading){
     this.differentialDrive.arcadeDrive(velocity, heading, true);
   }
+
+  
 
   public void tankDrive(double lVelocity, double rVelocity){
     this.differentialDrive.tankDrive(lVelocity, rVelocity);
