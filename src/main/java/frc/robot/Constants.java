@@ -22,9 +22,9 @@ public final class Constants {
     public static final int kTimeOutMs = 10;
     public static final double kNeutralDeadband = 0.001;
     public static final double kMaxRpms = 5700;
-    public static final double kGearRatio = 15.32;
+    public static final double kGearRatio = 27.54;
     public static final double kWheelCircumference = Math.PI*5.5;
-  
+
     //public final static Gains kGains_Velocity 
     //= new Gains(5e-5, 0, 0.0, 0, 1, -1);
   
@@ -39,9 +39,9 @@ public final class Constants {
     public final static int VELOCITY_CONTROL=1;
     public final static int HEADING_CONTROL=2;
     
-    public final static double kP = 0.001600;
+    public final static double kP = 0.001200;
     public final static double kI = 0;
-    public final static double  kD = .0013;
+    public final static double  kD = 1e-6;
     public final static double kIz = 0;
     public final static double kFF = 0.000000;
     public final static double kMaxOutput = 1;

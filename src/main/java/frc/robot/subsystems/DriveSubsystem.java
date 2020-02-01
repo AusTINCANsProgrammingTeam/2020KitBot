@@ -38,12 +38,12 @@ public class DriveSubsystem extends SubsystemBase {
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
 
   public DriveSubsystem() {
-    mLeft1 = new CANSparkMax(1, MotorType.kBrushless);
-    mLeft2 = new CANSparkMax(2, MotorType.kBrushless);
-    mLeft3 = new CANSparkMax(3,MotorType.kBrushless);
-    mRight1 = new CANSparkMax(5, MotorType.kBrushless);
-    mRight2 = new CANSparkMax(6, MotorType.kBrushless);
-    mRight3 = new CANSparkMax(8, MotorType.kBrushless);
+    mLeft1 = new CANSparkMax(5, MotorType.kBrushless);
+    mLeft2 = new CANSparkMax(6, MotorType.kBrushless);
+    mLeft3 = new CANSparkMax(8,MotorType.kBrushless);
+    mRight1 = new CANSparkMax(1, MotorType.kBrushless);
+    mRight2 = new CANSparkMax(2, MotorType.kBrushless);
+    mRight3 = new CANSparkMax(3, MotorType.kBrushless);
     mLeft1.restoreFactoryDefaults();
     mLeft2.restoreFactoryDefaults();
     mLeft3.restoreFactoryDefaults();

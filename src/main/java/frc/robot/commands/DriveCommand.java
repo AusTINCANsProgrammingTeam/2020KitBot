@@ -44,7 +44,7 @@ public class DriveCommand extends CommandBase {
   @Override
   public void execute() {
     if(Constants.onOrOff == false)
-      RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(1), joystick.getRawAxis(2));
+      RobotContainer.mDriveSubsystem.arcadeDrive(-1*joystick.getRawAxis(1), -1*joystick.getRawAxis(2));
   }
 
   // Called once the command ends or is interrupted.

@@ -50,6 +50,7 @@ public class Robot extends TimedRobot {
   public void robotPeriodic() {
     SmartDashboard.putNumber("Left Velocity", -1 * RobotContainer.mDriveSubsystem.leftVelocity());    
     SmartDashboard.putNumber("Right Velocity", -1 * RobotContainer.mDriveSubsystem.rightVelocity());
+
     RobotContainer.mDriveSubsystem.updatePID();
     double x = RobotContainer.tx.getDouble(0.0);
     double y = RobotContainer.ty.getDouble(0.0);
