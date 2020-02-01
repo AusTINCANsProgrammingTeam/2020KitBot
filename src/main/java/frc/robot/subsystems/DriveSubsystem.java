@@ -72,6 +72,8 @@ public class DriveSubsystem extends SubsystemBase {
     l_pidController = mLeft1.getPIDController();
     r_pidController = mRight1.getPIDController();
 
+    
+
     l_encoder = mLeft1.getEncoder();
     r_encoder = mRight1.getEncoder();
 
@@ -154,6 +156,7 @@ public double fpsToRPM(double fps){
     fps = fps/Constants.kWheelCircumference;
     fps = fps *60;
     fps = fps*Constants.kGearRatio;
+    //return RPM
     return fps;
 }
   @Override

@@ -61,7 +61,7 @@ public class RunPath extends CommandBase {
     if(i< leftPath.size()){
       RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(RobotContainer.mDriveSubsystem.fpsToRPM(m_leftIterator.next()));
       RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(-1*RobotContainer.mDriveSubsystem.fpsToRPM(m_rightIterator.next()));
-      SmartDashboard.putNumber("Left Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));    
+      SmartDashboard.putNumber("Left Commanded Velocity", -1*RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));    
       SmartDashboard.putNumber("Right Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
       i++;
     }

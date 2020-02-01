@@ -37,7 +37,7 @@ public class RobotContainer {
   public static DriveCommand mDriveCommand = new DriveCommand();
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
   private static Path path1 = new Path("/Paths/2019_Rook6.");
-  private static Path path2 = new Path("/Paths/2019_Knight6f5l.");
+  private static Path path2 = new Path("/Paths/PathS.");
   private static ArrayList<Double> leftArray1;
   private static ArrayList<Double>  rightArray1;
   private static ArrayList<Double>  leftArray2;
