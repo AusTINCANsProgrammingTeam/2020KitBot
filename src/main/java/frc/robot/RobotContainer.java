@@ -16,7 +16,7 @@ import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.commands.Aiming;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RunPath; 
@@ -36,8 +36,8 @@ public class RobotContainer {
   public static DriveSubsystem mDriveSubsystem = new DriveSubsystem();
   public static DriveCommand mDriveCommand = new DriveCommand();
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
-  private static Path path1 = new Path("/Paths/2019_Rook6.");
-  private static Path path2 = new Path("/Paths/PathS.");
+  private static Path path1 = new Path("/Paths/Rook8.");
+  private static Path path2 = new Path("/Paths/ToTrench.");
   private static ArrayList<Double> leftArray1;
   private static ArrayList<Double>  rightArray1;
   private static ArrayList<Double>  leftArray2;
@@ -47,6 +47,8 @@ public class RobotContainer {
   public static NetworkTableEntry ty = table.getEntry("ty");
   public static NetworkTableEntry ta = table.getEntry("ta");
   public static NetworkTableEntry light = table.getEntry("ledMode");
+  public static CommandGroupBase commandGroupBase;
+  public static SequentialCommandGroup sequentialCommandGroup;
 
 
   /**
@@ -78,6 +80,7 @@ public class RobotContainer {
     mOI.buttonThree.whenPressed(new RunPath(leftArray2, rightArray2));
     mOI.buttonTwo.whenPressed(new toggleOff());
     mOI.buttonFive.whileHeld(new Aiming(), false);
+    mOI.buttonSix.whenPressed(new SequentialCommandGroup(new RunPath(leftArray1, rightArray1),new RunPath(leftArray2, rightArray2)));
   }
 
 
