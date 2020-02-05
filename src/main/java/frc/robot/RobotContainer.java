@@ -11,11 +11,20 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.commands.Aiming;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RunPath;
-import frc.robot.commands.RunVelocity;
+import frc.robot.commands.RunPathBack;
+import frc.robot.commands.TurnAimShoot;
+import frc.robot.commands.autoDeCorrect;
+import frc.robot.commands.autoStoreValue;
 import frc.robot.commands.toggleOff;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Path;
@@ -32,9 +41,18 @@ public class RobotContainer {
   public static DriveSubsystem mDriveSubsystem = new DriveSubsystem();
   public static DriveCommand mDriveCommand = new DriveCommand();
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
-  public static Path path = new Path();
-  public static ArrayList leftArray;
-  public static ArrayList rightArray;
+  private static Path path1 = new Path("trenchAndAim");
+  private static Path path2 = new Path("DriveTrench");
+  private static ArrayList<String> leftArray1;
+  private static ArrayList<String>  rightArray1;
+  private static ArrayList<String>  leftArray2;
+  private static ArrayList<String>  rightArray2;
+  public static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
+  public static NetworkTableEntry tx = table.getEntry("tx");
+  public static NetworkTableEntry ty = table.getEntry("ty");
+  public static NetworkTableEntry ta = table.getEntry("ta");
+  public static NetworkTableEntry light = table.getEntry("ledMode");
+
 
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
@@ -42,13 +60,16 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the button bindings
     try{
-      rightArray = path.returnRightList();
-      leftArray = path.returnLeftList();
+      rightArray1 = path1.returnRightList();
+      leftArray1 = path1.returnLeftList();
+      rightArray2 = path2.returnRightList();
+      leftArray2 = path2.returnLeftList();
     }
       catch(IOException e){
         LOGGER.warning("real really test");
       }
      configureButtonBindings();
+     mDriveSubsystem.setDefaultCommand(mDriveCommand);
    }
 
   /**
@@ -58,8 +79,9 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    mOI.buttonOne.whenPressed(new RunPath(leftArray, rightArray));
-    mOI.buttonTwo.whenPressed(new toggleOff());
+    mOI.buttonOne.whenPressed(new autoStoreValue());
+    mOI.buttonFive.whileHeld(new Aiming(), false);
+    mOI.buttonSix.whenPressed(new SequentialCommandGroup(new RunPath(leftArray1, rightArray1), new autoStoreValue(), new TurnAimShoot(), new autoDeCorrect(), new RunPath(leftArray2, rightArray2), new RunPathBack(leftArray2, rightArray2)));
   }
 
 
@@ -68,8 +90,8 @@ public class RobotContainer {
    *
    * @return the command to run in autonomous
    */
-  //public Command getAutonomousCommand() {
+  public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-  //  return m_autoCommand;
-  //}
+    return new RunPath(leftArray2, rightArray2);
+  }
 }

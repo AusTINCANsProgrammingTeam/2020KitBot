@@ -11,13 +11,13 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.commands.DriveCommand;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANError;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import java.util.logging.*;
 
@@ -36,10 +36,10 @@ public class DriveSubsystem extends SubsystemBase {
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
 
   public DriveSubsystem() {
-    mLeft1 = new CANSparkMax(1, MotorType.kBrushless);
-    mLeft2 = new CANSparkMax(2, MotorType.kBrushless);
-    mRight1 = new CANSparkMax(3, MotorType.kBrushless);
-    mRight2 = new CANSparkMax(4, MotorType.kBrushless);
+    mLeft1 = new CANSparkMax(3, MotorType.kBrushless);
+    mLeft2 = new CANSparkMax(4, MotorType.kBrushless);
+    mRight1 = new CANSparkMax(1, MotorType.kBrushless);
+    mRight2 = new CANSparkMax(2, MotorType.kBrushless);
     mLeft1.restoreFactoryDefaults();
     mLeft2.restoreFactoryDefaults();
     mRight1.restoreFactoryDefaults();
@@ -61,37 +61,33 @@ public class DriveSubsystem extends SubsystemBase {
     r_pidController = mRight1.getPIDController();
 
     l_encoder = mLeft1.getEncoder();
-    r_encoder = mLeft1.getEncoder();
+    r_encoder = mRight1.getEncoder();
 
-    kP = 0.00010; 
-    kI = 0;
-    kD = .0000; 
-    kIz = 0; 
-    kFF = 0.000175; 
-    kMaxOutput = 1; 
-    kMinOutput = -1;
-
-    l_pidController.setP(kP);
-    l_pidController.setI(kI);
-    l_pidController.setD(kD);
-    l_pidController.setIZone(kIz);
-    l_pidController.setFF(kFF);
-    l_pidController.setOutputRange(kMinOutput, kMaxOutput);
-    r_pidController.setP(kP);
-    r_pidController.setI(kI);
-    r_pidController.setD(kD);
-    r_pidController.setIZone(kIz);
-    r_pidController.setFF(kFF);
-    r_pidController.setOutputRange(kMinOutput, kMaxOutput);
-    SmartDashboard.putNumber("P Gain", kP);
-    SmartDashboard.putNumber("I Gain", kI);
-    SmartDashboard.putNumber("D Gain", kD);
-    SmartDashboard.putNumber("FF Value", kFF);
+    l_pidController.setP(Constants.kP);
+    l_pidController.setI(Constants.kI);
+    l_pidController.setD(Constants.kD);
+    l_pidController.setIZone(Constants.kIz);
+    l_pidController.setFF(Constants.kFF);
+    l_pidController.setOutputRange(Constants.kMinOutput, Constants.kMaxOutput);
+    r_pidController.setP(Constants.kP);
+    r_pidController.setI(Constants.kI);
+    r_pidController.setD(Constants.kD);
+    r_pidController.setIZone(Constants.kIz);
+    r_pidController.setFF(Constants.kFF);
+    r_pidController.setOutputRange(Constants.kMinOutput, Constants.kMaxOutput);
+    SmartDashboard.putNumber("P Gain", Constants.kP);
+    SmartDashboard.putNumber("I Gain", Constants.kI);
+    SmartDashboard.putNumber("D Gain", Constants.kD);
+    SmartDashboard.putNumber("FF Value", Constants.kFF);
     differentialDrive.setSafetyEnabled(false);
   }
 
   public void arcadeDrive(double velocity, double heading){
-    this.differentialDrive.arcadeDrive(velocity, heading * .70, true);
+    this.differentialDrive.arcadeDrive(velocity, heading, true);
+  }
+
+  public void tankDrive(double lVelocity, double rVelocity){
+    this.differentialDrive.tankDrive(lVelocity, rVelocity);
   }
 
   public void updatePID(){
@@ -149,6 +145,6 @@ public double fpsToRPM(double fps){
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-
   }
 }
+
