@@ -39,9 +39,9 @@ public final class Constants {
     public final static int VELOCITY_CONTROL=1;
     public final static int HEADING_CONTROL=2;
     
-    public final static double kP = 0.001600;
-    public final static double kI = 0;
-    public final static double  kD = .0013;
+    public final static double kP = 0.000600;
+    public final static double kI = 1e-6;
+    public final static double  kD = .000013;
     public final static double kIz = 0;
     public final static double kFF = 0.000000;
     public final static double kMaxOutput = 1;

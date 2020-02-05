@@ -21,7 +21,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  * An example command that uses an example subsystem.
  */
-public class Aiming extends CommandBase {
+public class TurnAimShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private static final Logger LOGGER = Logger.getLogger(DriveCommand.class.getName());
   private Joystick joystick = new Joystick(OI.joystick);
@@ -33,12 +33,13 @@ public class Aiming extends CommandBase {
   double steeringAdjust = 0.0;
   double headingCommand = 0;
   double p = .013;
+  boolean seen = false;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Aiming() {
+  public TurnAimShoot() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.mDriveSubsystem);
   }
@@ -56,19 +57,18 @@ public class Aiming extends CommandBase {
     RobotContainer.light.setValue(Constants.LL_LIGHT_ON);
     tx = SmartDashboard.getNumber("LimelightX", 0);
     ty = SmartDashboard.getNumber("LimelightY", 0);
-    d = 73.5/Math.tan(Math.toRadians(ty+63));
-    SmartDashboard.putNumber("Distance", d);
     if(tx>1.0){
         steeringAdjust = p * tx +minSteerAdjust;
+        seen = true;
     }
     else if(tx<-1.0){
         steeringAdjust = p * tx -minSteerAdjust;
+        seen = true;
     }
      
     if(tx != 0)
-      RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(Constants.VELOCITY_CONTROL),steeringAdjust);
-    else
-      RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(Constants.VELOCITY_CONTROL),joystick.getRawAxis(Constants.HEADING_CONTROL));
+      RobotContainer.mDriveSubsystem.arcadeDrive(0,steeringAdjust);
+
       steeringAdjust = 0;
   }
 
@@ -76,11 +76,12 @@ public class Aiming extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.light.setValue(Constants.LL_LIGHT_OFF);
+    seen = false;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (tx < 1 && tx > -1 && seen == true);
   }
 }

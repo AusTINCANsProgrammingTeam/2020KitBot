@@ -17,9 +17,14 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Aiming;
 import frc.robot.commands.DriveCommand;
-import frc.robot.commands.RunPath; 
+import frc.robot.commands.RunPath;
+import frc.robot.commands.RunPathBack;
+import frc.robot.commands.TurnAimShoot;
+import frc.robot.commands.autoDeCorrect;
+import frc.robot.commands.autoStoreValue;
 import frc.robot.commands.toggleOff;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.Path;
@@ -36,8 +41,8 @@ public class RobotContainer {
   public static DriveSubsystem mDriveSubsystem = new DriveSubsystem();
   public static DriveCommand mDriveCommand = new DriveCommand();
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
-  private static Path path1 = new Path("/paths/Rook6f.");
-  private static Path path2 = new Path("/paths/Knight6f5l.");
+  private static Path path1 = new Path("trenchAndAim");
+  private static Path path2 = new Path("DriveTrench");
   private static ArrayList<String> leftArray1;
   private static ArrayList<String>  rightArray1;
   private static ArrayList<String>  leftArray2;
@@ -74,10 +79,9 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    mOI.buttonOne.whenPressed(new RunPath(leftArray1, rightArray1));
-    mOI.buttonThree.whenPressed(new RunPath(leftArray2, rightArray2));
-    mOI.buttonTwo.whenPressed(new toggleOff());
+    mOI.buttonOne.whenPressed(new autoStoreValue());
     mOI.buttonFive.whileHeld(new Aiming(), false);
+    mOI.buttonSix.whenPressed(new SequentialCommandGroup(new RunPath(leftArray1, rightArray1), new autoStoreValue(), new TurnAimShoot(), new autoDeCorrect(), new RunPath(leftArray2, rightArray2), new RunPathBack(leftArray2, rightArray2)));
   }
 
 

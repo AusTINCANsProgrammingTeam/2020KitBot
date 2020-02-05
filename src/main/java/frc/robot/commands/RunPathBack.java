@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * An example command that uses an example subsystem.
  */
-public class RunPath extends CommandBase {
+public class RunPathBack extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private List rightPath;
   private List leftPath;
@@ -37,7 +37,7 @@ public class RunPath extends CommandBase {
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
 
 
-  public RunPath(List leftPath, List rightPath) {
+  public RunPathBack(List leftPath, List rightPath) {
     this.rightPath = rightPath;
     this.leftPath = leftPath;
     timeToRun = .020 * (leftPath.size());
@@ -58,8 +58,8 @@ public class RunPath extends CommandBase {
   @Override
   public void execute(){
     if(i< leftPath.size()){
-      RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(-1*RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));
-      RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
+      RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));
+      RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(-1*RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
       SmartDashboard.putNumber("Left Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));    
       SmartDashboard.putNumber("Right Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
       i++;
