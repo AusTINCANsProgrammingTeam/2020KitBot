@@ -26,11 +26,13 @@ import frc.robot.commands.Aiming;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RunPath;
 import frc.robot.commands.RunPathBack;
+import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TurnAimShoot;
 import frc.robot.commands.autoDeCorrect;
 import frc.robot.commands.autoStoreValue;
 import frc.robot.commands.toggleOff;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.Path;
 
 /**
@@ -44,6 +46,7 @@ public class RobotContainer {
   public static OI mOI = new OI();
   public static DriveSubsystem mDriveSubsystem = new DriveSubsystem();
   public static DriveCommand mDriveCommand = new DriveCommand();
+  public static ShooterSubsystem mShooterSubsystem = new ShooterSubsystem();
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
   private static Path path1 = new Path("trenchAndAim");
   private static Path path2 = new Path("DriveTrench");
@@ -91,6 +94,7 @@ public class RobotContainer {
     mOI.buttonOne.whenPressed(new autoStoreValue());
     mOI.buttonFive.whileHeld(new Aiming(), false);
     mOI.buttonSix.whenPressed(new SequentialCommandGroup(new RunPath(leftArray1, rightArray1), new autoStoreValue(), new TurnAimShoot(), new autoDeCorrect(), new RunPath(leftArray2, rightArray2), new RunPathBack(leftArray2, rightArray2)));
+    mOI.buttonFour.whileHeld(new ShootCommand());
   }
 
 
