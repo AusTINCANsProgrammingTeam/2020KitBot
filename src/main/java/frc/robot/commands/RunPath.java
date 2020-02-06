@@ -12,8 +12,7 @@ import frc.robot.RobotContainer;
 
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
@@ -34,6 +33,8 @@ public class RunPath extends CommandBase {
   private Timer timer;
   public BufferedWriter out;
   int i = 0;
+  private Iterator<Double> m_leftIterator;
+  private Iterator<Double> m_rightIterator;
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
 
 
@@ -48,7 +49,9 @@ public class RunPath extends CommandBase {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize(){
+  public void initialize() {
+    m_leftIterator = leftPath.iterator();
+    m_rightIterator = rightPath.iterator();
     i = 0;
     timer.reset();
     timer.start();
@@ -58,9 +61,9 @@ public class RunPath extends CommandBase {
   @Override
   public void execute(){
     if(i< leftPath.size()){
-      RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(-1*RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));
-      RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
-      SmartDashboard.putNumber("Left Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));    
+      RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(RobotContainer.mDriveSubsystem.fpsToRPM(m_leftIterator.next()));
+      RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(-1*RobotContainer.mDriveSubsystem.fpsToRPM(m_rightIterator.next()));
+      SmartDashboard.putNumber("Left Commanded Velocity", -1*RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));    
       SmartDashboard.putNumber("Right Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
       i++;
     }
@@ -70,6 +73,8 @@ public class RunPath extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_rightIterator.remove();
+    m_leftIterator.remove();
     RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(0);
     RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(0);
   }
