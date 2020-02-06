@@ -11,10 +11,14 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import com.analog.adis16448.frc.ADIS16448_IMU;
+import com.analog.adis16448.frc.ADIS16448_IMU.IMUAxis;
+
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -52,6 +56,8 @@ public class RobotContainer {
   public static NetworkTableEntry ty = table.getEntry("ty");
   public static NetworkTableEntry ta = table.getEntry("ta");
   public static NetworkTableEntry light = table.getEntry("ledMode");
+  public static ADIS16448_IMU gyro;
+
 
 
   /**
@@ -70,7 +76,10 @@ public class RobotContainer {
       }
      configureButtonBindings();
      mDriveSubsystem.setDefaultCommand(mDriveCommand);
-   }
+     gyro = new ADIS16448_IMU(IMUAxis.kY, SPI.Port.kMXP, 4); 
+     gyro.calibrate();
+     gyro.reset();
+     }
 
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by

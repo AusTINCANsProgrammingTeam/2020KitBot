@@ -54,6 +54,10 @@ public class DriveSubsystem extends SubsystemBase {
     mRight2.setIdleMode(IdleMode.kBrake);
     mLeft2.follow(mLeft1);
     mRight2.follow(mRight1);
+    mLeft1.setClosedLoopRampRate(0.2);
+    mLeft2.setClosedLoopRampRate(0.2);
+    mRight1.setClosedLoopRampRate(0.2);
+    mRight2.setClosedLoopRampRate(0.2);
     differentialDrive = new DifferentialDrive(mLeft1, mRight1);
 
 
