@@ -22,7 +22,7 @@ public final class Constants {
     public static final int kTimeOutMs = 10;
     public static final double kNeutralDeadband = 0.001;
     public static final double kMaxRpms = 5700;
-    public static final double kGearRatio = 23.54;
+    public static final double kGearRatio = 10.71;
     public static final double kWheelCircumference = Math.PI*5.5;
 
     //public final static Gains kGains_Velocity 
