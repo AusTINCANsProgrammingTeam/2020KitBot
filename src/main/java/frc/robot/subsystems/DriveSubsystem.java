@@ -33,29 +33,13 @@ public class DriveSubsystem extends SubsystemBase {
     private CANEncoder r_encoder;
     private DifferentialDrive differentialDrive;
     public double kP = Constants.kP, kI = Constants.kI, kD = Constants.kD, kIz = Constants.kIz, kFF = Constants.kFF,
-     kMaxOutput = Constants.kMaxOutput, kMinOutput = Constants.kMinOutput, maxRPM;
+     kMaxOutput = Constants.kMaxOutput, kMinOutput = Constants.kMinOutput;
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
 
   public DriveSubsystem() {
-    mLeft1 = new CANSparkMax(1, MotorType.kBrushless);
-    mLeft2 = new CANSparkMax(2, MotorType.kBrushless);
-    mRight1 = new CANSparkMax(3, MotorType.kBrushless);
-    mRight2 = new CANSparkMax(4, MotorType.kBrushless);
-    mLeft1.restoreFactoryDefaults();
-    mLeft2.restoreFactoryDefaults();
-    mRight1.restoreFactoryDefaults();
-    mRight2.restoreFactoryDefaults();
-    mLeft1.enableVoltageCompensation(12);
-    mLeft2.enableVoltageCompensation(12);
-    mRight1.enableVoltageCompensation(12);
-    mRight2.enableVoltageCompensation(12);
-    mLeft1.setIdleMode(IdleMode.kBrake);
-    mLeft2.setIdleMode(IdleMode.kBrake);
-    mRight1.setIdleMode(IdleMode.kBrake);
-    mRight2.setIdleMode(IdleMode.kBrake);
-    mLeft2.follow(mLeft1);
+    intializeDriveSubystem(mLeft1, mLeft2);
+    intializeDriveSubystem(mRight1, mRight2);
     mRight2.follow(mRight1);
-    // mLeft1.setClosedLoopRampRate(0.2);
     // mLeft2.setClosedLoopRampRate(0.2);
     // mRight1.setClosedLoopRampRate(0.2);
     // mRight2.setClosedLoopRampRate(0.2);
@@ -147,6 +131,19 @@ public double fpsToRPM(double fps){
     fps = fps*Constants.kGearRatio;
     return fps;
 }
+
+public void intializeDriveSubystem(CANSparkMax master, CANSparkMax... slaves){
+  master.restoreFactoryDefaults();
+  master.enableVoltageCompensation(12);
+  master.setIdleMode(IdleMode.kBrake);
+  //master.setClosedLoopRampRate(0.2);
+ 
+  for(CANSparkMax slave : slaves) {
+    //slave.setClosedLoopRampRate(0.2);
+    slave.follow(master);
+}
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
