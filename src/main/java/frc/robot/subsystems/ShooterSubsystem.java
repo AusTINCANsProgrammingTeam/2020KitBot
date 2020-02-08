@@ -20,7 +20,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private CANPIDController shooterPidController;
     private CANSparkMax shooterMotor;   
     private CANEncoder shooterEncoder;
-    private double kP,kI,kD,kIz,kFF,kMinOutput,kMaxOutput;
+    private double kP,kI,kD,kIz,kFF,kMinOutput=-1,kMaxOutput=1;
   /**
    * Creates a new ExampleSubsystem.
    */
