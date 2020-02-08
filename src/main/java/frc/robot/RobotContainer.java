@@ -47,10 +47,10 @@ public class RobotContainer {
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
   private static Path path1 = new Path("trenchAndAim");
   private static Path path2 = new Path("DriveTrench");
-  private static ArrayList<String> leftArray1;
-  private static ArrayList<String>  rightArray1;
-  private static ArrayList<String>  leftArray2;
-  private static ArrayList<String>  rightArray2;
+  private static ArrayList<Double> leftArray1;
+  private static ArrayList<Double>  rightArray1;
+  private static ArrayList<Double>  leftArray2;
+  private static ArrayList<Double>  rightArray2;
   public static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
   public static NetworkTableEntry tx = table.getEntry("tx");
   public static NetworkTableEntry ty = table.getEntry("ty");
