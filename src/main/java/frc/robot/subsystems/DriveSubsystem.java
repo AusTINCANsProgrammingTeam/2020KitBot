@@ -32,7 +32,8 @@ public class DriveSubsystem extends SubsystemBase {
     private CANEncoder l_encoder;
     private CANEncoder r_encoder;
     private DifferentialDrive differentialDrive;
-    public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
+    public double kP = Constants.kP, kI = Constants.kI, kD = Constants.kD, kIz = Constants.kIz, kFF = Constants.kFF,
+     kMaxOutput = Constants.kMaxOutput, kMinOutput = Constants.kMinOutput, maxRPM;
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
 
   public DriveSubsystem() {
@@ -67,22 +68,22 @@ public class DriveSubsystem extends SubsystemBase {
     l_encoder = mLeft1.getEncoder();
     r_encoder = mRight1.getEncoder();
 
-    l_pidController.setP(Constants.kP);
-    l_pidController.setI(Constants.kI);
-    l_pidController.setD(Constants.kD);
-    l_pidController.setIZone(Constants.kIz);
-    l_pidController.setFF(Constants.kFF);
-    l_pidController.setOutputRange(Constants.kMinOutput, Constants.kMaxOutput);
-    r_pidController.setP(Constants.kP);
-    r_pidController.setI(Constants.kI);
-    r_pidController.setD(Constants.kD);
-    r_pidController.setIZone(Constants.kIz);
-    r_pidController.setFF(Constants.kFF);
-    r_pidController.setOutputRange(Constants.kMinOutput, Constants.kMaxOutput);
-    SmartDashboard.putNumber("P Gain", Constants.kP);
-    SmartDashboard.putNumber("I Gain", Constants.kI);
-    SmartDashboard.putNumber("D Gain", Constants.kD);
-    SmartDashboard.putNumber("FF Value", Constants.kFF);
+    l_pidController.setP(kP);
+    l_pidController.setI(kI);
+    l_pidController.setD(kD);
+    l_pidController.setIZone(kIz);
+    l_pidController.setFF(kFF);
+    l_pidController.setOutputRange(kMinOutput, kMaxOutput);
+    r_pidController.setP(kP);
+    r_pidController.setI(kI);
+    r_pidController.setD(kD);
+    r_pidController.setIZone(kIz);
+    r_pidController.setFF(kFF);
+    r_pidController.setOutputRange(kMinOutput, kMaxOutput);
+    SmartDashboard.putNumber("P Gain", kP);
+    SmartDashboard.putNumber("I Gain", kI);
+    SmartDashboard.putNumber("D Gain", kD);
+    SmartDashboard.putNumber("FF Value", kFF);
     differentialDrive.setSafetyEnabled(false);
   }
 

@@ -86,8 +86,9 @@ public class RobotContainer {
   private void configureButtonBindings() {
     mOI.buttonOne.whenPressed(new autoStoreValue());
     mOI.buttonFive.whileHeld(new Aiming(), false);
-    mOI.buttonSix.whenPressed(new SequentialCommandGroup(new RunPath(leftArray1, rightArray1), new autoStoreValue(), new TurnAimShoot(), new autoDeCorrect(), new RunPath(leftArray2, rightArray2), new RunPathBack(leftArray2, rightArray2)));
-    mOI.buttonFour.whileHeld(new ShootCommand());
+    mOI.buttonSix.whenPressed(new SequentialCommandGroup(new RunPath(leftArray1, rightArray1), 
+    new autoStoreValue(), new TurnAimShoot(), new autoDeCorrect(), new RunPath(leftArray2, rightArray2), new RunPathBack(leftArray2, rightArray2)));
+    mOI.buttonFour.whileHeld(new ShootCommand(), false);
   }
 
 
