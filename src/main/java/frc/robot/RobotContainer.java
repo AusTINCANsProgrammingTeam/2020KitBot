@@ -36,7 +36,7 @@ public class RobotContainer{
   // The robot's subsystems and commands are defined here...
   public static OI mOI = new OI();
   public static DriveSubsystem mDriveSubsystem = new DriveSubsystem();
-  public static DriveCommand mDriveCommand = new DriveCommand();
+  private static DriveCommand mDriveCommand = new DriveCommand();
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
   private static Trajectory trajectory1;
   private static Trajectory trajectory2;
@@ -86,5 +86,9 @@ public class RobotContainer{
     // A RunTrajectory command will run in autonomous
     RunTrajectory runTrajectory = new RunTrajectory(trajectory2);
     return runTrajectory.getCommand();
+  }
+
+  public DriveSubsystem getDriveSubsystem(){
+    return mDriveSubsystem;
   }
 }
