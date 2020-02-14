@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import java.util.logging.*;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -23,11 +24,15 @@ import frc.robot.Constants;
  * Add your docs here.
  */
 public class ShooterSubsystem extends SubsystemBase{
-    private CANSparkMax mShoot;
+    private static CANSparkMax mShoot;
     private CANPIDController pidController;
     private CANEncoder encoder;
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput;
+    private DoubleSolenoid solenoid; 
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
+    private double m_setpoint = 0;
+
+
 
 
     public ShooterSubsystem() {
@@ -62,8 +67,6 @@ public class ShooterSubsystem extends SubsystemBase{
         double p = SmartDashboard.getNumber("P Gain", 0);
         double i = SmartDashboard.getNumber("I Gain", 0);
         double d = SmartDashboard.getNumber("D Gain", 0);
-        // double iz = SmartDashboard.getNumber("I Zone", 0);
-        // double ff = SmartDashboard.getNumber("Feed Forward", 0);
         double max = SmartDashboard.getNumber("Max Output", 0);
         double min = SmartDashboard.getNumber("Min Output", 0);
       
@@ -74,8 +77,6 @@ public class ShooterSubsystem extends SubsystemBase{
         LOGGER.warning("PID CHANGED");}
         if((d != kD)) { pidController.setD(d); kD = d; 
         LOGGER.warning(pidController.getD() +" D CHANGED");}
-        // if((iz != kIz)) { m_pidController.setIZone(iz); kIz = iz; }
-        // if((ff != kFF)) { m_pidController.setFF(ff); kFF = ff; }
         if((max != kMaxOutput) || (min != kMinOutput)) 
         { 
             // m_pidController.setOutputRange(min, max); 
@@ -98,6 +99,51 @@ public class ShooterSubsystem extends SubsystemBase{
             fps = fps*Constants.kGearRatio;
             return fps;
         }
+
+        /*
+        *   Controls the engagement of the shooter.
+        *   @state kReverse disengages shooter, kForward engages shooter, kOff locks shooter in its current position
+        */
+        public void setDoubleSolenoidState(DoubleSolenoid.Value state) {
+            solenoid.set(state); //kOff, kReverse, kForward
+        }
+        public void toggleSolenoidState() {
+            switch(solenoid.get()) {
+                case kForward:
+                    setDoubleSolenoidState(DoubleSolenoid.Value.kReverse);
+                    break;
+                case kReverse:
+                    setDoubleSolenoidState(DoubleSolenoid.Value.kForward);
+                    break;
+                case kOff:
+                    setDoubleSolenoidState(DoubleSolenoid.Value.kForward);
+                    break;
+            }
+        }
+
+        //sets the SparkMax Motor's speed setpoint to 1
+        public static void m_forward() { 
+            mShoot.set(1);
+        }
+
+        //sets the SparkMax Motor's speed setpoint to 0
+        public static void m_stop() {
+            mShoot.set(0);
+        }
+
+        //sets the SparkMax Motor's speed setpoint to -1
+        public static void m_backward() {
+            mShoot.set(-1);
+        }
+
+        public void m_toggle() {
+            if(m_setpoint==0)
+                m_setpoint = 1;
+            else
+                m_setpoint = 0;
+            mShoot.set(m_setpoint);
+        }
+
           @Override
           public void periodic() {
             // This method will be called once per scheduler run
