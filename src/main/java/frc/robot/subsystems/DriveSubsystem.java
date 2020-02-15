@@ -140,6 +140,10 @@ public void intializeDriveSubystem(CANSparkMax master, CANSparkMax... slaves){
  
   for(CANSparkMax slave : slaves) {
     //slave.setClosedLoopRampRate(0.2);
+    slave.restoreFactoryDefaults();
+    slave.enableVoltageCompensation(12);
+    slave.setIdleMode(IdleMode.kBrake);
+    slave.setOpenLoopRampRate(.2);
     slave.follow(master);
 }
   }
