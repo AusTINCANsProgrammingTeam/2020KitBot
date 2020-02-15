@@ -23,10 +23,10 @@ import java.util.logging.*;
 
 
 public class DriveSubsystem extends SubsystemBase {
-    private CANSparkMax mLeft1;
-    private CANSparkMax mLeft2;
-    private CANSparkMax mRight1;
-    private CANSparkMax mRight2;
+    private CANSparkMax mLeft1 = new CANSparkMax(1, MotorType.kBrushless);;
+    private CANSparkMax mLeft2 = new CANSparkMax(2, MotorType.kBrushless);;
+    private CANSparkMax mRight1 = new CANSparkMax(3, MotorType.kBrushless);;
+    private CANSparkMax mRight2 = new CANSparkMax(4, MotorType.kBrushless);;
     private CANPIDController l_pidController;
     private CANPIDController r_pidController;
     private CANEncoder l_encoder;
@@ -39,7 +39,6 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     intializeDriveSubystem(mLeft1, mLeft2);
     intializeDriveSubystem(mRight1, mRight2);
-    mRight2.follow(mRight1);
     // mLeft2.setClosedLoopRampRate(0.2);
     // mRight1.setClosedLoopRampRate(0.2);
     // mRight2.setClosedLoopRampRate(0.2);
@@ -136,6 +135,7 @@ public void intializeDriveSubystem(CANSparkMax master, CANSparkMax... slaves){
   master.restoreFactoryDefaults();
   master.enableVoltageCompensation(12);
   master.setIdleMode(IdleMode.kBrake);
+  master.setOpenLoopRampRate(.2);
   //master.setClosedLoopRampRate(0.2);
  
   for(CANSparkMax slave : slaves) {

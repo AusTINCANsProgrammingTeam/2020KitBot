@@ -15,10 +15,12 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.GenericHID;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.Aiming;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RunPath;
@@ -27,8 +29,13 @@ import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TurnAimShoot;
 import frc.robot.commands.autoDeCorrect;
 import frc.robot.commands.autoStoreValue;
+import frc.robot.commands.liftUp;
+import frc.robot.commands.runIntakeIn;
+import frc.robot.commands.toggleIntake;
 import frc.robot.commands.toggleOff;
 import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.Path;
 
@@ -40,10 +47,24 @@ import frc.robot.Path;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public static OI mOI = new OI();
+  public Joystick controller = new Joystick(0);
+  public JoystickButton buttonOne = new JoystickButton(controller, 1);  
+  public JoystickButton buttonTwo = new JoystickButton(controller, 2);  
+  public JoystickButton buttonThree = new JoystickButton(controller, 3);  
+  public JoystickButton buttonFour = new JoystickButton(controller, 4);
+  public JoystickButton buttonFive = new JoystickButton(controller, 5);
+  public JoystickButton buttonSix = new JoystickButton(controller, 6);
+  public JoystickButton buttonSeven = new JoystickButton(controller, 7);
+  public JoystickButton buttonEight = new JoystickButton(controller, 8);
+  public JoystickButton buttonNine = new JoystickButton(controller, 9);
+
+
+  public final static int joystick = 0;
   public static DriveSubsystem mDriveSubsystem = new DriveSubsystem();
   public static DriveCommand mDriveCommand = new DriveCommand();
   public static ShooterSubsystem mShooterSubsystem = new ShooterSubsystem();
+  public static IntakeSubsystem mIntakeSubsystem = new IntakeSubsystem();
+  public static ElevatorSubystem mElevatorSubystem = new ElevatorSubystem();
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
   private static Path path1 = new Path("trenchAndAim");
   private static Path path2 = new Path("DriveTrench");
@@ -84,11 +105,15 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    mOI.buttonOne.whenPressed(new autoStoreValue());
-    mOI.buttonFive.whileHeld(new Aiming(), false);
-    mOI.buttonSix.whenPressed(new SequentialCommandGroup(new RunPath(leftArray1, rightArray1), 
+    
+    buttonOne.whenPressed(new autoStoreValue());
+    buttonFive.whileHeld(new Aiming(), false);
+    buttonSix.whenPressed(new SequentialCommandGroup(new RunPath(leftArray1, rightArray1), 
     new autoStoreValue(), new TurnAimShoot(), new autoDeCorrect(), new RunPath(leftArray2, rightArray2), new RunPathBack(leftArray2, rightArray2)));
-    mOI.buttonFour.whileHeld(new ShootCommand(), false);
+    buttonFour.whileHeld(new ShootCommand(), false);
+    buttonSeven.whenPressed(new toggleIntake());
+    buttonTwo.whileHeld(new runIntakeIn());
+    buttonEight.whenPressed(new liftUp());
   }
 
 
