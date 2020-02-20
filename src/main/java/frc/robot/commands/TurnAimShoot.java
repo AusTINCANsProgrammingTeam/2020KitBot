@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
-import frc.robot.OI;
 import frc.robot.RobotContainer;
 import frc.robot.*;
 
@@ -24,7 +23,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class TurnAimShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private static final Logger LOGGER = Logger.getLogger(DriveCommand.class.getName());
-  private Joystick joystick = new Joystick(OI.joystick);
   double tx = SmartDashboard.getNumber("LimelightX", 0);
   double ty = SmartDashboard.getNumber("LimelightY", 0);
   double d = 0;

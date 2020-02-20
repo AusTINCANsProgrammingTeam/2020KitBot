@@ -23,10 +23,12 @@ import java.util.logging.*;
 
 
 public class DriveSubsystem extends SubsystemBase {
-    private CANSparkMax mLeft1 = new CANSparkMax(1, MotorType.kBrushless);;
-    private CANSparkMax mLeft2 = new CANSparkMax(2, MotorType.kBrushless);;
-    private CANSparkMax mRight1 = new CANSparkMax(3, MotorType.kBrushless);;
-    private CANSparkMax mRight2 = new CANSparkMax(4, MotorType.kBrushless);;
+    private static CANSparkMax mLeft1 = new CANSparkMax(Constants.DriveLeft1, MotorType.kBrushless);
+    private static CANSparkMax mLeft2 = new CANSparkMax(Constants.DriveLeft2, MotorType.kBrushless);
+    private static CANSparkMax mLeft3 = new CANSparkMax(Constants.DriveLeft3, MotorType.kBrushless);
+    private static CANSparkMax mRight1 = new CANSparkMax(Constants.DriveRight1, MotorType.kBrushless);
+    private static CANSparkMax mRight2 = new CANSparkMax(Constants.DriveRight2, MotorType.kBrushless);
+    private static CANSparkMax mRight3 = new CANSparkMax(Constants.DriveRight3, MotorType.kBrushless);
     private CANPIDController l_pidController;
     private CANPIDController r_pidController;
     private CANEncoder l_encoder;
@@ -37,8 +39,8 @@ public class DriveSubsystem extends SubsystemBase {
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
 
   public DriveSubsystem() {
-    intializeDriveSubystem(mLeft1, mLeft2);
-    intializeDriveSubystem(mRight1, mRight2);
+    intializeDriveSubystem(mLeft1, mLeft2, mLeft3);
+    intializeDriveSubystem(mRight1, mRight2, mRight3);
     // mLeft2.setClosedLoopRampRate(0.2);
     // mRight1.setClosedLoopRampRate(0.2);
     // mRight2.setClosedLoopRampRate(0.2);

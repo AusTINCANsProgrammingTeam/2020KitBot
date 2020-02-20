@@ -20,8 +20,8 @@ import java.util.logging.*;
 
 
 public class ElevatorSubystem extends SubsystemBase {
-    private CANSparkMax motor1 = new CANSparkMax(7, MotorType.kBrushless);;
-    private CANSparkMax motor2 = new CANSparkMax(8, MotorType.kBrushless);;
+    private static CANSparkMax motor1 = new CANSparkMax(Constants.Elevator1,MotorType.kBrushless);
+    private static CANSparkMax motor2 = new CANSparkMax(Constants.Elevator2, MotorType.kBrushless);
     private CANPIDController pidController;
     private CANEncoder encoder;
     public double kP, kI, kD, kIz, kFF,
@@ -29,7 +29,7 @@ public class ElevatorSubystem extends SubsystemBase {
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
 
   public ElevatorSubystem() {
-    motor2.follow(motor1);
+    motor2.follow(motor1, true);
 
     pidController = motor1.getPIDController();
 

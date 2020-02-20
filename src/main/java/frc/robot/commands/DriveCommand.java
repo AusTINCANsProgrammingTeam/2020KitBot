@@ -8,7 +8,6 @@
 package frc.robot.commands;
 
 import frc.robot.Constants;
-import frc.robot.OI;
 import frc.robot.RobotContainer;
 
 import java.util.logging.Logger;
@@ -22,7 +21,6 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 public class DriveCommand extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private static final Logger LOGGER = Logger.getLogger(DriveCommand.class.getName());
-  private Joystick joystick = new Joystick(OI.joystick);
 
   /**
    * Creates a new ExampleCommand.
@@ -44,7 +42,7 @@ public class DriveCommand extends CommandBase {
   @Override
   public void execute() {
     if(Constants.onOrOff == false)
-      RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(1), joystick.getRawAxis(2));
+      RobotContainer.mDriveSubsystem.arcadeDrive(RobotContainer.controller1.getRawAxis(1), RobotContainer.controller1.getRawAxis(2));
   }
 
   // Called once the command ends or is interrupted.

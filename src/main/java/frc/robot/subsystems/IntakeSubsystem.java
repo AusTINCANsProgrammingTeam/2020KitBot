@@ -13,14 +13,15 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
     
   /**
    * Creates a new ExampleSubsystem.
    */
-  private CANSparkMax intakeMotor= new CANSparkMax(6, MotorType.kBrushless);;
-  private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(1, 2);
+  private static CANSparkMax intakeMotor= new CANSparkMax(Constants.Intake,MotorType.kBrushless);;
+  //private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(1, 2);
   public enum IntakeDirection {IN, OUT}
 
     public IntakeSubsystem() {
@@ -34,19 +35,19 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
   public void setIntake(DoubleSolenoid.Value state){  
-      intakeSolenoid.set(state);
+     // intakeSolenoid.set(state);
   }
   public void stopIntake(){
       intakeMotor.set(0);
   }
 
   public void toggleIntake(){
-    switch(intakeSolenoid.get()){
-        case kReverse:
-        setIntake(DoubleSolenoid.Value.kForward);
-        case kForward:
-        setIntake(DoubleSolenoid.Value.kReverse);
-    }
+    // switch(intakeSolenoid.get()){
+    //     case kReverse:
+    //     setIntake(DoubleSolenoid.Value.kForward);
+    //     case kForward:
+    //     setIntake(DoubleSolenoid.Value.kReverse);
+   // }
   }
   @Override
   public void periodic() {

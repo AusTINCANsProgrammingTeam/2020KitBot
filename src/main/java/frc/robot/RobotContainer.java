@@ -51,8 +51,8 @@ import frc.robot.Path;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public Joystick controller1 = new Joystick(0);
-  public Joystick controller2 = new Joystick(2);
+  public static Joystick controller1 = new Joystick(0);
+  public static Joystick controller2 = new Joystick(1);
   public JoystickButton buttonOne = new JoystickButton(controller1, 1);  
   public JoystickButton buttonTwo = new JoystickButton(controller1, 2);  
   public JoystickButton buttonThree = new JoystickButton(controller1, 3);  
