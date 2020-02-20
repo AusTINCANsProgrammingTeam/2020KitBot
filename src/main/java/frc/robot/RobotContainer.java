@@ -31,6 +31,7 @@ import frc.robot.commands.TurnAimShoot;
 import frc.robot.commands.autoDeCorrect;
 import frc.robot.commands.autoStoreValue;
 import frc.robot.commands.hopperIn;
+import frc.robot.commands.liftDown;
 import frc.robot.commands.liftUp;
 import frc.robot.commands.runIntakeIn;
 import frc.robot.commands.runIntakeOut;
@@ -123,14 +124,14 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     
-    buttonOne.whenPressed(new autoStoreValue());
+    //buttonOne.whenPressed(new autoStoreValue());
     buttonFive.whileHeld(new Aiming(), false);
     buttonSix.whenPressed(new SequentialCommandGroup(new RunPath(leftArray1, rightArray1), 
     new autoStoreValue(), new TurnAimShoot(), new autoDeCorrect(), new RunPath(leftArray2, rightArray2), new RunPathBack(leftArray2, rightArray2)));
     buttonFour.whileHeld(new ShootCommand(), false);
     buttonSeven.whenPressed(new toggleIntake());
-    buttonTwo.whileHeld(new ParallelCommandGroup(new runIntakeIn(), new hopperIn()));
-    buttonEight.whenPressed(new liftUp());
+    buttonOne.whileHeld(new liftUp());
+    buttonTwo.whileHeld(new liftDown());
 
   }
 

@@ -59,16 +59,16 @@ public final class Constants {
 
     public final static int DriveLeft1 = 1;
     public final static int DriveLeft2 = 2;
-    public final static int DriveLeft3 = 3;
+    public final static int DriveLeft3 = 5;
     public final static int DriveRight1 = 4;
     public final static int DriveRight2 = 9;
     public final static int DriveRight3 = 11;
-    public final static int Shooter = 12;
+    public final static int Shooter = 10;
     public final static int Intake = 13;
     public final static int Hopper1 = 14;
     public final static int Hopper2 = 16;
-    public final static int Elevator1 = 10;
-    public final static int Elevator2 = 5;
+    public final static int Elevator1 = 12;
+    public final static int Elevator2 = 3;
     public final static int Belt = 15;
 
     
