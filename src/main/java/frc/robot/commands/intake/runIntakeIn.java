@@ -1,11 +1,4 @@
-/*----------------------------------------------------------------------------*/
-/* Copyright (c) 2018-2019 FIRST. All Rights Reserved.                        */
-/* Open Source Software - may be modified and shared by FRC teams. The code   */
-/* must be accompanied by the FIRST BSD license file in the root directory of */
-/* the project.                                                               */
-/*----------------------------------------------------------------------------*/
-
-package frc.robot.commands;
+package frc.robot.commands.intake;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExampleSubsystem;
@@ -14,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  * An example command that uses an example subsystem.
  */
-public class ShootCommand extends CommandBase {
+public class runIntakeIn extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   /**
@@ -22,10 +15,9 @@ public class ShootCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  double maxRPM = 5700;
-  public ShootCommand() {
+  public runIntakeIn() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.mShooterSubsystem);
+    addRequirements(RobotContainer.mIntakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -36,13 +28,13 @@ public class ShootCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      RobotContainer.mShooterSubsystem.setVelocitySetpoint(.9*maxRPM);
+      RobotContainer.mIntakeSubsystem.runIntake(.75);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      RobotContainer.mShooterSubsystem.setVelocitySetpoint(0);
+      RobotContainer.mIntakeSubsystem.stopIntake();
   }
 
   // Returns true when the command should end.

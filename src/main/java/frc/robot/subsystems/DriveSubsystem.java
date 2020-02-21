@@ -11,7 +11,8 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
-import frc.robot.commands.DriveCommand;
+import frc.robot.RobotContainer;
+import frc.robot.commands.drive.DriveCommand;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
@@ -23,53 +24,27 @@ import java.util.logging.*;
 
 
 public class DriveSubsystem extends SubsystemBase {
-    private CANSparkMax mLeft1;
-    private CANSparkMax mLeft2, mLeft3, mRight3;
-    private CANSparkMax mRight1;
-    private CANSparkMax mRight2;
+    private CANSparkMax mLeft1 = new CANSparkMax(1, MotorType.kBrushless);
+    private CANSparkMax mLeft2 = new CANSparkMax(2, MotorType.kBrushless);
+    private CANSparkMax mLeft3 = new CANSparkMax(3, MotorType.kBrushless);
+    private CANSparkMax mRight1 = new CANSparkMax(4, MotorType.kBrushless);
+    private CANSparkMax mRight2 = new CANSparkMax(5, MotorType.kBrushless);
+    private CANSparkMax mRight3 = new CANSparkMax(6, MotorType.kBrushless);
+    //private CANSparkMax mLeft3, mRight3;
     private CANPIDController l_pidController;
     private CANPIDController r_pidController;
-    private CANEncoder l_encoder;
-    private CANEncoder r_encoder;
+    public CANEncoder l_encoder;
+    public CANEncoder r_encoder;
+    double time;
+    double i = -1;
     private DifferentialDrive differentialDrive;
     public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
 
   public DriveSubsystem() {
-    mLeft1 = new CANSparkMax(1, MotorType.kBrushless);
-    mLeft2 = new CANSparkMax(2, MotorType.kBrushless);
-    mLeft3 = new CANSparkMax(3, MotorType.kBrushless);
-    mRight1 = new CANSparkMax(5, MotorType.kBrushless);
-    mRight2 = new CANSparkMax(6, MotorType.kBrushless);
-    mRight3 = new CANSparkMax(8, MotorType.kBrushless);
-    mLeft1.restoreFactoryDefaults();
-    mLeft2.restoreFactoryDefaults();
-    mLeft3.restoreFactoryDefaults();
-    mRight1.restoreFactoryDefaults();
-    mRight2.restoreFactoryDefaults();
-    mRight3.restoreFactoryDefaults();
-    mLeft1.enableVoltageCompensation(12);
-    mLeft2.enableVoltageCompensation(12);
-    mLeft3.enableVoltageCompensation(12);
-    mRight1.enableVoltageCompensation(12);
-    mRight2.enableVoltageCompensation(12);
-    mRight3.enableVoltageCompensation(12);
-    mLeft1.setIdleMode(IdleMode.kBrake);
-    mLeft2.setIdleMode(IdleMode.kBrake);
-    mLeft3.setIdleMode(IdleMode.kBrake);
-    mRight1.setIdleMode(IdleMode.kBrake);
-    mRight2.setIdleMode(IdleMode.kBrake);
-    mRight3.setIdleMode(IdleMode.kBrake);
-    mLeft2.follow(mLeft1);
-    mLeft3.follow(mLeft1);
-    mRight2.follow(mRight1);
-    mRight3.follow(mRight1);
-    mLeft1.setClosedLoopRampRate(0.2);
-    mLeft2.setClosedLoopRampRate(0.2);
-    mRight3.setClosedLoopRampRate(0.3);
-    mRight1.setClosedLoopRampRate(0.2);
-    mRight2.setClosedLoopRampRate(0.2);
-    mRight3.setClosedLoopRampRate(0.2);
+    intializeDriveSubystem(mLeft1, mLeft2, mLeft3);
+    intializeDriveSubystem(mRight1, mRight2, mRight3);
+   
     differentialDrive = new DifferentialDrive(mLeft1, mRight1);
 
 
@@ -78,6 +53,9 @@ public class DriveSubsystem extends SubsystemBase {
 
     l_encoder = mLeft1.getEncoder();
     r_encoder = mRight1.getEncoder();
+
+    l_encoder.setPosition(0.0);
+    r_encoder.setPosition(0.0);
 
     l_pidController.setP(Constants.kP);
     l_pidController.setI(Constants.kI);
@@ -141,6 +119,16 @@ public void setRightPidVelocitySetpoint(double setpoint)
     r_pidController.setReference(setpoint, ControlType.kVelocity);
 }
 
+public void setLeftPidPositonSetpoint(double setpoint)
+{
+  l_pidController.setReference(setpoint, ControlType.kPosition);
+}
+
+public void setRightPidPositonSetpoint(double setpoint)
+{
+  r_pidController.setReference(setpoint, ControlType.kPosition);
+}
+
 public double leftVelocity()
 {
     return l_encoder.getVelocity();
@@ -151,12 +139,48 @@ public double rightVelocity()
     return r_encoder.getVelocity();
 }
 
+public double leftPosition()
+{
+    return l_encoder.getPosition();
+}
+
+public double rightPosition()
+{
+    return r_encoder.getPosition(); 
+}
+
 public double fpsToRPM(double fps){
     fps = fps * 12;
     fps = fps/Constants.kWheelCircumference;
     fps = fps *60;
     fps = fps*Constants.kGearRatio;
     return fps;
+}
+
+public void intializeDriveSubystem(CANSparkMax master, CANSparkMax... slaves){
+  master.restoreFactoryDefaults();
+  master.enableVoltageCompensation(12);
+  master.setIdleMode(IdleMode.kBrake);
+  master.setOpenLoopRampRate(.2);
+  //master.setClosedLoopRampRate(0.2);
+ 
+  for(CANSparkMax slave : slaves) {
+    //slave.setClosedLoopRampRate(0.2);
+    slave.restoreFactoryDefaults();
+    slave.enableVoltageCompensation(12);
+    slave.setIdleMode(IdleMode.kBrake);
+    slave.setOpenLoopRampRate(.2);
+    slave.follow(master);
+}
+  }
+
+
+public double rpmToFPS(double rpm){
+  rpm = rpm / 12;
+  rpm = rpm * Constants.kWheelCircumference;
+  rpm = rpm / 60;
+  rpm = rpm / Constants.kGearRatio; 
+  return rpm;
 }
   @Override
   public void periodic() {

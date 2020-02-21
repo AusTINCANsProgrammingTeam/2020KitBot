@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -59,7 +60,10 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("LimelightX", x);
     SmartDashboard.putNumber("LimelightY", y);
     SmartDashboard.putNumber("LimelightArea", area);
-    SmartDashboard.putNumber("Gyro Angle y", RobotContainer.gyro.getAngle());
+    SmartDashboard.putNumber("right position", RobotContainer.mDriveSubsystem.rightPosition());
+    SmartDashboard.putNumber("left position", RobotContainer.mDriveSubsystem.leftPosition());
+    SmartDashboard.putNumber("lift position", RobotContainer.mElevatorSubsystem.getPosition());
+    //Math.abs(180 + ((180/Math.PI) *RobotContainer.gyro.getAngle()) % 360)
     // Runs the Smcheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic

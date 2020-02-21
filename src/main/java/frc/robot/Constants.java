@@ -22,7 +22,7 @@ public final class Constants {
     public static final int kTimeOutMs = 10;
     public static final double kNeutralDeadband = 0.001;
     public static final double kMaxRpms = 5700;
-    public static final double kGearRatio = 23.54;
+    public static final double kGearRatio = 10.71;
     public static final double kWheelCircumference = Math.PI*5.5;
 
     //public final static Gains kGains_Velocity 
@@ -56,6 +56,9 @@ public final class Constants {
     public final static int LL_LIGHT_OFF = 1;
     public final static int LL_LIGHT_BLINK = 2;
     public final static int LL_LIGHT_ON = 3;
+
+    public final static int MAX_VELOCITY_fps = 11;
+    public final static int MAX_ACCELERATION_fps = 0;
     
   
     public static boolean onOrOff = false;

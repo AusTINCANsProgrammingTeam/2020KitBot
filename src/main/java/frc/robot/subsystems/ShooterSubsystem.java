@@ -19,15 +19,20 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ShooterSubsystem extends SubsystemBase {
     private CANPIDController shooterPidController;
     private CANSparkMax shooterMotor;   
+    private CANSparkMax shooterFeeder;
     private CANEncoder shooterEncoder;
-    private double kP,kI,kD,kIz,kFF,kMinOutput,kMaxOutput;
+    private double kP=3e-4,kI=1e-6,kD=0,kIz=0,kFF=0,kMinOutput=-1,kMaxOutput = 1;
   /**
    * Creates a new ExampleSubsystem.
    */
   public ShooterSubsystem() {
-    shooterMotor = new CANSparkMax(5, MotorType.kBrushless);
+    shooterMotor = new CANSparkMax(12, MotorType.kBrushless);
+    shooterFeeder = new CANSparkMax(13, MotorType.kBrushless);
+    shooterFeeder.restoreFactoryDefaults();
     shooterMotor.restoreFactoryDefaults();
     shooterMotor.setIdleMode(IdleMode.kCoast);
+    shooterFeeder.setIdleMode(IdleMode.kCoast);
+    
     shooterPidController = shooterMotor.getPIDController();
     shooterEncoder = shooterMotor.getEncoder();
     shooterPidController.setP(kP);
@@ -36,6 +41,8 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterPidController.setIZone(kIz);
     shooterPidController.setFF(kFF);
     shooterPidController.setOutputRange(kMinOutput, kMaxOutput);
+
+    shooterFeeder.follow(shooterMotor);
 
   }
 
