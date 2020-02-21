@@ -23,6 +23,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import frc.robot.commands.Aiming;
+import frc.robot.commands.ArmElevator;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.RunPath;
 import frc.robot.commands.RunPathBack;
@@ -31,6 +32,7 @@ import frc.robot.commands.TurnAimShoot;
 import frc.robot.commands.autoDeCorrect;
 import frc.robot.commands.autoStoreValue;
 import frc.robot.commands.hopperIn;
+import frc.robot.commands.hopperOut;
 import frc.robot.commands.liftDown;
 import frc.robot.commands.liftUp;
 import frc.robot.commands.runIntakeIn;
@@ -126,12 +128,15 @@ public class RobotContainer {
     
     //buttonOne.whenPressed(new autoStoreValue());
     buttonFive.whileHeld(new Aiming(), false);
-    buttonSix.whenPressed(new SequentialCommandGroup(new RunPath(leftArray1, rightArray1), 
-    new autoStoreValue(), new TurnAimShoot(), new autoDeCorrect(), new RunPath(leftArray2, rightArray2), new RunPathBack(leftArray2, rightArray2)));
+    // buttonSix.whenPressed(new SequentialCommandGroup(new RunPath(leftArray1, rightArray1), 
+    // new autoStoreValue(), new TurnAimShoot(), new autoDeCorrect(), new RunPath(leftArray2, 
+    // rightArray2), new RunPathBack(leftArray2, rightArray2)));
     buttonFour.whileHeld(new ShootCommand(), false);
-    buttonSeven.whenPressed(new toggleIntake());
+    buttonSeven.whileHeld(new ParallelCommandGroup(new runIntakeIn(), new hopperIn()));
+    buttonFive.whileHeld(new ParallelCommandGroup(new runIntakeOut(), new hopperOut()));
     buttonOne.whileHeld(new liftUp());
     buttonTwo.whileHeld(new liftDown());
+    buttonSix.whenPressed(new ArmElevator());
 
   }
 

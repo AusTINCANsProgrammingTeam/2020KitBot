@@ -24,16 +24,17 @@ public class ElevatorSubystem extends SubsystemBase {
     private static CANSparkMax motor2 = new CANSparkMax(Constants.Elevator2, MotorType.kBrushless);
     private CANPIDController pidController;
     private CANEncoder encoder;
+    private boolean readyUse = false;
     private double position = 0;
     public double kP= .01, kI=0, kD=0, kIz, kFF,
      kMaxOutput = 1, kMinOutput = -1;
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
 
   public ElevatorSubystem() {
-    motor2.follow(motor1, true);
 
     motor1.restoreFactoryDefaults();
     motor2.restoreFactoryDefaults();
+    motor2.follow(motor1, true);
     pidController = motor1.getPIDController();
     motor1.setSmartCurrentLimit(40);
     motor2.setSmartCurrentLimit(40);
@@ -52,18 +53,29 @@ public class ElevatorSubystem extends SubsystemBase {
     SmartDashboard.putNumber("FF Value", kFF);
   }
  public void liftDown(){
+   if(readyUse == true){
      position = position+10;
      pidController.setReference(position, ControlType.kPosition);
      SmartDashboard.putNumber("commanded position", position);
+    }
 }
 public void liftUp(){
+    if(readyUse == true){
     position = position-10;
     pidController.setReference(position, ControlType.kPosition);
     SmartDashboard.putNumber("commanded position", position);
+    }
 }
 
 public double getPosition(){
     return encoder.getPosition();
+}
+public void armElevator(){
+  readyUse = true;
+}
+
+public boolean getReadyUse(){
+  return readyUse;
 }
 
   @Override
