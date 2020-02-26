@@ -9,7 +9,6 @@ package frc.robot;
 
 import java.util.logging.Logger;
 
-import com.analog.adis16448.frc.ADIS16448_IMU.IMUAxis;
 
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;

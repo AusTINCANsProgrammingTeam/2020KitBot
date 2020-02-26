@@ -38,7 +38,8 @@ public class DriveSubsystem extends SubsystemBase {
     double time;
     double i = -1;
     private DifferentialDrive differentialDrive;
-    public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
+    public double kP = Constants.kP, kI = Constants.kI, kD = Constants.kD, kIz = Constants.kIz, kFF = Constants.kFF,
+     kMaxOutput = Constants.kMaxOutput, kMinOutput = Constants.kMinOutput;
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
 
   public DriveSubsystem() {
