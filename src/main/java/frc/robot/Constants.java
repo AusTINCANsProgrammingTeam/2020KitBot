@@ -22,7 +22,7 @@ public final class Constants {
     public static final int kTimeOutMs = 10;
     public static final double kNeutralDeadband = 0.001;
     public static final double kMaxRpms = 5700;
-    public static final double kGearRatio = 10.71;
+    public static final double kGearRatio = 9.71;
     public static final double kWheelCircumference = Math.PI*5.5;
 
     //public final static Gains kGains_Velocity 
@@ -59,6 +59,22 @@ public final class Constants {
 
     public final static int MAX_VELOCITY_fps = 11;
     public final static int MAX_ACCELERATION_fps = 0;
+
+    public final static int DriveLeft1 = 1;
+    public final static int DriveLeft2 = 16;
+    public final static int DriveLeft3 = 2;
+    public final static int DriveRight1 = 15;
+    public final static int DriveRight2 = 14;
+    public final static int DriveRight3 = 13;
+    public final static int Shooter = 10;
+    public final static int Intake = 5;
+    public final static int Hopper1 = 4;
+    public final static int Hopper2 = 11;
+    public final static int Elevator1 = 12;
+    public final static int Elevator2 = 3;
+    public final static int Belt = 9;
+
+    
     
   
     public static boolean onOrOff = false;

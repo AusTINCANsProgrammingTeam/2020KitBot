@@ -15,13 +15,14 @@ import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import java.util.logging.*;
 
 
 public class ElevatorSubsystem extends SubsystemBase {
-    private CANSparkMax motor1 = new CANSparkMax(5, MotorType.kBrushless);;
-    private CANSparkMax motor2 = new CANSparkMax(10, MotorType.kBrushless);;
+    private CANSparkMax motor1 = new CANSparkMax(Constants.Elevator1, MotorType.kBrushless);;
+    private CANSparkMax motor2 = new CANSparkMax(Constants.Elevator2, MotorType.kBrushless);;
     private CANPIDController pidController;
     private CANEncoder encoder;
     public double pos = 0;
@@ -30,6 +31,8 @@ public class ElevatorSubsystem extends SubsystemBase {
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
 
   public ElevatorSubsystem() {
+    motor1.setIdleMode(IdleMode.kBrake);
+    motor2.setIdleMode(IdleMode.kBrake);
     motor2.follow(motor1, true);
 
     pidController = motor1.getPIDController();

@@ -133,13 +133,16 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    buttonOne.whenPressed(new autoStoreValue());
+    buttonOne.whenPressed(new Turn(leftTurnArray, rightTurnArray));
     buttonFive.whileHeld(new Aiming(), false);
     buttonFour.whileHeld(new ShootCommand(), false);
     buttonSeven.whenPressed(new toggleIntake());
     buttonTwo.whileHeld(new ParallelCommandGroup(new runIntakeIn(), new hopperIn()));
-    buttonEight.whileHeld(new elevatorUp(), false);
-    buttonNine.whileHeld(new elevatorDown(), false);
+    // buttonEight.whileHeld(new elevatorUp(), false);
+    // buttonNine.whileHeld(new elevatorDown(), false);
+    // buttonThree.whenPressed(new RunPathBack(leftArray1, rightArray1));
+    buttonThree.whenPressed(new SequentialCommandGroup(new RunPathBack(leftArray1, rightArray2), new Turn(leftTurnArray, rightTurnArray), 
+     new ParallelCommandGroup(new RunPath(leftArray1, rightArray1), new runIntakeIn(), new hopperIn())));
     //buttonSix.whenPressed(AutoGroups.getAutoGroup(autoName));
 
     //mOI.buttonThree.whenPressed(new SequentialCommandGroup(new autoStoreValue(), new TurnAimShoot(), new autoDeCorrect()));

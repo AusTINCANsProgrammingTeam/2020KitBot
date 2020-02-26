@@ -15,6 +15,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class ShooterSubsystem extends SubsystemBase {
     private CANPIDController shooterPidController;
@@ -26,12 +27,9 @@ public class ShooterSubsystem extends SubsystemBase {
    * Creates a new ExampleSubsystem.
    */
   public ShooterSubsystem() {
-    shooterMotor = new CANSparkMax(12, MotorType.kBrushless);
-    shooterFeeder = new CANSparkMax(13, MotorType.kBrushless);
-    shooterFeeder.restoreFactoryDefaults();
+    shooterMotor = new CANSparkMax(Constants.Shooter, MotorType.kBrushless);
     shooterMotor.restoreFactoryDefaults();
     shooterMotor.setIdleMode(IdleMode.kCoast);
-    shooterFeeder.setIdleMode(IdleMode.kCoast);
     
     shooterPidController = shooterMotor.getPIDController();
     shooterEncoder = shooterMotor.getEncoder();
@@ -42,7 +40,6 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterPidController.setFF(kFF);
     shooterPidController.setOutputRange(kMinOutput, kMaxOutput);
 
-    shooterFeeder.follow(shooterMotor);
 
   }
 

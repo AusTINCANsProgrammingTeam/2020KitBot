@@ -24,12 +24,12 @@ import java.util.logging.*;
 
 
 public class DriveSubsystem extends SubsystemBase {
-    private CANSparkMax mLeft1 = new CANSparkMax(1, MotorType.kBrushless);
-    private CANSparkMax mLeft2 = new CANSparkMax(2, MotorType.kBrushless);
-    private CANSparkMax mLeft3 = new CANSparkMax(3, MotorType.kBrushless);
-    private CANSparkMax mRight1 = new CANSparkMax(4, MotorType.kBrushless);
-    private CANSparkMax mRight2 = new CANSparkMax(5, MotorType.kBrushless);
-    private CANSparkMax mRight3 = new CANSparkMax(6, MotorType.kBrushless);
+    private CANSparkMax mLeft1 = new CANSparkMax(Constants.DriveLeft1, MotorType.kBrushless);
+    private CANSparkMax mLeft2 = new CANSparkMax(Constants.DriveLeft2, MotorType.kBrushless);
+    private CANSparkMax mLeft3 = new CANSparkMax(Constants.DriveLeft3, MotorType.kBrushless);
+    private CANSparkMax mRight1 = new CANSparkMax(Constants.DriveRight1, MotorType.kBrushless);
+    private CANSparkMax mRight2 = new CANSparkMax(Constants.DriveRight2, MotorType.kBrushless);
+    private CANSparkMax mRight3 = new CANSparkMax(Constants.DriveRight3, MotorType.kBrushless);
     //private CANSparkMax mLeft3, mRight3;
     private CANPIDController l_pidController;
     private CANPIDController r_pidController;

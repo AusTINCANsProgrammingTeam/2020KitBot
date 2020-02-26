@@ -4,14 +4,15 @@ import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class HopperSubsystem extends SubsystemBase {
     
   /**
    * Creates a new ExampleSubsystem.
    */
-  private CANSparkMax hopper1= new CANSparkMax(9, MotorType.kBrushless);
-  private CANSparkMax hopper2= new CANSparkMax(10, MotorType.kBrushless);;
+  private CANSparkMax hopper1= new CANSparkMax(Constants.Hopper1, MotorType.kBrushless);
+  private CANSparkMax hopper2= new CANSparkMax(Constants.Hopper2, MotorType.kBrushless);;
 
     public HopperSubsystem(){
         hopper2.follow(hopper1);

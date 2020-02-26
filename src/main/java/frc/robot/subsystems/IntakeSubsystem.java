@@ -6,13 +6,14 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 
 public class IntakeSubsystem extends SubsystemBase {
     
   /**
    * Creates a new ExampleSubsystem.
    */
-  private CANSparkMax intakeMotor= new CANSparkMax(11, MotorType.kBrushless);;
+  private CANSparkMax intakeMotor= new CANSparkMax(Constants.Intake, MotorType.kBrushless);;
   private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(1, 2);
   public enum IntakeDirection {IN, OUT}
 
