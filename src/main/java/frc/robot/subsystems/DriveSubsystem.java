@@ -34,13 +34,14 @@ public class DriveSubsystem extends SubsystemBase {
     private CANEncoder l_encoder;
     private CANEncoder r_encoder;
     private DifferentialDrive differentialDrive;
-    public double kP = Constants.kP, kI = Constants.kI, kD = Constants.kD, kIz = Constants.kIz, kFF = Constants.kFF,
-     kMaxOutput = Constants.kMaxOutput, kMinOutput = Constants.kMinOutput;
+    public double kP = Constants.kPDrive, kI = Constants.kIDrive, kD = Constants.kDDrive, kIz = Constants.kIzDrive, kFF = Constants.kFFDrive,
+     kMaxOutput = Constants.kMaxOutputDrive, kMinOutput = Constants.kMinOutputDrive;
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
 
   public DriveSubsystem() {
     intializeDriveSubystem(mLeft1, mLeft2, mLeft3);
     intializeDriveSubystem(mRight1, mRight2, mRight3);
+
     // mLeft2.setClosedLoopRampRate(0.2);
     // mRight1.setClosedLoopRampRate(0.2);
     // mRight2.setClosedLoopRampRate(0.2);
@@ -52,6 +53,8 @@ public class DriveSubsystem extends SubsystemBase {
 
     l_encoder = mLeft1.getEncoder();
     r_encoder = mRight1.getEncoder();
+    l_encoder.setPosition(0);
+    r_encoder.setPosition(0);
 
     l_pidController.setP(kP);
     l_pidController.setI(kI);
@@ -123,6 +126,16 @@ public double leftVelocity()
 public double rightVelocity()
 {
     return r_encoder.getVelocity();
+}
+
+public double getLeftEncPosition()
+{
+  return l_encoder.getPosition();
+}
+
+public double getRightEncPosition()
+{
+  return r_encoder.getPosition();
 }
 
 public double fpsToRPM(double fps){

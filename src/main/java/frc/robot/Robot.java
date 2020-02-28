@@ -32,7 +32,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-
+    
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
@@ -52,6 +52,9 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Left Velocity", -1 * RobotContainer.mDriveSubsystem.leftVelocity());    
     SmartDashboard.putNumber("Right Velocity", -1 * RobotContainer.mDriveSubsystem.rightVelocity());
     SmartDashboard.putNumber("lift position", RobotContainer.mElevatorSubystem.getPosition());
+    SmartDashboard.putNumber("left encoder", RobotContainer.mDriveSubsystem.getLeftEncPosition());
+    SmartDashboard.putNumber("right encoder", RobotContainer.mDriveSubsystem.getRightEncPosition());
+
     RobotContainer.mDriveSubsystem.updatePID();
     double x = RobotContainer.tx.getDouble(0.0);
     double y = RobotContainer.ty.getDouble(0.0);

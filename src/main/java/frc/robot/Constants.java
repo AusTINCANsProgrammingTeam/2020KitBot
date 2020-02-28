@@ -39,13 +39,13 @@ public final class Constants {
     public final static int VELOCITY_CONTROL=1;
     public final static int HEADING_CONTROL=2;
     
-    public final static double kP = 0.000600;
-    public final static double kI = 1e-6;
-    public final static double  kD = .000013;
-    public final static double kIz = 0;
-    public final static double kFF = 0.000000;
-    public final static double kMaxOutput = 1;
-    public final static double kMinOutput = -1;
+    public final static double kPDrive = 0.000600;
+    public final static double kIDrive = 1e-6;
+    public final static double kDDrive = .000013;
+    public final static double kIzDrive = 0;
+    public final static double kFFDrive = 0.000000;
+    public final static double kMaxOutputDrive = 1;
+    public final static double kMinOutputDrive = -1;
   
     public final static int kSlot_Distance = SLOT_0;
     public final static int kSlot_Turning = SLOT_1;
@@ -59,7 +59,7 @@ public final class Constants {
 //     6     13 14  16
     public final static int DriveLeft1 = 1;
     public final static int DriveLeft2 = 2;
-    public final static int DriveLeft3 = 3;
+    public final static int DriveLeft3 = 16;
     public final static int DriveRight1 = 15;
     public final static int DriveRight2 = 14;
     public final static int DriveRight3 = 13;

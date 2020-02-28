@@ -41,7 +41,6 @@ public class DriveCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Constants.onOrOff == false)
       RobotContainer.mDriveSubsystem.arcadeDrive(RobotContainer.controller1.getRawAxis(1), RobotContainer.controller1.getRawAxis(2));
   }
 

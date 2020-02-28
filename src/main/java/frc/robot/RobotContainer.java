@@ -31,6 +31,8 @@ import frc.robot.commands.ShootCommand;
 import frc.robot.commands.TurnAimShoot;
 import frc.robot.commands.autoDeCorrect;
 import frc.robot.commands.autoStoreValue;
+import frc.robot.commands.conveyorIn;
+import frc.robot.commands.conveyorOut;
 import frc.robot.commands.hopperIn;
 import frc.robot.commands.hopperOut;
 import frc.robot.commands.liftDown;
@@ -44,6 +46,7 @@ import frc.robot.subsystems.ElevatorSubystem;
 import frc.robot.subsystems.HopperSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.Path;
 
 /**
@@ -75,6 +78,7 @@ public class RobotContainer {
   public JoystickButton buttonSevenOp = new JoystickButton(controller2, 7);
   public JoystickButton buttonEightOp = new JoystickButton(controller2, 8);
   public JoystickButton buttonNineOp = new JoystickButton(controller2, 9);
+  public JoystickButton buttonTenOp = new JoystickButton(controller2, 10);
 
 
   public final static int joystick = 0;
@@ -84,9 +88,10 @@ public class RobotContainer {
   public static IntakeSubsystem mIntakeSubsystem = new IntakeSubsystem();
   public static ElevatorSubystem mElevatorSubystem = new ElevatorSubystem();
   public static HopperSubsystem mHopperSubsystem = new HopperSubsystem();
+  public static ConveyorSubsystem mConveyorSubsystem = new ConveyorSubsystem();
 
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
-  private static Path path1 = new Path("trenchAndAim");
+  private static Path path1 = new Path("10S-5L");
   private static Path path2 = new Path("DriveTrench");
   private static ArrayList<Double> leftArray1;
   private static ArrayList<Double> rightArray1;
@@ -116,6 +121,8 @@ public class RobotContainer {
       }
      configureButtonBindings();
      mDriveSubsystem.setDefaultCommand(mDriveCommand);
+     mElevatorSubystem.setDefaultCommand(new liftUp());
+
      }
 
   /**
@@ -126,17 +133,14 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     
-    //buttonOne.whenPressed(new autoStoreValue());
-    buttonFive.whileHeld(new Aiming(), false);
-    // buttonSix.whenPressed(new SequentialCommandGroup(new RunPath(leftArray1, rightArray1), 
-    // new autoStoreValue(), new TurnAimShoot(), new autoDeCorrect(), new RunPath(leftArray2, 
-    // rightArray2), new RunPathBack(leftArray2, rightArray2)));
-    buttonFour.whileHeld(new ShootCommand(), false);
-    buttonSeven.whileHeld(new ParallelCommandGroup(new runIntakeIn(), new hopperIn()));
-    buttonFive.whileHeld(new ParallelCommandGroup(new runIntakeOut(), new hopperOut()));
-    buttonOne.whileHeld(new liftUp());
-    buttonTwo.whileHeld(new liftDown());
-    buttonSix.whenPressed(new ArmElevator());
+    buttonFive.whileHeld(new ParallelCommandGroup(new ShootCommand(), new hopperIn(), new conveyorIn()));
+    buttonSix.whileHeld(new Aiming(), false);
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+    buttonSixOp.whileHeld(new ParallelCommandGroup(new runIntakeOut(), new hopperOut()));
+    buttonEightOp.whileHeld(new ParallelCommandGroup(new runIntakeIn(), new hopperIn()));
+    buttonSevenOp.whileHeld(new conveyorOut());
+    buttonFiveOp.whileHeld(new conveyorIn());
+    buttonTenOp.whenPressed(new ArmElevator());
 
   }
 

@@ -10,6 +10,8 @@ package frc.robot.subsystems;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.commands.liftUp;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
@@ -40,6 +42,7 @@ public class ElevatorSubystem extends SubsystemBase {
     motor2.setSmartCurrentLimit(40);
 
     encoder = motor1.getEncoder();
+    encoder.setPosition(0);
 
     pidController.setP(kP);
     pidController.setI(kI);
@@ -53,18 +56,15 @@ public class ElevatorSubystem extends SubsystemBase {
     SmartDashboard.putNumber("FF Value", kFF);
   }
  public void liftDown(){
-   if(readyUse == true){
-     position = position+10;
-     pidController.setReference(position, ControlType.kPosition);
-     SmartDashboard.putNumber("commanded position", position);
-    }
+
 }
-public void liftUp(){
-    if(readyUse == true){
-    position = position-10;
+public void liftUp(double joystickInput){
+  if(readyUse == true){
+    position = position+(10*joystickInput);
     pidController.setReference(position, ControlType.kPosition);
     SmartDashboard.putNumber("commanded position", position);
-    }
+  }
+    
 }
 
 public double getPosition(){
