@@ -50,10 +50,6 @@ public class ElevatorSubystem extends SubsystemBase {
     pidController.setIZone(kIz);
     pidController.setFF(kFF);
     pidController.setOutputRange(kMinOutput, kMaxOutput);
-    SmartDashboard.putNumber("P Gain", kP);
-    SmartDashboard.putNumber("I Gain", kI);
-    SmartDashboard.putNumber("D Gain", kD);
-    SmartDashboard.putNumber("FF Value", kFF);
   }
  public void liftDown(){
 
