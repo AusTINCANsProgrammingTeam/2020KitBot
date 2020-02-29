@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.commands.moveLift;
+import frc.robot.commands.elevator.moveLift;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
@@ -52,7 +52,7 @@ public class ElevatorSubystem extends SubsystemBase {
     pidController.setOutputRange(kMinOutput, kMaxOutput);
   }
 public void moveLift(double joystickInput){
-  if(readyUse == true && (encoder.getPosition() <= 5)){
+  if(readyUse == true){
     position = position+(10*joystickInput);
     pidController.setReference(position, ControlType.kPosition);
     SmartDashboard.putNumber("commanded position", position);

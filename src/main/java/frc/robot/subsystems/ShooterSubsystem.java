@@ -14,6 +14,7 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -26,6 +27,7 @@ public class ShooterSubsystem extends SubsystemBase {
    * Creates a new ExampleSubsystem.
    */
   public ShooterSubsystem() {
+    SmartDashboard.putNumber("shooter speed", .45);
     shooterMotor = new CANSparkMax(Constants.Shooter, MotorType.kBrushless);
     shooterMotor.restoreFactoryDefaults();
     shooterMotor.setIdleMode(IdleMode.kCoast);
@@ -37,6 +39,7 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterPidController.setIZone(kIz);
     shooterPidController.setFF(kFF);
     shooterPidController.setOutputRange(kMinOutput, kMaxOutput);
+    shooterMotor.setInverted(true);
 
   }
 
@@ -55,6 +58,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    
     // This method will be called once per scheduler run
   }
 }

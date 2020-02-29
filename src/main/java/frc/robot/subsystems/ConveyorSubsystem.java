@@ -18,7 +18,7 @@ public class ConveyorSubsystem extends SubsystemBase {
   /**
    * Creates a new ExampleSubsystem.
    */
-  private static CANSparkMax conveyor= new CANSparkMax(Constants.Hopper1, MotorType.kBrushless);
+  private static CANSparkMax conveyor= new CANSparkMax(Constants.Belt, MotorType.kBrushless);
 
     public ConveyorSubsystem(){
 

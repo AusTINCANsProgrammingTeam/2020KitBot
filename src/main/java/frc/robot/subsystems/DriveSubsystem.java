@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
-import frc.robot.commands.DriveCommand;
+import frc.robot.commands.drive.DriveCommand;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;

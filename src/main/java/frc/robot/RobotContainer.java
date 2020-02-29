@@ -22,23 +22,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.commands.Aiming;
-import frc.robot.commands.ArmElevator;
-import frc.robot.commands.DriveCommand;
-import frc.robot.commands.RunPath;
-import frc.robot.commands.RunPathBack;
-import frc.robot.commands.ShootCommand;
-import frc.robot.commands.TurnAimShoot;
-import frc.robot.commands.autoDeCorrect;
-import frc.robot.commands.autoStoreValue;
-import frc.robot.commands.conveyorIn;
-import frc.robot.commands.conveyorOut;
-import frc.robot.commands.hopperIn;
-import frc.robot.commands.hopperOut;
-import frc.robot.commands.moveLift;
-import frc.robot.commands.runIntakeIn;
-import frc.robot.commands.runIntakeOut;
-import frc.robot.commands.toggleIntake;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubystem;
 import frc.robot.subsystems.HopperSubsystem;
@@ -46,6 +29,18 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.Path;
+import frc.robot.commands.auto.RunPath;
+import frc.robot.commands.drive.Aiming;
+import frc.robot.commands.drive.DriveCommand;
+import frc.robot.commands.elevator.ArmElevator;
+import frc.robot.commands.elevator.moveLift;
+import frc.robot.commands.hopper.hopperIn;
+import frc.robot.commands.hopper.hopperOut;
+import frc.robot.commands.intake.runIntakeIn;
+import frc.robot.commands.intake.runIntakeOut;
+import frc.robot.commands.shooter.ShootCommand;
+import frc.robot.commands.shooter.conveyorIn;
+import frc.robot.commands.shooter.conveyorOut;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -118,7 +113,7 @@ public class RobotContainer {
       }
      configureButtonBindings();
      mDriveSubsystem.setDefaultCommand(mDriveCommand);
-     mElevatorSubystem.setDefaultCommand(new moveLift());
+     //mElevatorSubystem.setDefaultCommand(new moveLift());
 
      }
 
@@ -129,14 +124,14 @@ public class RobotContainer {
    * {@link edu.wpi.first.wpilibj2.command.button.JoystickButton}.
    */
   private void configureButtonBindings() {
-    
+    //driver configuration
     buttonFiveDrive.whileHeld(new ParallelCommandGroup(new ShootCommand(), new hopperIn(), new conveyorIn()));
     buttonSixDrive.whileHeld(new Aiming(), false);
-////////////////////////////////////////////////////////////////////////////////////////////////////////
+    //operator configuration
     buttonSixOp.whileHeld(new ParallelCommandGroup(new runIntakeOut(), new hopperOut()));
     buttonEightOp.whileHeld(new ParallelCommandGroup(new runIntakeIn(), new hopperIn()));
-    buttonSevenOp.whileHeld(new conveyorOut());
-    buttonFiveOp.whileHeld(new conveyorIn());
+    buttonSevenOp.whileHeld(new ParallelCommandGroup(new conveyorOut(), new hopperOut()));
+    buttonFiveOp.whileHeld(new ParallelCommandGroup(new hopperIn(), new conveyorIn()));
     buttonTenOp.whenPressed(new ArmElevator());
 
   }
