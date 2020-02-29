@@ -10,12 +10,7 @@ package frc.robot.commands;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -30,9 +25,7 @@ public class RunPathBack extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private List rightPath;
   private List leftPath;
-  private double timeToRun;
   private Timer timer;
-  public BufferedWriter out;
   int i = 0;
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
 
@@ -40,8 +33,6 @@ public class RunPathBack extends CommandBase {
   public RunPathBack(List leftPath, List rightPath) {
     this.rightPath = rightPath;
     this.leftPath = leftPath;
-    timeToRun = .020 * (leftPath.size());
-    timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.mDriveSubsystem);
   }
@@ -70,8 +61,8 @@ public class RunPathBack extends CommandBase {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(0);
-    RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(0);
+    RobotContainer.mDriveSubsystem.setLeftSetpoint(0);
+    RobotContainer.mDriveSubsystem.setRightSetpoint(0);
   }
 
   // Returns true when the command should end.

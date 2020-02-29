@@ -7,6 +7,7 @@
 
 package frc.robot.commands;
 
+import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExampleSubsystem;
 import edu.wpi.first.wpilibj2.command.CommandBase;
@@ -22,7 +23,6 @@ public class ShootCommand extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  double maxRPM = 5700;
   public ShootCommand() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.mShooterSubsystem);
@@ -36,13 +36,13 @@ public class ShootCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      RobotContainer.mShooterSubsystem.setVelocitySetpoint(.9*maxRPM);
+      RobotContainer.mShooterSubsystem.setVelocitySetpoint(.9*Constants.maxRPMShooter);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      RobotContainer.mShooterSubsystem.setVelocitySetpoint(0);
+      RobotContainer.mShooterSubsystem.setSpeed(0);
   }
 
   // Returns true when the command should end.

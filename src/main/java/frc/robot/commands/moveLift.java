@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  * An example command that uses an example subsystem.
  */
-public class liftUp extends CommandBase {
+public class moveLift extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   double axis;
 
@@ -23,7 +23,7 @@ public class liftUp extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public liftUp() {
+  public moveLift() {
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.mElevatorSubystem);
   }
@@ -36,7 +36,7 @@ public class liftUp extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      RobotContainer.mElevatorSubystem.liftUp(RobotContainer.controller2.getRawAxis(1));
+      RobotContainer.mElevatorSubystem.moveLift(RobotContainer.OperatorController.getRawAxis(1));
   }
 
   // Called once the command ends or is interrupted.

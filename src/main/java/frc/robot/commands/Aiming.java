@@ -44,6 +44,7 @@ public class Aiming extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    RobotContainer.light.setValue(Constants.LL_LIGHT_ON);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -51,7 +52,6 @@ public class Aiming extends CommandBase {
   // adjust p until it works
   @Override
   public void execute() {
-    RobotContainer.light.setValue(Constants.LL_LIGHT_ON);
     tx = SmartDashboard.getNumber("LimelightX", 0);
     ty = SmartDashboard.getNumber("LimelightY", 0);
     d = 73.5/Math.tan(Math.toRadians(ty+63));
@@ -64,9 +64,9 @@ public class Aiming extends CommandBase {
     }
      
     if(tx != 0)
-      RobotContainer.mDriveSubsystem.arcadeDrive(RobotContainer.controller1.getRawAxis(Constants.VELOCITY_CONTROL),steeringAdjust);
+      RobotContainer.mDriveSubsystem.arcadeDrive(RobotContainer.DriverController.getRawAxis(1),steeringAdjust);
     else
-      RobotContainer.mDriveSubsystem.arcadeDrive(RobotContainer.controller1.getRawAxis(Constants.VELOCITY_CONTROL),RobotContainer.controller1.getRawAxis(Constants.HEADING_CONTROL));
+      RobotContainer.mDriveSubsystem.arcadeDrive(RobotContainer.DriverController.getRawAxis(1),RobotContainer.DriverController.getRawAxis(2));
       steeringAdjust = 0;
   }
 

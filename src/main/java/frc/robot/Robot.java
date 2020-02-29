@@ -49,11 +49,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("Left Velocity", -1 * RobotContainer.mDriveSubsystem.leftVelocity());    
-    SmartDashboard.putNumber("Right Velocity", -1 * RobotContainer.mDriveSubsystem.rightVelocity());
-    SmartDashboard.putNumber("lift position", RobotContainer.mElevatorSubystem.getPosition());
-    SmartDashboard.putNumber("left encoder", RobotContainer.mDriveSubsystem.getLeftEncPosition());
-    SmartDashboard.putNumber("right encoder", RobotContainer.mDriveSubsystem.getRightEncPosition());
+
 
     RobotContainer.mDriveSubsystem.updatePID();
     double x = RobotContainer.tx.getDouble(0.0);

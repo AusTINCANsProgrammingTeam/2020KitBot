@@ -23,21 +23,10 @@ public final class Constants {
     public static final double kNeutralDeadband = 0.001;
     public static final double kMaxRpms = 5700;
     public static final double kGearRatio = 10.71;
-    public static final double kWheelCircumference = Math.PI*5.5;
+    public static final double kWheelCircumference = Math.PI*5.9;
 
     //public final static Gains kGains_Velocity 
     //= new Gains(5e-5, 0, 0.0, 0, 1, -1);
-  
-    public final static int REMOTE_0 = 0;
-    public final static int REMOTE_1 = 1;
-    public final static int PID_PRIMARY = 0;
-    public final static int PID_TURN = 1;
-    public final static int SLOT_0 = 0;
-    public final static int SLOT_1 = 1;
-    public final static int SLOT_2 = 2;
-    public final static int SLOT_3 = 3;
-    public final static int VELOCITY_CONTROL=1;
-    public final static int HEADING_CONTROL=2;
     
     public final static double kPDrive = 0.000600;
     public final static double kIDrive = 1e-6;
@@ -46,11 +35,6 @@ public final class Constants {
     public final static double kFFDrive = 0.000000;
     public final static double kMaxOutputDrive = 1;
     public final static double kMinOutputDrive = -1;
-  
-    public final static int kSlot_Distance = SLOT_0;
-    public final static int kSlot_Turning = SLOT_1;
-    public final static int kSlot_Velocity = SLOT_2;
-    public final static int kSlot_MotProf = SLOT_3;
 
     public final static int LL_LIGHT_DEFAULT = 0;
     public final static int LL_LIGHT_OFF = 1;
@@ -69,11 +53,10 @@ public final class Constants {
     public final static int Hopper2 = 11;
     public final static int Elevator1 = 12;
     public final static int Elevator2 = 3;
-    public final static int Belt = 9;
+    public final static int Belt = 9;    
 
-    
-  
-    public static boolean onOrOff = false;
-    
+
+    public final static double maxRPMShooter = 5676;
+
 }
 

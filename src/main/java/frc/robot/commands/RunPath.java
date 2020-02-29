@@ -10,15 +10,11 @@ package frc.robot.commands;
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
 
-import java.io.BufferedWriter;
-import java.io.File;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Scanner;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -29,9 +25,6 @@ public class RunPath extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private List rightPath;
   private List leftPath;
-  private double timeToRun;
-  private Timer timer;
-  public BufferedWriter out;
   int i = 0;
   private Iterator<Double> m_leftIterator;
   private Iterator<Double> m_rightIterator;
@@ -41,8 +34,6 @@ public class RunPath extends CommandBase {
   public RunPath(List leftPath, List rightPath) {
     this.rightPath = rightPath;
     this.leftPath = leftPath;
-    timeToRun = .020 * (leftPath.size());
-    timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.mDriveSubsystem);
   }
@@ -53,8 +44,6 @@ public class RunPath extends CommandBase {
     m_leftIterator = leftPath.iterator();
     m_rightIterator = rightPath.iterator();
     i = 0;
-    timer.reset();
-    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -75,8 +64,8 @@ public class RunPath extends CommandBase {
   public void end(boolean interrupted) {
     m_rightIterator.remove();
     m_leftIterator.remove();
+    RobotContainer.mDriveSubsystem.setRightSetpoint(0);
     RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(0);
-    RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(0);
   }
 
   // Returns true when the command should end.

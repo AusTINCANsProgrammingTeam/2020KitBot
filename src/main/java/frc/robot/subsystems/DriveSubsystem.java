@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
 import frc.robot.commands.DriveCommand;
 
 import com.revrobotics.CANEncoder;
@@ -41,10 +42,6 @@ public class DriveSubsystem extends SubsystemBase {
   public DriveSubsystem() {
     intializeDriveSubystem(mLeft1, mLeft2, mLeft3);
     intializeDriveSubystem(mRight1, mRight2, mRight3);
-
-    // mLeft2.setClosedLoopRampRate(0.2);
-    // mRight1.setClosedLoopRampRate(0.2);
-    // mRight2.setClosedLoopRampRate(0.2);
     differentialDrive = new DifferentialDrive(mLeft1, mRight1);
 
 
@@ -118,6 +115,16 @@ public void setRightPidVelocitySetpoint(double setpoint)
     r_pidController.setReference(setpoint, ControlType.kVelocity);
 }
 
+public void setLeftSetpoint(double setpoint)
+{
+    mLeft1.set(setpoint);
+}
+
+public void setRightSetpoint(double setpoint)
+{
+    mRight1.set(setpoint);
+}
+
 public double leftVelocity()
 {
     return l_encoder.getVelocity();
@@ -151,20 +158,25 @@ public void intializeDriveSubystem(CANSparkMax master, CANSparkMax... slaves){
   master.enableVoltageCompensation(12);
   master.setIdleMode(IdleMode.kBrake);
   master.setOpenLoopRampRate(.2);
-  //master.setClosedLoopRampRate(0.2);
+  master.setSmartCurrentLimit(40);
  
   for(CANSparkMax slave : slaves) {
-    //slave.setClosedLoopRampRate(0.2);
     slave.restoreFactoryDefaults();
     slave.enableVoltageCompensation(12);
     slave.setIdleMode(IdleMode.kBrake);
     slave.setOpenLoopRampRate(.2);
+    slave.setSmartCurrentLimit(40);
     slave.follow(master);
 }
   }
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Left Velocity", -1 * RobotContainer.mDriveSubsystem.leftVelocity());    
+    SmartDashboard.putNumber("Right Velocity", -1 * RobotContainer.mDriveSubsystem.rightVelocity());
+    SmartDashboard.putNumber("lift position", RobotContainer.mElevatorSubystem.getPosition());
+    SmartDashboard.putNumber("left encoder", RobotContainer.mDriveSubsystem.getLeftEncPosition());
+    SmartDashboard.putNumber("right encoder", RobotContainer.mDriveSubsystem.getRightEncPosition());
     // This method will be called once per scheduler run
   }
 }

@@ -21,7 +21,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private CANPIDController shooterPidController;
     private static CANSparkMax shooterMotor;   
     private CANEncoder shooterEncoder;
-    private double kP=3e-4,kI=1e-6,kD=0,kIz=0,kFF=-0,kMinOutput=-1,kMaxOutput=1;
+    private double kP=3e-4,kI=1e-6,kD=0,kIz=0,kFF=-0,kMinOutput=0,kMaxOutput=1;
   /**
    * Creates a new ExampleSubsystem.
    */
@@ -44,7 +44,12 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterPidController.setReference(setpoint, ControlType.kVelocity);
   }
 
-  public double shooterVelocity(){
+  public void setSpeed(double setpoint){
+    shooterMotor.set(setpoint);
+  }
+
+
+  public double getVelocity(){
       return shooterEncoder.getVelocity();
   }
 

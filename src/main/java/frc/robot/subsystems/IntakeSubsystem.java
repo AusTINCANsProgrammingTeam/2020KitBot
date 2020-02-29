@@ -21,7 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
    * Creates a new ExampleSubsystem.
    */
   private static CANSparkMax intakeMotor= new CANSparkMax(Constants.Intake,MotorType.kBrushless);;
-  //private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(1, 2);
+  // private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(1, 2);
   public enum IntakeDirection {IN, OUT}
 
     public IntakeSubsystem() {
@@ -42,12 +42,14 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void toggleIntake(){
-    // switch(intakeSolenoid.get()){
-    //     case kReverse:
-    //     setIntake(DoubleSolenoid.Value.kForward);
-    //     case kForward:
-    //     setIntake(DoubleSolenoid.Value.kReverse);
-   // }
+  //   switch(intakeSolenoid.get()){
+  //       case kReverse:
+  //       setIntake(DoubleSolenoid.Value.kForward);
+  //       case kForward:
+  //       setIntake(DoubleSolenoid.Value.kReverse);
+  //       default:
+  //       setIntake(DoubleSolenoid.Value.kOff);
+  //  }
   }
   @Override
   public void periodic() {

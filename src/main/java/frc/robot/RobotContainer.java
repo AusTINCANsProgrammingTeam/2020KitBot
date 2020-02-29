@@ -35,12 +35,10 @@ import frc.robot.commands.conveyorIn;
 import frc.robot.commands.conveyorOut;
 import frc.robot.commands.hopperIn;
 import frc.robot.commands.hopperOut;
-import frc.robot.commands.liftDown;
-import frc.robot.commands.liftUp;
+import frc.robot.commands.moveLift;
 import frc.robot.commands.runIntakeIn;
 import frc.robot.commands.runIntakeOut;
 import frc.robot.commands.toggleIntake;
-import frc.robot.commands.toggleOff;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ElevatorSubystem;
 import frc.robot.subsystems.HopperSubsystem;
@@ -57,31 +55,30 @@ import frc.robot.Path;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-  public static Joystick controller1 = new Joystick(0);
-  public static Joystick controller2 = new Joystick(1);
-  public JoystickButton buttonOne = new JoystickButton(controller1, 1);  
-  public JoystickButton buttonTwo = new JoystickButton(controller1, 2);  
-  public JoystickButton buttonThree = new JoystickButton(controller1, 3);  
-  public JoystickButton buttonFour = new JoystickButton(controller1, 4);
-  public JoystickButton buttonFive = new JoystickButton(controller1, 5);
-  public JoystickButton buttonSix = new JoystickButton(controller1, 6);
-  public JoystickButton buttonSeven = new JoystickButton(controller1, 7);
-  public JoystickButton buttonEight = new JoystickButton(controller1, 8);
-  public JoystickButton buttonNine = new JoystickButton(controller1, 9);
+  public static Joystick DriverController = new Joystick(0);
+  public static Joystick OperatorController = new Joystick(1);
+  public JoystickButton buttonOneDrive = new JoystickButton(DriverController, 1);  
+  public JoystickButton buttonTwoDrive = new JoystickButton(DriverController, 2);  
+  public JoystickButton buttonThreeDrive = new JoystickButton(DriverController, 3);  
+  public JoystickButton buttonFourDrive = new JoystickButton(DriverController, 4);
+  public JoystickButton buttonFiveDrive = new JoystickButton(DriverController, 5);
+  public JoystickButton buttonSixDrive = new JoystickButton(DriverController, 6);
+  public JoystickButton buttonSevenDrive = new JoystickButton(DriverController, 7);
+  public JoystickButton buttonEightDrive = new JoystickButton(DriverController, 8);
+  public JoystickButton buttonNineDrive = new JoystickButton(DriverController, 9);
 
-  public JoystickButton buttonOneOp = new JoystickButton(controller2, 1);  
-  public JoystickButton buttonTwoOp = new JoystickButton(controller2, 2);  
-  public JoystickButton buttonThreeOp = new JoystickButton(controller2, 3);  
-  public JoystickButton buttonFourOp = new JoystickButton(controller2, 4);
-  public JoystickButton buttonFiveOp = new JoystickButton(controller2, 5);
-  public JoystickButton buttonSixOp = new JoystickButton(controller2, 6);
-  public JoystickButton buttonSevenOp = new JoystickButton(controller2, 7);
-  public JoystickButton buttonEightOp = new JoystickButton(controller2, 8);
-  public JoystickButton buttonNineOp = new JoystickButton(controller2, 9);
-  public JoystickButton buttonTenOp = new JoystickButton(controller2, 10);
+  public JoystickButton buttonOneOp = new JoystickButton(OperatorController, 1);  
+  public JoystickButton buttonTwoOp = new JoystickButton(OperatorController, 2);  
+  public JoystickButton buttonThreeOp = new JoystickButton(OperatorController, 3);  
+  public JoystickButton buttonFourOp = new JoystickButton(OperatorController, 4);
+  public JoystickButton buttonFiveOp = new JoystickButton(OperatorController, 5);
+  public JoystickButton buttonSixOp = new JoystickButton(OperatorController, 6);
+  public JoystickButton buttonSevenOp = new JoystickButton(OperatorController, 7);
+  public JoystickButton buttonEightOp = new JoystickButton(OperatorController, 8);
+  public JoystickButton buttonNineOp = new JoystickButton(OperatorController, 9);
+  public JoystickButton buttonTenOp = new JoystickButton(OperatorController, 10);
 
 
-  public final static int joystick = 0;
   public static DriveSubsystem mDriveSubsystem = new DriveSubsystem();
   public static DriveCommand mDriveCommand = new DriveCommand();
   public static ShooterSubsystem mShooterSubsystem = new ShooterSubsystem();
@@ -121,7 +118,7 @@ public class RobotContainer {
       }
      configureButtonBindings();
      mDriveSubsystem.setDefaultCommand(mDriveCommand);
-     mElevatorSubystem.setDefaultCommand(new liftUp());
+     mElevatorSubystem.setDefaultCommand(new moveLift());
 
      }
 
@@ -133,8 +130,8 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     
-    buttonFive.whileHeld(new ParallelCommandGroup(new ShootCommand(), new hopperIn(), new conveyorIn()));
-    buttonSix.whileHeld(new Aiming(), false);
+    buttonFiveDrive.whileHeld(new ParallelCommandGroup(new ShootCommand(), new hopperIn(), new conveyorIn()));
+    buttonSixDrive.whileHeld(new Aiming(), false);
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
     buttonSixOp.whileHeld(new ParallelCommandGroup(new runIntakeOut(), new hopperOut()));
     buttonEightOp.whileHeld(new ParallelCommandGroup(new runIntakeIn(), new hopperIn()));

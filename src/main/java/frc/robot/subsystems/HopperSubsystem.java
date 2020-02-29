@@ -22,7 +22,6 @@ public class HopperSubsystem extends SubsystemBase {
   private static CANSparkMax hopper2= new CANSparkMax(Constants.Hopper2, MotorType.kBrushless);
 
     public HopperSubsystem(){
-        hopper2.follow(hopper1);
 
         hopper1.restoreFactoryDefaults();
         hopper1.enableVoltageCompensation(12);
@@ -30,6 +29,7 @@ public class HopperSubsystem extends SubsystemBase {
         hopper2.restoreFactoryDefaults();
         hopper2.enableVoltageCompensation(12);
         hopper2.setIdleMode(IdleMode.kBrake);
+        hopper2.follow(hopper1);
 
   }
   public void runIntake(double speed){
