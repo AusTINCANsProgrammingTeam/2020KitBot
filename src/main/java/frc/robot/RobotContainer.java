@@ -113,7 +113,7 @@ public class RobotContainer {
       }
      configureButtonBindings();
      mDriveSubsystem.setDefaultCommand(mDriveCommand);
-     //mElevatorSubystem.setDefaultCommand(new moveLift());
+     mElevatorSubystem.setDefaultCommand(new moveLift());
 
      }
 

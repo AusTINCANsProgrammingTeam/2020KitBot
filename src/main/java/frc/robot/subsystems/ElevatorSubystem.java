@@ -54,6 +54,7 @@ public class ElevatorSubystem extends SubsystemBase {
 public void moveLift(double joystickInput){
   if(readyUse == true){
     position = position+(10*joystickInput);
+    if(position >=-570 && position <= 0)
     pidController.setReference(position, ControlType.kPosition);
     SmartDashboard.putNumber("commanded position", position);
   }
