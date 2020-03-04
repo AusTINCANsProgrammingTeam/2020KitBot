@@ -29,11 +29,12 @@ public class HopperSubsystem extends SubsystemBase {
         hopper2.enableVoltageCompensation(12);
         hopper2.setIdleMode(IdleMode.kBrake);
         hopper1.setInverted(true);
+        hopper2.setInverted(true);
 
   }
   public void runIntake(double speed){
-        hopper1.set(speed*.35);
-        hopper2.set(speed);
+        hopper1.set(speed*.1);
+        hopper2.set(speed*.4);
     }
 
     public void stopIntake(){
