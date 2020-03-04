@@ -34,6 +34,7 @@ public class ConveyorSubsystem extends SubsystemBase {
     public void stopIntake(){
         conveyor.set(0);
     }
+  
 
   @Override
   public void periodic() {

@@ -41,6 +41,7 @@ import frc.robot.commands.intake.runIntakeOut;
 import frc.robot.commands.shooter.ShootCommand;
 import frc.robot.commands.shooter.conveyorIn;
 import frc.robot.commands.shooter.conveyorOut;
+import frc.robot.commands.shooter.conveyorShooter;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -125,7 +126,7 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //driver configuration
-    buttonFiveDrive.whileHeld(new ParallelCommandGroup(new ShootCommand(), new hopperIn(), new conveyorIn()));
+    buttonFiveDrive.whileHeld(new ParallelCommandGroup(new ShootCommand(), new hopperIn(), new conveyorShooter()));
     buttonSixDrive.whileHeld(new Aiming(), false);
     //operator configuration
     buttonSixOp.whileHeld(new ParallelCommandGroup(new runIntakeOut(), new hopperOut()));

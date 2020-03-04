@@ -45,6 +45,7 @@ public class ShootCommand extends CommandBase {
   @Override
   public void end(boolean interrupted) {
       RobotContainer.mShooterSubsystem.setSpeed(0);
+      RobotContainer.mShooterSubsystem.shooterReady = false;
   }
 
   // Returns true when the command should end.

@@ -37,6 +37,7 @@ public class ElevatorSubystem extends SubsystemBase {
     motor1.restoreFactoryDefaults();
     motor2.restoreFactoryDefaults();
     motor2.follow(motor1, true);
+    
     pidController = motor1.getPIDController();
     motor1.setSmartCurrentLimit(40);
     motor2.setSmartCurrentLimit(40);
@@ -53,9 +54,10 @@ public class ElevatorSubystem extends SubsystemBase {
   }
 public void moveLift(double joystickInput){
   if(readyUse == true){
-    position = position+(10*joystickInput);
+    if((joystickInput < 0 && position > -570) || (joystickInput > 0 && position < 0))
+      position = position+(10*joystickInput);
     if(position >=-570 && position <= 0)
-    pidController.setReference(position, ControlType.kPosition);
+      pidController.setReference(position, ControlType.kPosition);
     SmartDashboard.putNumber("commanded position", position);
   }
     
