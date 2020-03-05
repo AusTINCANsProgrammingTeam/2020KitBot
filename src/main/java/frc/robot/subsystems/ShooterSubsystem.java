@@ -14,6 +14,8 @@ import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -23,6 +25,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private static CANSparkMax shooterMotor;   
     private CANEncoder shooterEncoder;
     public static boolean shooterReady = false;
+    private DoubleSolenoid hoodedShooter = new DoubleSolenoid(1,3);
     private double kP=3e-4,kI=1e-6,kD=0,kIz=0,kFF=-0,kMinOutput=0,kMaxOutput=1;
   /**
    * Creates a new ExampleSubsystem.
@@ -41,7 +44,8 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterPidController.setFF(kFF);
     shooterPidController.setOutputRange(kMinOutput, kMaxOutput);
     shooterMotor.setInverted(true);
-
+    hoodedShooter.set(DoubleSolenoid.Value.kForward);
+  
   }
 
   public void setVelocitySetpoint(double setpoint){
@@ -57,6 +61,17 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public double getVelocity(){
       return shooterEncoder.getVelocity();
+  }
+  
+  public void toggleHood(){
+    if(hoodedShooter.get() == Value.kForward){
+      hoodedShooter.set(Value.kReverse);
+    }
+
+    else{
+      hoodedShooter.set(Value.kForward);
+    }
+   
   }
 
   @Override

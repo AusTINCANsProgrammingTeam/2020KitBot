@@ -32,8 +32,8 @@ public class DriveSubsystem extends SubsystemBase {
     private static CANSparkMax mRight3 = new CANSparkMax(Constants.DriveRight3, MotorType.kBrushless);
     private CANPIDController l_pidController;
     private CANPIDController r_pidController;
-    private CANEncoder l_encoder;
-    private CANEncoder r_encoder;
+    public static CANEncoder l_encoder;
+    public static CANEncoder r_encoder;
     private DifferentialDrive differentialDrive;
     public double kP = Constants.kPDrive, kI = Constants.kIDrive, kD = Constants.kDDrive, kIz = Constants.kIzDrive, kFF = Constants.kFFDrive,
      kMaxOutput = Constants.kMaxOutputDrive, kMinOutput = Constants.kMinOutputDrive;
@@ -115,6 +115,16 @@ public void setRightPidVelocitySetpoint(double setpoint)
     r_pidController.setReference(setpoint, ControlType.kVelocity);
 }
 
+public void setLeftPidPositionSetpoint(double setpoint)
+{
+    l_pidController.setReference(setpoint, ControlType.kPosition);
+}
+
+public void setRightPidPositionSetpoint(double setpoint)
+{
+    r_pidController.setReference(setpoint, ControlType.kPosition);
+}
+
 public void setLeftSetpoint(double setpoint)
 {
     mLeft1.set(setpoint);
@@ -134,6 +144,7 @@ public double rightVelocity()
 {
     return r_encoder.getVelocity();
 }
+
 
 public double getLeftEncPosition()
 {

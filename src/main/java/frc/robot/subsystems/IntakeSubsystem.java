@@ -12,6 +12,7 @@ import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 
 import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -21,13 +22,16 @@ public class IntakeSubsystem extends SubsystemBase {
    * Creates a new ExampleSubsystem.
    */
   private static CANSparkMax intakeMotor= new CANSparkMax(Constants.Intake,MotorType.kBrushless);;
-  // private DoubleSolenoid intakeSolenoid = new DoubleSolenoid(1, 2);
+  private DoubleSolenoid intakeSolenoid2 = new DoubleSolenoid(0, 2);
   public enum IntakeDirection {IN, OUT}
 
     public IntakeSubsystem() {
+        intakeSolenoid2.set(DoubleSolenoid.Value.kForward);
+
         intakeMotor.restoreFactoryDefaults();
         intakeMotor.enableVoltageCompensation(12);
         intakeMotor.setIdleMode(IdleMode.kBrake);
+        
 
   }
   public void runIntake(double speed){
@@ -35,21 +39,21 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
   public void setIntake(DoubleSolenoid.Value state){  
-     // intakeSolenoid.set(state);
+     intakeSolenoid2.set(state);
+
   }
   public void stopIntake(){
       intakeMotor.set(0);
   }
 
   public void toggleIntake(){
-  //   switch(intakeSolenoid.get()){
-  //       case kReverse:
-  //       setIntake(DoubleSolenoid.Value.kForward);
-  //       case kForward:
-  //       setIntake(DoubleSolenoid.Value.kReverse);
-  //       default:
-  //       setIntake(DoubleSolenoid.Value.kOff);
-  //  }
+    if(intakeSolenoid2.get() == Value.kForward){
+      intakeSolenoid2.set(Value.kReverse);
+    }
+
+    else{
+      intakeSolenoid2.set(Value.kForward);
+    }
   }
   @Override
   public void periodic() {

@@ -9,6 +9,7 @@ package frc.robot.commands.drive;
 
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.shooter.toggleShooterHood;
 import frc.robot.*;
 
 import java.util.logging.Logger;
@@ -45,6 +46,7 @@ public class Aiming extends CommandBase {
   @Override
   public void initialize() {
     RobotContainer.light.setValue(Constants.LL_LIGHT_ON);
+    RobotContainer.mShooterSubsystem.toggleHood();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -74,6 +76,7 @@ public class Aiming extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.light.setValue(Constants.LL_LIGHT_OFF);
+    RobotContainer.mShooterSubsystem.toggleHood();
   }
 
   // Returns true when the command should end.

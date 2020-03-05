@@ -7,10 +7,13 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
+import frc.robot.commands.elevator.brakeElevator;
 import frc.robot.commands.elevator.moveLift;
 
 import com.revrobotics.CANEncoder;
@@ -31,8 +34,11 @@ public class ElevatorSubystem extends SubsystemBase {
     public double kP= .01, kI=0, kD=0, kIz, kFF,
      kMaxOutput = 1, kMinOutput = -1;
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
+    private DoubleSolenoid brakeElevator = new DoubleSolenoid(4,7);
+
 
   public ElevatorSubystem() {
+    brakeElevator.set(DoubleSolenoid.Value.kForward);
 
     motor1.restoreFactoryDefaults();
     motor2.restoreFactoryDefaults();
@@ -72,6 +78,20 @@ public void armElevator(){
 
 public boolean getReadyUse(){
   return readyUse;
+}
+
+public void setBrake(DoubleSolenoid.Value state){  
+  brakeElevator.set(state);
+}
+
+public void toggleBrake(){
+  if(brakeElevator.get() == Value.kForward){
+    brakeElevator.set(Value.kReverse);
+  }
+
+  else{
+    brakeElevator.set(Value.kForward);
+  }
 }
 
   @Override

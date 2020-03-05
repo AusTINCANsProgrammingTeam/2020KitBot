@@ -14,6 +14,7 @@ import java.util.logging.Logger;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
@@ -30,18 +31,22 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.Path;
 import frc.robot.commands.auto.RunPath;
+import frc.robot.commands.auto.Turn;
 import frc.robot.commands.drive.Aiming;
 import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.elevator.ArmElevator;
+import frc.robot.commands.elevator.brakeElevator;
 import frc.robot.commands.elevator.moveLift;
 import frc.robot.commands.hopper.hopperIn;
 import frc.robot.commands.hopper.hopperOut;
 import frc.robot.commands.intake.runIntakeIn;
 import frc.robot.commands.intake.runIntakeOut;
+import frc.robot.commands.intake.toggleIntake;
 import frc.robot.commands.shooter.ShootCommand;
 import frc.robot.commands.shooter.conveyorIn;
 import frc.robot.commands.shooter.conveyorOut;
 import frc.robot.commands.shooter.conveyorShooter;
+import frc.robot.commands.shooter.toggleShooterHood;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -82,9 +87,10 @@ public class RobotContainer {
   public static ElevatorSubystem mElevatorSubystem = new ElevatorSubystem();
   public static HopperSubsystem mHopperSubsystem = new HopperSubsystem();
   public static ConveyorSubsystem mConveyorSubsystem = new ConveyorSubsystem();
+ // public static Compressor mCompressor = new Compressor(0);
 
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
-  private static Path path1 = new Path("10S-5L");
+  private static Path path1 = new Path("StraightTen");
   private static Path path2 = new Path("DriveTrench");
   private static ArrayList<Double> leftArray1;
   private static ArrayList<Double> rightArray1;
@@ -115,6 +121,7 @@ public class RobotContainer {
      configureButtonBindings();
      mDriveSubsystem.setDefaultCommand(mDriveCommand);
      mElevatorSubystem.setDefaultCommand(new moveLift());
+     //mCompressor.start();
 
      }
 
@@ -127,13 +134,17 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //driver configuration
     buttonFiveDrive.whileHeld(new ParallelCommandGroup(new ShootCommand(), new hopperIn(), new conveyorShooter()));
-    buttonSixDrive.whileHeld(new Aiming(), false);
+    buttonSixDrive.whileHeld(new Aiming());
+    buttonTwoDrive.whenPressed(new RunPath(leftArray1, rightArray1));
+    buttonOneDrive.whenPressed(new Turn());
     //operator configuration
+    buttonThreeOp.whenPressed(new toggleIntake());
     buttonSixOp.whileHeld(new ParallelCommandGroup(new runIntakeOut(), new hopperOut()));
     buttonEightOp.whileHeld(new ParallelCommandGroup(new runIntakeIn(), new hopperIn()));
     buttonSevenOp.whileHeld(new ParallelCommandGroup(new conveyorOut(), new hopperOut()));
     buttonFiveOp.whileHeld(new ParallelCommandGroup(new hopperIn(), new conveyorIn()));
     buttonTenOp.whenPressed(new ArmElevator());
+    buttonNineOp.whenPressed(new brakeElevator());
 
   }
 
