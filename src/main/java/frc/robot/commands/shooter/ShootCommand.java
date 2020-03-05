@@ -10,6 +10,9 @@ package frc.robot.commands.shooter;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj.DoubleSolenoid;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -37,8 +40,10 @@ public class ShootCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      double speed = SmartDashboard.getNumber("shooter speed", 0);
-      RobotContainer.mShooterSubsystem.setVelocitySetpoint(speed*Constants.maxRPMShooter);
+      if(ShooterSubsystem.hoodedShooter.get() == Value.kForward)
+        RobotContainer.mShooterSubsystem.setVelocitySetpoint(.45*Constants.maxRPMShooter);
+      else
+        RobotContainer.mShooterSubsystem.setVelocitySetpoint(.75*Constants.maxRPMShooter);
   }
 
   // Called once the command ends or is interrupted.

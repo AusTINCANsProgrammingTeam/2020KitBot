@@ -25,7 +25,7 @@ public class ShooterSubsystem extends SubsystemBase {
     private static CANSparkMax shooterMotor;   
     private CANEncoder shooterEncoder;
     public static boolean shooterReady = false;
-    private DoubleSolenoid hoodedShooter = new DoubleSolenoid(1,3);
+    public static DoubleSolenoid hoodedShooter = new DoubleSolenoid(1,3);
     private double kP=3e-4,kI=1e-6,kD=0,kIz=0,kFF=-0,kMinOutput=0,kMaxOutput=1;
   /**
    * Creates a new ExampleSubsystem.
