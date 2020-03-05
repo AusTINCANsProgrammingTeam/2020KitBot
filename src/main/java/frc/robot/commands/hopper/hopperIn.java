@@ -34,7 +34,7 @@ public class hopperIn extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      RobotContainer.mHopperSubsystem.runIntake(.75);
+      RobotContainer.mHopperSubsystem.runIntake(.25);
   }
 
   // Called once the command ends or is interrupted.
