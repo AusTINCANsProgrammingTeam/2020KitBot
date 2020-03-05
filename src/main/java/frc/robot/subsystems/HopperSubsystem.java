@@ -33,8 +33,8 @@ public class HopperSubsystem extends SubsystemBase {
 
   }
   public void runIntake(double speed){
-        hopper1.set(speed*.1);
-        hopper2.set(speed*.4);
+        hopper1.set(speed*.5);
+        hopper2.set(speed);
     }
 
     public void stopIntake(){
