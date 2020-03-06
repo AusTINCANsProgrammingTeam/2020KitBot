@@ -10,6 +10,9 @@ package frc.robot.commands.auto;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExampleSubsystem;
+
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -23,11 +26,13 @@ public class autoDeCorrect extends CommandBase {
   double ta = SmartDashboard.getNumber("LimelightArea", 0);
   double d = 0;
   
-  double minSteerAdjust = .2;
+  double minSteerAdjust = .25;
   double steeringAdjust = 0.0;
   double headingCommand = 0;
-  double p = .013;
+  double p = .008;
   double targetValue = 0;
+  private static final Logger LOGGER = Logger.getLogger(autoDeCorrect.class.getName());
+
 
   /**
    * Creates a new ExampleCommand.

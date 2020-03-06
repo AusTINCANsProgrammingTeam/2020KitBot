@@ -11,6 +11,9 @@ import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -32,15 +35,19 @@ public class autoShoot extends CommandBase {
   double headingCommand = 0;
   double p = .013;
   double speed;
+  double targetSpeed;
+  private static final Logger LOGGER = Logger.getLogger(autoShoot.class.getName());
+
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public autoShoot(double speed,int timeRun) {
+  public autoShoot(double speed, double targetSpeed,int timeRun) {
     this.speed=speed;
     this.timeRun = timeRun;
+    this.targetSpeed = targetSpeed;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.mShooterSubsystem);
   }
@@ -71,7 +78,7 @@ public class autoShoot extends CommandBase {
       steeringAdjust = 0;
       i++;
     RobotContainer.mShooterSubsystem.setVelocitySetpoint(speed*Constants.maxRPMShooter);
-    RobotContainer.mShooterSubsystem.armShooter(3600);
+    RobotContainer.mShooterSubsystem.armShooter(targetSpeed);
   }
 
   // Called once the command ends or is interrupted.
@@ -82,6 +89,7 @@ public class autoShoot extends CommandBase {
       RobotContainer.mShooterSubsystem.setSpeed(0);
         ShooterSubsystem.shooterReady = false;
         RobotContainer.mShooterSubsystem.toggleHood();  
+       // LOGGER.warning("AUTO SHOOT DONE");
     
   }
 

@@ -25,6 +25,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
   public static RobotContainer m_robotContainer;
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -36,7 +37,6 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     RobotContainer.light.setValue(Constants.LL_LIGHT_OFF);
     SmartDashboard.putNumber("Shooter Set Speed", .45);
   }
@@ -51,8 +51,9 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-
-
+    RobotContainer.AutoChooser = SmartDashboard.getNumber("Auto Selection", 0);
+    SmartDashboard.putNumber("Auto Selected", RobotContainer.AutoChooser);
+    
     RobotContainer.mDriveSubsystem.updatePID();
     double x = RobotContainer.tx.getDouble(0.0);
     double y = RobotContainer.ty.getDouble(0.0);
@@ -84,7 +85,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

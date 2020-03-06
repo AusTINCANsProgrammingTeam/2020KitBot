@@ -113,6 +113,10 @@ public void setLeftPidVelocitySetpoint(double setpoint)
     l_pidController.setReference(setpoint, ControlType.kVelocity);
 }
 
+public void checkPathEnd(){
+  
+}
+
 public void setRightPidVelocitySetpoint(double setpoint)
 {
     r_pidController.setReference(setpoint, ControlType.kVelocity);
@@ -203,11 +207,11 @@ public void intializeDriveSubystem(CANSparkMax master, CANSparkMax... slaves){
     l_pidController.setD(kD);
     l_pidController.setIZone(kIz);
     l_pidController.setFF(kFF);
-    l_pidController.setP(kP);
-    l_pidController.setI(kI);
-    l_pidController.setD(kD);
-    l_pidController.setIZone(kIz);
-    l_pidController.setFF(kFF);
+    r_pidController.setP(kP);
+    r_pidController.setI(kI);
+    r_pidController.setD(kD);
+    r_pidController.setIZone(kIz);
+    r_pidController.setFF(kFF);
   }
 
   @Override

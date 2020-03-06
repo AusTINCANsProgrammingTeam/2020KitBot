@@ -58,6 +58,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setVelocitySetpoint(double setpoint){
     shooterPidController.setReference(setpoint, ControlType.kVelocity);
+    SmartDashboard.putNumber("ShooterSetpoint", setpoint);
     // if(hoodedShooter.get() == Value.kForward && (getVelocity() >= 2350 && getVelocity() <= 2550))
     //   shooterReady = true;
     // else if(hoodedShooter.get() == Value.kReverse && (getVelocity() >= 3877 && getVelocity() <= 4077))
@@ -77,6 +78,7 @@ public class ShooterSubsystem extends SubsystemBase {
 
   public void setSpeed(double setpoint){
     shooterMotor.set(setpoint);
+    SmartDashboard.putNumber("ShooterSetpoint", setpoint);
   }
 
 

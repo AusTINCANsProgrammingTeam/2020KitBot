@@ -40,10 +40,16 @@ public class ShootCommand extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      if(ShooterSubsystem.hoodedShooter.get() == Value.kForward)
+      if(ShooterSubsystem.hoodedShooter.get() == Value.kForward){
         RobotContainer.mShooterSubsystem.setVelocitySetpoint(.45*Constants.maxRPMShooter);
-      else
+        RobotContainer.mShooterSubsystem.armShooter(2450);
+
+      }
+      else{
         RobotContainer.mShooterSubsystem.setVelocitySetpoint(.7*Constants.maxRPMShooter);
+        RobotContainer.mShooterSubsystem.armShooter(3977);
+
+      }
   }
 
   // Called once the command ends or is interrupted.

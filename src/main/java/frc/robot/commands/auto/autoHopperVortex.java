@@ -10,6 +10,9 @@ package frc.robot.commands.auto;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -20,6 +23,7 @@ public class autoHopperVortex extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   int i;
   double timeRun;
+  private static final Logger LOGGER = Logger.getLogger(autoHopperVortex.class.getName());
 
   /**
    * Creates a new ExampleCommand.
@@ -42,13 +46,14 @@ public class autoHopperVortex extends CommandBase {
   @Override
   public void execute() {
       i++;
-      RobotContainer.mHopperSubsystem.runIntake(.25,.25);
+      RobotContainer.mHopperSubsystem.runIntake(0,.25);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
       RobotContainer.mHopperSubsystem.stopIntake();
+      //LOGGER.warning("AUTO HOPPER DONE");
   }
 
   // Returns true when the command should end.

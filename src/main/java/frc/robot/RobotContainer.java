@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -34,11 +35,17 @@ import frc.robot.commands.auto.RunPath;
 import frc.robot.commands.auto.RunPathBack;
 import frc.robot.commands.auto.Turn;
 import frc.robot.commands.auto.TurnAimShoot;
+import frc.robot.commands.auto.autoCloseShoot;
 import frc.robot.commands.auto.autoConveyor;
 import frc.robot.commands.auto.autoDeCorrect;
 import frc.robot.commands.auto.autoHopperVortex;
+import frc.robot.commands.auto.autoResetEncoders;
 import frc.robot.commands.auto.autoShoot;
 import frc.robot.commands.auto.autoStoreValue;
+import frc.robot.commands.auto.setConveyorSpeed;
+import frc.robot.commands.auto.setIntakeSpeed;
+import frc.robot.commands.auto.stopConveyor;
+import frc.robot.commands.auto.stopIntake;
 import frc.robot.commands.drive.Aiming;
 import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.elevator.ArmElevator;
@@ -99,7 +106,7 @@ public class RobotContainer {
 
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
   private static Path path1 = new Path("BlueSideTrench9Feet");
-  private static Path path2 = new Path("BlueSiderTrench5Feet");
+  private static Path path2 = new Path("BlueSideTrench5Feet");
   private static ArrayList<Double> leftArray1;
   private static ArrayList<Double> rightArray1;
   private static ArrayList<Double> leftArray2;
@@ -109,6 +116,7 @@ public class RobotContainer {
   public static NetworkTableEntry ty = table.getEntry("ty");
   public static NetworkTableEntry ta = table.getEntry("ta");
   public static NetworkTableEntry light = table.getEntry("ledMode");
+  public static double AutoChooser;
 
 
 
@@ -129,6 +137,7 @@ public class RobotContainer {
      configureButtonBindings();
      mDriveSubsystem.setDefaultCommand(mDriveCommand);
      mElevatorSubystem.setDefaultCommand(new moveLift());
+     SmartDashboard.putNumber("Auto Selection", 0);
      //mCompressor.start();
 
      }
@@ -143,13 +152,8 @@ public class RobotContainer {
     //driver configuration
     buttonFiveDrive.whileHeld(new ParallelCommandGroup(new ShootCommand(), new hopperVortex(), new conveyorShooter()));
     buttonSixDrive.whileHeld(new Aiming());
-    buttonTwoDrive.whenPressed(new SequentialCommandGroup(new toggleIntake(),new RunPathBack(leftArray1, rightArray1),new autoStoreValue(), new TurnAimShoot(),
-    new ParallelCommandGroup(new autoShoot(.65,4), new autoHopperVortex(4), new autoConveyor(4)),new autoDeCorrect(),
-    new Turn(-1)
-    // new runIntakeIn(),new RunPath(leftArray2, rightArray2), new Turn(), new TurnAimShoot()
-    // ,new ParallelCommandGroup(new autoShoot(.70,4), new autoHopperVortex(), new autoConveyor())
-    ));
-    buttonOneDrive.whenPressed(new Turn(-1));
+    
+
     //operator configuration
     buttonThreeOp.whenPressed(new toggleIntake());
     buttonEightOp.whileHeld(new ParallelCommandGroup(new runIntakeIn(), new hopperOut()));
@@ -173,6 +177,25 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    return new RunPath(leftArray2, rightArray2);
+    if(AutoChooser == 1){
+      return new SequentialCommandGroup(new toggleIntake(),new RunPathBack(leftArray1, rightArray1),new autoStoreValue(), new TurnAimShoot(),
+    new ParallelCommandGroup(new autoShoot(.64,3600,3), new autoHopperVortex(3), new autoConveyor(3)),new autoDeCorrect(),
+    new autoResetEncoders(),new Turn(-1), new setIntakeSpeed(),new RunPath(leftArray2, rightArray2),new autoResetEncoders(), new Turn(1), new TurnAimShoot()
+    ,new ParallelCommandGroup(new autoShoot(.71,4000,4), new autoHopperVortex(4), new autoConveyor(4)));
+    }
+    else if(AutoChooser == 2){
+      return new SequentialCommandGroup(new toggleIntake(),new RunPathBack(leftArray1, rightArray1),new autoStoreValue(), new TurnAimShoot(),
+      new ParallelCommandGroup(new autoShoot(.66,3800,3), new autoHopperVortex(3), new autoConveyor(3)),new autoDeCorrect(),
+      new autoResetEncoders(),new Turn(-1));
+
+    }
+    else if(AutoChooser == 3){
+      return new SequentialCommandGroup(new RunPath(leftArray2, rightArray2), 
+      new ParallelCommandGroup(new autoCloseShoot(.45, 2500, 3), new autoConveyor(3)));
+    }
+    else{
+      return new RunPath(leftArray2, rightArray2);
+    }
+   
   }
 }

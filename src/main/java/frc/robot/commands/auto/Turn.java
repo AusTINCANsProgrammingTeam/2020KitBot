@@ -10,6 +10,9 @@ package frc.robot.commands.auto;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
+
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
@@ -24,6 +27,8 @@ public class Turn extends CommandBase {
      * @param subsystem The subsystem used by this command.
      */
     int i =0;
+    private static final Logger LOGGER = Logger.getLogger(Turn.class.getName());
+
     public Turn(int i) {
         this.i = i;
         addRequirements(RobotContainer.mDriveSubsystem);
@@ -35,13 +40,14 @@ public class Turn extends CommandBase {
         RobotContainer.mDriveSubsystem.setTurnPID();
         DriveSubsystem.l_encoder.setPosition(0);
         DriveSubsystem.r_encoder.setPosition(0);
+        //LOGGER.warning("TURN HAPPENING");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      RobotContainer.mDriveSubsystem.setLeftPidPositionSetpoint(i*24.5);
-      RobotContainer.mDriveSubsystem.setRightPidPositionSetpoint(i*24.5);
+      RobotContainer.mDriveSubsystem.setLeftPidPositionSetpoint(i*25.5);
+      RobotContainer.mDriveSubsystem.setRightPidPositionSetpoint(i*25.5);
 
   }
 
@@ -49,6 +55,7 @@ public class Turn extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.mDriveSubsystem.setNormalPID();
+    //LOGGER.warning("TURN DONE");
 
   }
 
@@ -56,9 +63,9 @@ public class Turn extends CommandBase {
   @Override
   public boolean isFinished() {
     if(i>0)
-    return RobotContainer.mDriveSubsystem.l_encoder.getPosition() >= 24.2;
+    return RobotContainer.mDriveSubsystem.l_encoder.getPosition() >= 25.4;
     else
-    return RobotContainer.mDriveSubsystem.l_encoder.getPosition() <= -24.2;
+    return RobotContainer.mDriveSubsystem.l_encoder.getPosition() <= -25.4;
 
   }
 }

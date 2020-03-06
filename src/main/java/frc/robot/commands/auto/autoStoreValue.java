@@ -10,6 +10,9 @@ package frc.robot.commands.auto;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExampleSubsystem;
+
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -18,6 +21,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class autoStoreValue extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private static final Logger LOGGER = Logger.getLogger(autoStoreValue.class.getName());
+
   private double targetValue = 0;
 
   /**
@@ -47,6 +52,7 @@ public class autoStoreValue extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     RobotContainer.light.setValue(Constants.LL_LIGHT_OFF);
+    //LOGGER.warning("STORE VALUE DONE");
   }
 
   // Returns true when the command should end.

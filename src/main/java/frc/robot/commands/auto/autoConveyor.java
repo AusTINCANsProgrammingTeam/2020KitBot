@@ -10,6 +10,9 @@ package frc.robot.commands.auto;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.ShooterSubsystem;
+
+import java.util.logging.Logger;
+
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -20,6 +23,8 @@ public class autoConveyor extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   int i;
   double timeRun;
+  private static final Logger LOGGER = Logger.getLogger(autoConveyor.class.getName());
+
 
   /**
    * Creates a new ExampleCommand.
@@ -49,6 +54,7 @@ public class autoConveyor extends CommandBase {
   @Override
   public void end(boolean interrupted) {
       RobotContainer.mConveyorSubsystem.stopIntake();
+      //LOGGER.warning("CONVEYOR DONE");
   }
 
   // Returns true when the command should end.
