@@ -31,7 +31,14 @@ import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.subsystems.ConveyorSubsystem;
 import frc.robot.Path;
 import frc.robot.commands.auto.RunPath;
+import frc.robot.commands.auto.RunPathBack;
 import frc.robot.commands.auto.Turn;
+import frc.robot.commands.auto.TurnAimShoot;
+import frc.robot.commands.auto.autoConveyor;
+import frc.robot.commands.auto.autoDeCorrect;
+import frc.robot.commands.auto.autoHopperVortex;
+import frc.robot.commands.auto.autoShoot;
+import frc.robot.commands.auto.autoStoreValue;
 import frc.robot.commands.drive.Aiming;
 import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.elevator.ArmElevator;
@@ -39,6 +46,7 @@ import frc.robot.commands.elevator.brakeElevator;
 import frc.robot.commands.elevator.moveLift;
 import frc.robot.commands.hopper.hopperIn;
 import frc.robot.commands.hopper.hopperOut;
+import frc.robot.commands.hopper.hopperVortex;
 import frc.robot.commands.intake.runIntakeIn;
 import frc.robot.commands.intake.runIntakeOut;
 import frc.robot.commands.intake.toggleIntake;
@@ -90,8 +98,8 @@ public class RobotContainer {
  // public static Compressor mCompressor = new Compressor(0);
 
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
-  private static Path path1 = new Path("StraightTen");
-  private static Path path2 = new Path("DriveTrench");
+  private static Path path1 = new Path("BlueSideTrench9Feet");
+  private static Path path2 = new Path("BlueSiderTrench5Feet");
   private static ArrayList<Double> leftArray1;
   private static ArrayList<Double> rightArray1;
   private static ArrayList<Double> leftArray2;
@@ -133,14 +141,23 @@ public class RobotContainer {
    */
   private void configureButtonBindings() {
     //driver configuration
-    buttonFiveDrive.whileHeld(new ParallelCommandGroup(new ShootCommand(), new hopperIn(), new conveyorShooter()));
+    buttonFiveDrive.whileHeld(new ParallelCommandGroup(new ShootCommand(), new hopperVortex(), new conveyorShooter()));
     buttonSixDrive.whileHeld(new Aiming());
-    buttonTwoDrive.whenPressed(new RunPath(leftArray1, rightArray1));
-    buttonOneDrive.whenPressed(new Turn());
+    buttonTwoDrive.whenPressed(new SequentialCommandGroup(new toggleIntake(),new RunPathBack(leftArray1, rightArray1),new autoStoreValue(), new TurnAimShoot(),
+    new ParallelCommandGroup(new autoShoot(.65,4), new autoHopperVortex(4), new autoConveyor(4)),new autoDeCorrect(),
+    new Turn(-1)
+    // new runIntakeIn(),new RunPath(leftArray2, rightArray2), new Turn(), new TurnAimShoot()
+    // ,new ParallelCommandGroup(new autoShoot(.70,4), new autoHopperVortex(), new autoConveyor())
+    ));
+    buttonOneDrive.whenPressed(new Turn(-1));
     //operator configuration
     buttonThreeOp.whenPressed(new toggleIntake());
-    buttonSixOp.whileHeld(new ParallelCommandGroup(new runIntakeOut(), new hopperOut()));
-    buttonEightOp.whileHeld(new ParallelCommandGroup(new runIntakeIn(), new hopperIn()));
+    buttonEightOp.whileHeld(new ParallelCommandGroup(new runIntakeIn(), new hopperOut()));
+    buttonSixOp.whileHeld(
+      //new ParallelCommandGroup(
+        new runIntakeOut()
+        //, new hopperIn())
+        );
     buttonSevenOp.whileHeld(new ParallelCommandGroup(new conveyorOut(), new hopperOut()));
     buttonFiveOp.whileHeld(new ParallelCommandGroup(new hopperIn(), new conveyorIn()));
     buttonTenOp.whenPressed(new ArmElevator());

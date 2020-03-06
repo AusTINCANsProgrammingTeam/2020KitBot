@@ -27,6 +27,7 @@ public class ConveyorSubsystem extends SubsystemBase {
         conveyor.restoreFactoryDefaults();
         conveyor.enableVoltageCompensation(12);
         conveyor.setIdleMode(IdleMode.kBrake);
+        conveyor.setSmartCurrentLimit(30);
 
   }
   public void runIntake(double speed){

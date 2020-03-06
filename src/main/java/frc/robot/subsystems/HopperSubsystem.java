@@ -30,11 +30,13 @@ public class HopperSubsystem extends SubsystemBase {
         hopper2.setIdleMode(IdleMode.kBrake);
         hopper1.setInverted(true);
         hopper2.setInverted(true);
+        hopper1.setSmartCurrentLimit(30);
+        hopper2.setSmartCurrentLimit(30);
 
   }
-  public void runIntake(double speed){
-        hopper1.set(speed*.3);
-        hopper2.set(speed);
+  public void runIntake(double speed1, double speed2){
+        hopper1.set(speed1);
+        hopper2.set(speed2);
     }
 
     public void stopIntake(){

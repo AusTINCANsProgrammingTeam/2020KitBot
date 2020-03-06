@@ -38,7 +38,9 @@ public class Robot extends TimedRobot {
     m_robotContainer = new RobotContainer();
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
     RobotContainer.light.setValue(Constants.LL_LIGHT_OFF);
+    SmartDashboard.putNumber("Shooter Set Speed", .45);
   }
+  
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like

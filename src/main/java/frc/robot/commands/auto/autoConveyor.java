@@ -5,47 +5,55 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands.hopper;
+package frc.robot.commands.auto;
 
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.ExampleSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class hopperOut extends CommandBase {
+public class autoConveyor extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  int i;
+  double timeRun;
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public hopperOut() {
+  public autoConveyor(double timeRun) {
+      this.timeRun = timeRun;
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+      i=0;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      RobotContainer.mHopperSubsystem.runIntake(-.25,.25);
+      i++;
+    if(ShooterSubsystem.shooterReady == true)
+      RobotContainer.mConveyorSubsystem.runIntake(-.4);
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-      RobotContainer.mHopperSubsystem.stopIntake();
+      RobotContainer.mConveyorSubsystem.stopIntake();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return ((i*.02) >=timeRun);
   }
 }

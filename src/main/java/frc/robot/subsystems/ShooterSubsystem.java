@@ -7,6 +7,8 @@
 
 package frc.robot.subsystems;
 
+import java.util.logging.Logger;
+
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
@@ -26,12 +28,13 @@ public class ShooterSubsystem extends SubsystemBase {
     private CANEncoder shooterEncoder;
     public static boolean shooterReady = false;
     public static DoubleSolenoid hoodedShooter = new DoubleSolenoid(1,3);
-    private double kP=3e-4,kI=1e-6,kD=0,kIz=0,kFF=-0,kMinOutput=0,kMaxOutput=1;
+    private double kP=.0003,kI=0.0,kD=0,kIz=0,kFF=0.000195,kMinOutput=0,kMaxOutput=1;
+    private static final Logger LOGGER = Logger.getLogger(ShooterSubsystem.class.getName());
+
   /**
    * Creates a new ExampleSubsystem.
    */
   public ShooterSubsystem() {
-    SmartDashboard.putNumber("shooter speed", .45);
     shooterMotor = new CANSparkMax(Constants.Shooter, MotorType.kBrushless);
     shooterMotor.restoreFactoryDefaults();
     shooterMotor.setIdleMode(IdleMode.kCoast);
@@ -43,15 +46,33 @@ public class ShooterSubsystem extends SubsystemBase {
     shooterPidController.setIZone(kIz);
     shooterPidController.setFF(kFF);
     shooterPidController.setOutputRange(kMinOutput, kMaxOutput);
+    shooterMotor.setSmartCurrentLimit(30);
     shooterMotor.setInverted(true);
     hoodedShooter.set(DoubleSolenoid.Value.kForward);
+    SmartDashboard.putNumber("Shooter P", kP);
+    SmartDashboard.putNumber("Shooter I", kI);
+    SmartDashboard.putNumber("Shooter D", kD);
+    SmartDashboard.putNumber("Shooter FF", kFF);
   
   }
 
   public void setVelocitySetpoint(double setpoint){
     shooterPidController.setReference(setpoint, ControlType.kVelocity);
-    if(getVelocity() >= setpoint)
+    // if(hoodedShooter.get() == Value.kForward && (getVelocity() >= 2350 && getVelocity() <= 2550))
+    //   shooterReady = true;
+    // else if(hoodedShooter.get() == Value.kReverse && (getVelocity() >= 3877 && getVelocity() <= 4077))
+    // shooterReady = true;
+    // else if(getVelocity() >= setpoint -100 && getVelocity() <= setpoint+100)
+    //   shooterReady = true;
+    // else
+    //   shooterReady = false;
+  }
+
+  public void armShooter(double targetSpeed){
+    if( (getVelocity() >= targetSpeed-100 && getVelocity() <= targetSpeed+100))
       shooterReady = true;
+    else
+      shooterReady = false;
   }
 
   public void setSpeed(double setpoint){
@@ -76,6 +97,22 @@ public class ShooterSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Shooter Speed", shooterEncoder.getVelocity());
+
+    double p = SmartDashboard.getNumber("Shooter P", 0);
+    double i = SmartDashboard.getNumber("Shooter I", 0);
+    double d = SmartDashboard.getNumber("Shooter D", 0);
+    double ff = SmartDashboard.getNumber("Shooter FF", 0);
+
+
+    if((p != kP)) { shooterPidController.setP(p); kP = p;
+    LOGGER.warning("pee pee poo poo");} 
+      if((i != kI)) { shooterPidController.setI(i); kI = i;
+        LOGGER.warning("iee iee ioo ioo");} 
+      if((d != kD)) { shooterPidController.setD(d); kD = d;
+        LOGGER.warning("dee dee doo doo");} 
+        if((ff != kFF)) { shooterPidController.setFF(ff); kFF = ff;
+          LOGGER.warning("fee fee foo foo");} 
     
     // This method will be called once per scheduler run
   }

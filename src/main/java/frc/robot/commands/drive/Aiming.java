@@ -10,11 +10,13 @@ package frc.robot.commands.drive;
 import frc.robot.Constants;
 import frc.robot.RobotContainer;
 import frc.robot.commands.shooter.toggleShooterHood;
+import frc.robot.subsystems.ShooterSubsystem;
 import frc.robot.*;
 
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
@@ -22,16 +24,18 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  * An example command that uses an example subsystem.
  */
 public class Aiming extends CommandBase {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  @SuppressWarnings({ "PMD.UnusedPrivateField", "PMD.SingularField" })
   private static final Logger LOGGER = Logger.getLogger(DriveCommand.class.getName());
   double tx = SmartDashboard.getNumber("LimelightX", 0);
   double ty = SmartDashboard.getNumber("LimelightY", 0);
+  double ta = SmartDashboard.getNumber("LimelightArea", 0);
   double d = 0;
-  
-  double minSteerAdjust = .2;
+
+  double minSteerAdjust = .25;
   double steeringAdjust = 0.0;
   double headingCommand = 0;
   double p = .013;
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -46,37 +50,46 @@ public class Aiming extends CommandBase {
   @Override
   public void initialize() {
     RobotContainer.light.setValue(Constants.LL_LIGHT_ON);
-    RobotContainer.mShooterSubsystem.toggleHood();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  // tx is the degrees the limelight detects we are off by the target 
+  // tx is the degrees the limelight detects we are off by the target
   // adjust p until it works
   @Override
   public void execute() {
+
     tx = SmartDashboard.getNumber("LimelightX", 0);
     ty = SmartDashboard.getNumber("LimelightY", 0);
-    d = 73.5/Math.tan(Math.toRadians(ty+63));
+    ta = SmartDashboard.getNumber("LimelightArea", 0);
+    d = 64/Math.tan(Math.toRadians(ty+16));
     SmartDashboard.putNumber("Distance", d);
-    if(tx>1.0){
-        steeringAdjust = p * tx +minSteerAdjust;
+    double targetValue = -3;
+    if(tx>(targetValue +1)){
+      steeringAdjust = p * (tx-targetValue) +minSteerAdjust;
+   }
+   else if(tx<(targetValue -1)){
+      steeringAdjust = p * (tx-targetValue) -minSteerAdjust;
+   }
+
+    if (tx <= (targetValue +1) && tx >= (targetValue -1) && ShooterSubsystem.hoodedShooter.get() == Value.kForward && ta != 0 ) {
+      RobotContainer.mShooterSubsystem.toggleHood();
     }
-    else if(tx<-1.0){
-        steeringAdjust = p * tx -minSteerAdjust;
-    }
-     
-    if(tx != 0)
-      RobotContainer.mDriveSubsystem.arcadeDrive(RobotContainer.DriverController.getRawAxis(1),steeringAdjust);
+
+    if (tx != 0)
+      RobotContainer.mDriveSubsystem.arcadeDrive(RobotContainer.DriverController.getRawAxis(1), steeringAdjust);
     else
-      RobotContainer.mDriveSubsystem.arcadeDrive(RobotContainer.DriverController.getRawAxis(1),RobotContainer.DriverController.getRawAxis(2));
-      steeringAdjust = 0;
+      RobotContainer.mDriveSubsystem.arcadeDrive(RobotContainer.DriverController.getRawAxis(1),
+          RobotContainer.DriverController.getRawAxis(2));
+    steeringAdjust = 0;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     RobotContainer.light.setValue(Constants.LL_LIGHT_OFF);
-    RobotContainer.mShooterSubsystem.toggleHood();
+    if (ShooterSubsystem.hoodedShooter.get() == Value.kReverse){
+      RobotContainer.mShooterSubsystem.toggleHood();
+    }
   }
 
   // Returns true when the command should end.

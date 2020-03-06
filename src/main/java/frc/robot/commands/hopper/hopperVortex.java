@@ -14,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
 /**
  * An example command that uses an example subsystem.
  */
-public class hopperOut extends CommandBase {
+public class hopperVortex extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   /**
@@ -22,7 +22,7 @@ public class hopperOut extends CommandBase {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public hopperOut() {
+  public hopperVortex() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 
@@ -34,7 +34,7 @@ public class hopperOut extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      RobotContainer.mHopperSubsystem.runIntake(-.25,.25);
+      RobotContainer.mHopperSubsystem.runIntake(.25,.25);
   }
 
   // Called once the command ends or is interrupted.

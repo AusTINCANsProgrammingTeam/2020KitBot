@@ -37,6 +37,9 @@ public class DriveSubsystem extends SubsystemBase {
     private DifferentialDrive differentialDrive;
     public double kP = Constants.kPDrive, kI = Constants.kIDrive, kD = Constants.kDDrive, kIz = Constants.kIzDrive, kFF = Constants.kFFDrive,
      kMaxOutput = Constants.kMaxOutputDrive, kMinOutput = Constants.kMinOutputDrive;
+
+     public double kPTurn = 0, kITurn = Constants.kIDrive, kDTurn = Constants.kDDrive, kIzTurn = Constants.kIzDrive, kFFTurn = Constants.kFFDrive,
+     kMaxOutputTurn = Constants.kMaxOutputDrive, kMinOutputTurn = Constants.kMinOutputDrive;
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
 
   public DriveSubsystem() {
@@ -90,12 +93,12 @@ public class DriveSubsystem extends SubsystemBase {
   double min = SmartDashboard.getNumber("Min Output", 0);
 
   //if PID coefficients on SmartDashboard have changed, write new values to controller
-  if((p != kP)) { l_pidController.setP(p); r_pidController.setP(p); kP = p; 
-  LOGGER.warning("PID CHANGED");}
-  if((i != kI)) { l_pidController.setI(i); r_pidController.setI(i); kI = i; 
-  LOGGER.warning("PID CHANGED");}
-  if((d != kD)) { l_pidController.setD(d); r_pidController.setD(d); kD = d; 
-  LOGGER.warning(l_pidController.getD() +" D CHANGED");}
+  // if((p != kP)) { l_pidController.setP(p); r_pidController.setP(p); kP = p; 
+  // LOGGER.warning("PID CHANGED");}
+  // if((i != kI)) { l_pidController.setI(i); r_pidController.setI(i); kI = i; 
+  // LOGGER.warning("PID CHANGED");}
+  // if((d != kD)) { l_pidController.setD(d); r_pidController.setD(d); kD = d; 
+  // LOGGER.warning(l_pidController.getD() +" D CHANGED");}
   // if((iz != kIz)) { m_pidController.setIZone(iz); kIz = iz; }
   // if((ff != kFF)) { m_pidController.setFF(ff); kFF = ff; }
   if((max != kMaxOutput) || (min != kMinOutput)) 
@@ -179,6 +182,32 @@ public void intializeDriveSubystem(CANSparkMax master, CANSparkMax... slaves){
     slave.setSmartCurrentLimit(40);
     slave.follow(master);
 }
+  }
+
+  public void setTurnPID(){
+    l_pidController.setP(.07);
+    l_pidController.setI(0);
+    l_pidController.setD(0);
+    l_pidController.setIZone(0);
+    l_pidController.setFF(0);
+    r_pidController.setP(.07);
+    r_pidController.setI(0);
+    r_pidController.setD(0);
+    r_pidController.setIZone(0);
+    r_pidController.setFF(0);
+  }
+
+  public void setNormalPID(){
+    l_pidController.setP(kP);
+    l_pidController.setI(kI);
+    l_pidController.setD(kD);
+    l_pidController.setIZone(kIz);
+    l_pidController.setFF(kFF);
+    l_pidController.setP(kP);
+    l_pidController.setI(kI);
+    l_pidController.setD(kD);
+    l_pidController.setIZone(kIz);
+    l_pidController.setFF(kFF);
   }
 
   @Override

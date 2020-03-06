@@ -31,6 +31,7 @@ public class IntakeSubsystem extends SubsystemBase {
         intakeMotor.restoreFactoryDefaults();
         intakeMotor.enableVoltageCompensation(12);
         intakeMotor.setIdleMode(IdleMode.kBrake);
+        intakeMotor.setSmartCurrentLimit(40);
         
 
   }

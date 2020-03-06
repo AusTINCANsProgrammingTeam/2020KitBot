@@ -29,7 +29,7 @@ public final class Constants {
     //= new Gains(5e-5, 0, 0.0, 0, 1, -1);
     
     public final static double kPDrive = 0.000600;
-    public final static double kIDrive = 0;
+    public final static double kIDrive = 0.0000005;
     public final static double kDDrive = 0;
     public final static double kIzDrive = 0;
     public final static double kFFDrive = 0.000000;

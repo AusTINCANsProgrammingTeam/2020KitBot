@@ -35,7 +35,7 @@ public class runIntakeOut extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-      RobotContainer.mIntakeSubsystem.runIntake(-.4);
+      RobotContainer.mIntakeSubsystem.runIntake(-.6);
   }
 
   // Called once the command ends or is interrupted.

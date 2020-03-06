@@ -43,7 +43,7 @@ public class ShootCommand extends CommandBase {
       if(ShooterSubsystem.hoodedShooter.get() == Value.kForward)
         RobotContainer.mShooterSubsystem.setVelocitySetpoint(.45*Constants.maxRPMShooter);
       else
-        RobotContainer.mShooterSubsystem.setVelocitySetpoint(.75*Constants.maxRPMShooter);
+        RobotContainer.mShooterSubsystem.setVelocitySetpoint(.7*Constants.maxRPMShooter);
   }
 
   // Called once the command ends or is interrupted.
