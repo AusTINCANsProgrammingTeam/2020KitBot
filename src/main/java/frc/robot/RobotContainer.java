@@ -138,6 +138,11 @@ public class RobotContainer {
      mDriveSubsystem.setDefaultCommand(mDriveCommand);
      mElevatorSubystem.setDefaultCommand(new moveLift());
      SmartDashboard.putNumber("Auto Selection", 0);
+     SmartDashboard.putString("Auto Op 0", "default foward drive");
+     SmartDashboard.putString("Auto Op 1", "5 ball trench");
+     SmartDashboard.putString("Auto Op 2", "3 ball midfield");
+     SmartDashboard.putString("Auto Op 3", "3 ball upclose");
+
      //mCompressor.start();
 
      }

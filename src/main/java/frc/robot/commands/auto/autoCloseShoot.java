@@ -14,6 +14,7 @@ import frc.robot.subsystems.ShooterSubsystem;
 
 import java.util.logging.Logger;
 
+import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -24,16 +25,8 @@ import edu.wpi.first.wpilibj2.command.CommandBase;
  */
 public class autoCloseShoot extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  double tx = SmartDashboard.getNumber("LimelightX", 0);
-  double ty = SmartDashboard.getNumber("LimelightY", 0);
-  double ta = SmartDashboard.getNumber("LimelightArea", 0);
-  double targetValue = -3;
   int i;
   int timeRun;
-  double minSteerAdjust = .25;
-  double steeringAdjust = 0.0;
-  double headingCommand = 0;
-  double p = .013;
   double speed;
   double targetSpeed;
   private static final Logger LOGGER = Logger.getLogger(autoShoot.class.getName());

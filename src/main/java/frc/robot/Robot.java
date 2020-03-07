@@ -11,6 +11,9 @@ import java.util.logging.Logger;
 
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -25,6 +28,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
   public static RobotContainer m_robotContainer;
+  private ShuffleboardTab driverTab = Shuffleboard.getTab("Driver Tab");
   
 
   /**
@@ -38,7 +42,10 @@ public class Robot extends TimedRobot {
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
     RobotContainer.light.setValue(Constants.LL_LIGHT_OFF);
-    SmartDashboard.putNumber("Shooter Set Speed", .45);
+    driverTab.add("PDP", 0).withWidget(BuiltInWidgets.kPowerDistributionPanel);
+    driverTab.add("Differential Drive", 0).withWidget(BuiltInWidgets.kDifferentialDrive);
+    
+
   }
   
 
