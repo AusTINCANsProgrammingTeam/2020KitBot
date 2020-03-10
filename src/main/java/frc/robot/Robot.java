@@ -7,7 +7,7 @@
 
 package frc.robot;
 
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 
 import edu.wpi.first.wpilibj.TimedRobot;
@@ -26,7 +26,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-  private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
+  //private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
   public static RobotContainer m_robotContainer;
   private ShuffleboardTab driverTab = Shuffleboard.getTab("Driver Tab");
   
@@ -44,10 +44,7 @@ public class Robot extends TimedRobot {
     RobotContainer.light.setValue(Constants.LL_LIGHT_OFF);
     driverTab.add("PDP", 0).withWidget(BuiltInWidgets.kPowerDistributionPanel);
     driverTab.add("Differential Drive", 0).withWidget(BuiltInWidgets.kDifferentialDrive);
-    
-
   }
-  
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like
@@ -139,4 +136,5 @@ public class Robot extends TimedRobot {
   @Override
   public void testPeriodic() {
   }
+  
 }

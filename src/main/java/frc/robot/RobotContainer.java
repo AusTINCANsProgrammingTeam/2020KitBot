@@ -7,30 +7,17 @@
 
 package frc.robot;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.logging.Logger;
-
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.Compressor;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj.SPI;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ElevatorSubystem;
-import frc.robot.subsystems.HopperSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.subsystems.ConveyorSubsystem;
-import frc.robot.Path;
 import frc.robot.commands.auto.RunPath;
 import frc.robot.commands.auto.RunPathBack;
 import frc.robot.commands.auto.Turn;
@@ -42,10 +29,7 @@ import frc.robot.commands.auto.autoHopperVortex;
 import frc.robot.commands.auto.autoResetEncoders;
 import frc.robot.commands.auto.autoShoot;
 import frc.robot.commands.auto.autoStoreValue;
-import frc.robot.commands.auto.setConveyorSpeed;
 import frc.robot.commands.auto.setIntakeSpeed;
-import frc.robot.commands.auto.stopConveyor;
-import frc.robot.commands.auto.stopIntake;
 import frc.robot.commands.drive.Aiming;
 import frc.robot.commands.drive.DriveCommand;
 import frc.robot.commands.elevator.ArmElevator;
@@ -61,7 +45,16 @@ import frc.robot.commands.shooter.ShootCommand;
 import frc.robot.commands.shooter.conveyorIn;
 import frc.robot.commands.shooter.conveyorOut;
 import frc.robot.commands.shooter.conveyorShooter;
-import frc.robot.commands.shooter.toggleShooterHood;
+import frc.robot.subsystems.ConveyorSubsystem;
+import frc.robot.subsystems.DriveSubsystem;
+import frc.robot.subsystems.ElevatorSubystem;
+import frc.robot.subsystems.HopperSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ShooterSubsystem;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.logging.Logger;
 
 /**
  * This class is where the bulk of the robot should be declared.  Since Command-based is a
@@ -118,8 +111,6 @@ public class RobotContainer {
   public static NetworkTableEntry light = table.getEntry("ledMode");
   public static double AutoChooser;
 
-
-
   /**
    * The container for the robot.  Contains subsystems, OI devices, and commands.
    */
@@ -130,22 +121,21 @@ public class RobotContainer {
       leftArray1 = path1.returnLeftList();
       rightArray2 = path2.returnRightList();
       leftArray2 = path2.returnLeftList();
-    }
-      catch(IOException e){
+    } catch(IOException e){
         LOGGER.warning("real really test");
-      }
-     configureButtonBindings();
-     mDriveSubsystem.setDefaultCommand(mDriveCommand);
-     mElevatorSubystem.setDefaultCommand(new moveLift());
-     SmartDashboard.putNumber("Auto Selection", 0);
-     SmartDashboard.putString("Auto Op 0", "default foward drive");
-     SmartDashboard.putString("Auto Op 1", "5 ball trench");
-     SmartDashboard.putString("Auto Op 2", "3 ball midfield");
-     SmartDashboard.putString("Auto Op 3", "3 ball upclose");
+    }
+    configureButtonBindings();
+    mDriveSubsystem.setDefaultCommand(mDriveCommand);
+    mElevatorSubystem.setDefaultCommand(new moveLift());
+    SmartDashboard.putNumber("Auto Selection", 0);
+    SmartDashboard.putString("Auto Op 0", "default foward drive");
+    SmartDashboard.putString("Auto Op 1", "5 ball trench");
+    SmartDashboard.putString("Auto Op 2", "3 ball midfield");
+    SmartDashboard.putString("Auto Op 3", "3 ball upclose");
 
-     //mCompressor.start();
+    //mCompressor.start();
 
-     }
+  }
 
   /**
    * Use this method to define your button->command mappings.  Buttons can be created by
@@ -158,7 +148,6 @@ public class RobotContainer {
     buttonFiveDrive.whileHeld(new ParallelCommandGroup(new ShootCommand(), new hopperVortex(), new conveyorShooter()));
     buttonSixDrive.whileHeld(new Aiming());
     
-
     //operator configuration
     buttonThreeOp.whenPressed(new toggleIntake());
     buttonEightOp.whileHeld(new ParallelCommandGroup(new runIntakeIn(), new hopperOut()));
@@ -182,25 +171,67 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An ExampleCommand will run in autonomous
-    if(AutoChooser == 1){
-      return new SequentialCommandGroup(new toggleIntake(),new RunPathBack(leftArray1, rightArray1),new autoStoreValue(), new TurnAimShoot(),
-    new ParallelCommandGroup(new autoShoot(.64,3600,3), new autoHopperVortex(3), new autoConveyor(3)),new autoDeCorrect(),
-    new autoResetEncoders(),new Turn(-1), new setIntakeSpeed(),new RunPath(leftArray2, rightArray2),new autoResetEncoders(), new Turn(1), new TurnAimShoot()
-    ,new ParallelCommandGroup(new autoShoot(.71,4000,4), new autoHopperVortex(4), new autoConveyor(4)));
+    SmartDashboard.putString("Selecting Autonomous Scenario number# " + String.valueOf(AutoChooser), "Error");
+    switch((int) AutoChooser) {
+      /**
+       * AUTONOMOUS SCENARIO 1
+       */
+      case 1:
+        return new SequentialCommandGroup(
+          new toggleIntake(),
+          new RunPathBack(leftArray1, rightArray1),
+          new autoStoreValue(), 
+          new TurnAimShoot(),
+          new ParallelCommandGroup(new autoShoot(.64,3600,3), 
+            new autoHopperVortex(3), 
+            new autoConveyor(3)
+          ),
+          new autoDeCorrect(),
+          new autoResetEncoders(),
+          new Turn(-1), 
+          new setIntakeSpeed(),
+          new RunPath(leftArray2, rightArray2),
+          new autoResetEncoders(), 
+          new Turn(1), 
+          new TurnAimShoot(),
+          new ParallelCommandGroup(
+            new autoShoot(.71,4000,4), 
+            new autoHopperVortex(4), 
+            new autoConveyor(4)
+          )
+        );
+      /**
+       * AUTONOMOUS SCENARIO 2
+       */
+      case 2:
+        return new SequentialCommandGroup(
+          new toggleIntake(),
+          new RunPathBack(leftArray1, rightArray1),
+          new autoStoreValue(), 
+          new TurnAimShoot(),
+          new ParallelCommandGroup(
+            new autoShoot(.66,3800,3), 
+            new autoHopperVortex(3), 
+            new autoConveyor(3)
+          ),
+          new autoDeCorrect(),
+          new autoResetEncoders(),
+          new Turn(-1)
+        );
+      /**
+       * AUTONOMOUS SCENARIO 3
+       */
+      case 3:
+        return new SequentialCommandGroup(
+          new RunPath(leftArray2, rightArray2), 
+          new ParallelCommandGroup(
+            new autoCloseShoot(.45, 2500, 3), 
+            new autoConveyor(3)
+          )
+        );
+      default:
+        return new RunPath(leftArray2, rightArray2);
     }
-    else if(AutoChooser == 2){
-      return new SequentialCommandGroup(new toggleIntake(),new RunPathBack(leftArray1, rightArray1),new autoStoreValue(), new TurnAimShoot(),
-      new ParallelCommandGroup(new autoShoot(.66,3800,3), new autoHopperVortex(3), new autoConveyor(3)),new autoDeCorrect(),
-      new autoResetEncoders(),new Turn(-1));
-
-    }
-    else if(AutoChooser == 3){
-      return new SequentialCommandGroup(new RunPath(leftArray2, rightArray2), 
-      new ParallelCommandGroup(new autoCloseShoot(.45, 2500, 3), new autoConveyor(3)));
-    }
-    else{
-      return new RunPath(leftArray2, rightArray2);
-    }
-   
+    
   }
 }

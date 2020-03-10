@@ -7,18 +7,14 @@
 
 package frc.robot.commands.drive;
 
-import frc.robot.Constants;
-import frc.robot.RobotContainer;
-import frc.robot.commands.shooter.toggleShooterHood;
-import frc.robot.subsystems.ShooterSubsystem;
-import frc.robot.*;
-
-import java.util.logging.Logger;
-
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.DoubleSolenoid.Value;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.CommandBase;
+import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.subsystems.ShooterSubsystem;
+
+import java.util.logging.Logger;
 
 /**
  * An example command that uses an example subsystem.

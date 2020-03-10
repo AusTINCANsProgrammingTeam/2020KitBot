@@ -7,13 +7,10 @@
 
 package frc.robot.commands.drive;
 
-import frc.robot.Constants;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 import frc.robot.RobotContainer;
 
 import java.util.logging.Logger;
-
-import edu.wpi.first.wpilibj.Joystick;
-import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * An example command that uses an example subsystem.

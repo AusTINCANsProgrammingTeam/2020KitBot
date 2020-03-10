@@ -55,8 +55,6 @@ public final class Constants {
     public final static int Elevator2 = 3;
     public final static int Belt = 9;    
 
-
     public final static double maxRPMShooter = 5676;
 
 }
-
