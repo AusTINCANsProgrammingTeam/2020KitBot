@@ -46,8 +46,10 @@ public class ShootCommand extends CommandBase {
 
       }
       else{
-        RobotContainer.mShooterSubsystem.setVelocitySetpoint(.7*Constants.maxRPMShooter);
-        RobotContainer.mShooterSubsystem.armShooter(3977);
+        RobotContainer.mShooterSubsystem.setVelocitySetpoint(.65*Constants.maxRPMShooter);
+         RobotContainer.mShooterSubsystem.armShooter(3740);
+        
+
 
       }
   }

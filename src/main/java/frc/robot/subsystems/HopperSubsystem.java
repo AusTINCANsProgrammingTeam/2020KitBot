@@ -18,8 +18,8 @@ public class HopperSubsystem extends SubsystemBase {
   /**
    * Creates a new ExampleSubsystem.
    */
-  private static CANSparkMax hopper1= new CANSparkMax(Constants.Hopper1, MotorType.kBrushless);
-  private static CANSparkMax hopper2= new CANSparkMax(Constants.Hopper2, MotorType.kBrushless);
+  private static CANSparkMax hopper1= new CANSparkMax(Constants.Hopper2, MotorType.kBrushless);
+  private static CANSparkMax hopper2= new CANSparkMax(Constants.Hopper1, MotorType.kBrushless);
 
     public HopperSubsystem(){
         hopper1.restoreFactoryDefaults();
@@ -28,7 +28,7 @@ public class HopperSubsystem extends SubsystemBase {
         hopper2.restoreFactoryDefaults();
         hopper2.enableVoltageCompensation(12);
         hopper2.setIdleMode(IdleMode.kBrake);
-        hopper1.setInverted(true);
+        hopper1.setInverted(false);
         hopper2.setInverted(true);
         hopper1.setSmartCurrentLimit(30);
         hopper2.setSmartCurrentLimit(30);

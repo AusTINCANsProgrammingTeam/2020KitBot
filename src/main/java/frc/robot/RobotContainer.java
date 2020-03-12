@@ -157,6 +157,7 @@ public class RobotContainer {
     //driver configuration
     buttonFiveDrive.whileHeld(new ParallelCommandGroup(new ShootCommand(), new hopperVortex(), new conveyorShooter()));
     buttonSixDrive.whileHeld(new Aiming());
+    //buttonThreeDrive.whenPressed(new toggleShooterHood());
     
 
     //operator configuration
@@ -186,7 +187,7 @@ public class RobotContainer {
       return new SequentialCommandGroup(new toggleIntake(),new RunPathBack(leftArray1, rightArray1),new autoStoreValue(), new TurnAimShoot(),
     new ParallelCommandGroup(new autoShoot(.64,3600,3), new autoHopperVortex(3), new autoConveyor(3)),new autoDeCorrect(),
     new autoResetEncoders(),new Turn(-1), new setIntakeSpeed(),new RunPath(leftArray2, rightArray2),new autoResetEncoders(), new Turn(1), new TurnAimShoot()
-    ,new ParallelCommandGroup(new autoShoot(.71,4000,4), new autoHopperVortex(4), new autoConveyor(4)));
+    ,new ParallelCommandGroup(new autoShoot(.71,4050,4), new autoHopperVortex(4), new autoConveyor(4)));
     }
     else if(AutoChooser == 2){
       return new SequentialCommandGroup(new toggleIntake(),new RunPathBack(leftArray1, rightArray1),new autoStoreValue(), new TurnAimShoot(),
