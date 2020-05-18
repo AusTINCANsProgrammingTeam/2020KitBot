@@ -23,25 +23,40 @@ public final class Constants {
     public static final double kNeutralDeadband = 0.001;
     public static final double kMaxRpms = 5700;
     public static final double kGearRatio = 10.71;
-    public static final double kWheelCircumference = Math.PI*6;
-  
+    public static final double kWheelCircumference = Math.PI*5.9;
+
     //public final static Gains kGains_Velocity 
     //= new Gains(5e-5, 0, 0.0, 0, 1, -1);
-  
-    public final static int REMOTE_0 = 0;
-    public final static int REMOTE_1 = 1;
-    public final static int PID_PRIMARY = 0;
-    public final static int PID_TURN = 1;
-    public final static int SLOT_0 = 0;
-    public final static int SLOT_1 = 1;
-    public final static int SLOT_2 = 2;
-    public final static int SLOT_3 = 3;
-  
-  
-    public final static int kSlot_Distance = SLOT_0;
-    public final static int kSlot_Turning = SLOT_1;
-    public final static int kSlot_Velocity = SLOT_2;
-    public final static int kSlot_MotProf = SLOT_3;
-  
-    public static boolean onOrOff = false;
+    
+    public final static double kPDrive = 0.000600;
+    public final static double kIDrive = 0.0000005;
+    public final static double kDDrive = 0;
+    public final static double kIzDrive = 0;
+    public final static double kFFDrive = 0.000000;
+    public final static double kMaxOutputDrive = 1;
+    public final static double kMinOutputDrive = -1;
+
+    public final static int LL_LIGHT_DEFAULT = 0;
+    public final static int LL_LIGHT_OFF = 1;
+    public final static int LL_LIGHT_BLINK = 2;
+    public final static int LL_LIGHT_ON = 3;
+//     6     13 14  16
+    public final static int DriveLeft1 = 1;
+    public final static int DriveLeft2 = 2;
+    public final static int DriveLeft3 = 16;
+    public final static int DriveRight1 = 15;
+    public final static int DriveRight2 = 14;
+    public final static int DriveRight3 = 13;
+    public final static int Shooter = 10;
+    public final static int Intake = 5;
+    public final static int Hopper1 = 4;
+    public final static int Hopper2 = 11;
+    public final static int Elevator1 = 12;
+    public final static int Elevator2 = 3;
+    public final static int Belt = 9;    
+
+
+    public final static double maxRPMShooter = 5676;
+
 }
+

@@ -2,39 +2,42 @@ package frc.robot;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner; 
 import java.util.logging.*;
 
 public class Path{
-    private ArrayList rightString = new ArrayList<>();
-    private ArrayList leftString = new ArrayList<>();
+    private ArrayList<Double> m_rightString = new ArrayList<Double>();
+    private ArrayList<Double> m_leftString = new ArrayList<Double>();
     private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
-    public Path(){}    
+    private String pathName;
+    public Path(String PathName){
+        pathName = PathName;
+    }    
 
-    public ArrayList returnLeftList() throws IOException{
-            File file = new File("/paths/StraightTen.left.pf1.csv");
+    public ArrayList<Double> returnLeftList() throws IOException{
+            File file = new File("/home/lvuser/deploy/output/" + pathName + ".left.pf1.csv");
             Scanner sc = new Scanner(file);
             String[] testArray;
         
         sc.next();
         while(sc.hasNext()){
             testArray = sc.next().split(",");
-            leftString.add(testArray[4]);
+            m_leftString.add(Double.valueOf(testArray[4]));
         }
-        
-        return leftString;
+        sc.close();
+        return m_leftString;
     }
 
-    public ArrayList returnRightList() throws IOException{
-        File file = new File("/paths/StraightTen.right.pf1.csv");
+    public ArrayList<Double> returnRightList() throws IOException{
+        File file = new File("/home/lvuser/deploy/output/" + pathName + ".right.pf1.csv");
         Scanner sc = new Scanner(file);
         String[] testArray;
         sc.next();
         while(sc.hasNext()){
             testArray = sc.next().split(",");
-            rightString.add(testArray[4]);
+            m_rightString.add(Double.valueOf(testArray[4]));
         }
-        return rightString;
+        sc.close();
+        return m_rightString;
     }
 }

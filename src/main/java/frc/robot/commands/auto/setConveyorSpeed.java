@@ -5,23 +5,26 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
-import edu.wpi.first.wpilibj2.command.CommandBase;
-import frc.robot.Constants;
 import frc.robot.RobotContainer;
-
-import java.util.logging.*;
+import frc.robot.subsystems.ExampleSubsystem;
+import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class toggleOff extends CommandBase {
+public class setConveyorSpeed extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private static final Logger LOGGER = Logger.getLogger(RobotContainer.class.getName());
 
-  public toggleOff(){
-    
+  /**
+   * Creates a new ExampleCommand.
+   *
+   * @param subsystem The subsystem used by this command.
+   */
+  public setConveyorSpeed() {
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(RobotContainer.mIntakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -32,15 +35,8 @@ public class toggleOff extends CommandBase {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Constants.onOrOff == false){
-        Constants.onOrOff = true;
-    }
-    else{
-      Constants.onOrOff = false;
-      LOGGER.warning("" + Constants.onOrOff);
-    }
-}
-  
+      RobotContainer.mConveyorSubsystem.runIntake(-.4);
+  }
 
   // Called once the command ends or is interrupted.
   @Override

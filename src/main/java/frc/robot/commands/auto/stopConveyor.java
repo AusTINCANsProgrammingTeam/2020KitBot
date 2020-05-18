@@ -5,48 +5,37 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
-import frc.robot.Constants;
-import frc.robot.OI;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveSubsystem;
 import frc.robot.subsystems.ExampleSubsystem;
-
-import java.util.logging.Logger;
-
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
 /**
  * An example command that uses an example subsystem.
  */
-public class DriveCommand extends CommandBase {
+public class stopConveyor extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private static final Logger LOGGER = Logger.getLogger(DriveCommand.class.getName());
-  private Joystick joystick = new Joystick(OI.joystick);
 
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public DriveCommand() {
+  public stopConveyor() {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(RobotContainer.mDriveSubsystem);
+    addRequirements(RobotContainer.mIntakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if(Constants.onOrOff == false)
-      RobotContainer.mDriveSubsystem.arcadeDrive(joystick.getRawAxis(1), joystick.getRawAxis(2));
+      RobotContainer.mConveyorSubsystem.runIntake(0);
   }
 
   // Called once the command ends or is interrupted.
@@ -57,6 +46,6 @@ public class DriveCommand extends CommandBase {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

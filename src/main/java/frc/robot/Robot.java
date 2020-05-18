@@ -7,12 +7,16 @@
 
 package frc.robot;
 
+import java.util.logging.Logger;
+
+
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.ScheduleCommand;
-import frc.robot.commands.DriveCommand;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -22,8 +26,10 @@ import frc.robot.commands.DriveCommand;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
-
-  private RobotContainer m_robotContainer;
+  private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
+  public static RobotContainer m_robotContainer;
+  private ShuffleboardTab driverTab = Shuffleboard.getTab("Driver Tab");
+  
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -31,10 +37,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
+    
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
     m_robotContainer = new RobotContainer();
+    RobotContainer.light.setValue(Constants.LL_LIGHT_OFF);
+    driverTab.add("PDP", 0).withWidget(BuiltInWidgets.kPowerDistributionPanel);
+    driverTab.add("Differential Drive", 0).withWidget(BuiltInWidgets.kDifferentialDrive);
+    
+
   }
+  
 
   /**
    * This function is called every robot packet, no matter the mode. Use this for items like
@@ -45,9 +58,17 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotPeriodic() {
-    SmartDashboard.putNumber("Left Velocity", -1 * m_robotContainer.mDriveSubsystem.leftVelocity());    
-    SmartDashboard.putNumber("Right Velocity", -1 * m_robotContainer.mDriveSubsystem.rightVelocity());
-    m_robotContainer.mDriveSubsystem.updatePID();
+    RobotContainer.AutoChooser = SmartDashboard.getNumber("Auto Selection", 0);
+    SmartDashboard.putNumber("Auto Selected", RobotContainer.AutoChooser);
+    
+    RobotContainer.mDriveSubsystem.updatePID();
+    double x = RobotContainer.tx.getDouble(0.0);
+    double y = RobotContainer.ty.getDouble(0.0);
+    double area = RobotContainer.ta.getDouble(0.0);
+    SmartDashboard.putNumber("Elevator Pos", RobotContainer.mElevatorSubystem.getPosition());
+    SmartDashboard.putNumber("LimelightX", x);
+    SmartDashboard.putNumber("LimelightY", y);
+    SmartDashboard.putNumber("LimelightArea", area);
     // Runs the Smcheduler.  This is responsible for polling buttons, adding newly-scheduled
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
@@ -71,7 +92,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousInit() {
-    //m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -84,6 +105,7 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void autonomousPeriodic() {
+    CommandScheduler.getInstance().run();
   }
 
   @Override
@@ -95,7 +117,6 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-    m_robotContainer.mDriveCommand.schedule();
   }
 
   /**

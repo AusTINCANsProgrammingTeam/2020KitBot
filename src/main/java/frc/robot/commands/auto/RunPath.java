@@ -5,19 +5,16 @@
 /* the project.                                                               */
 /*----------------------------------------------------------------------------*/
 
-package frc.robot.commands;
+package frc.robot.commands.auto;
 
 import frc.robot.Robot;
 import frc.robot.RobotContainer;
-import frc.robot.subsystems.DriveSubsystem;
-import frc.robot.subsystems.ExampleSubsystem;
-import jaci.pathfinder.PathfinderFRC;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Logger;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
@@ -28,17 +25,15 @@ public class RunPath extends CommandBase {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private List rightPath;
   private List leftPath;
-  private double timeToRun;
-  private Timer timer;
   int i = 0;
+  private Iterator<Double> m_leftIterator;
+  private Iterator<Double> m_rightIterator;
   private static final Logger LOGGER = Logger.getLogger(Robot.class.getName());
 
 
   public RunPath(List leftPath, List rightPath) {
     this.rightPath = rightPath;
     this.leftPath = leftPath;
-    timeToRun = .020 * (leftPath.size()-1);
-    timer = new Timer();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(RobotContainer.mDriveSubsystem);
   }
@@ -46,36 +41,37 @@ public class RunPath extends CommandBase {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    m_leftIterator = leftPath.iterator();
+    m_rightIterator = rightPath.iterator();
     i = 0;
-    timer.reset();
-    timer.start();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    
-    RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(-1*RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));
-    RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
-    SmartDashboard.putNumber("Left Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));    
-    SmartDashboard.putNumber("Right Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
-
-    i++;
+  public void execute(){
+    if(i< leftPath.size()){
+      RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(-1*RobotContainer.mDriveSubsystem.fpsToRPM(m_leftIterator.next()));
+      RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(RobotContainer.mDriveSubsystem.fpsToRPM(m_rightIterator.next()));
+      SmartDashboard.putNumber("Left Commanded Velocity", -1*RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(leftPath.get(i).toString())));    
+      SmartDashboard.putNumber("Right Commanded Velocity", RobotContainer.mDriveSubsystem.fpsToRPM(Double.valueOf(rightPath.get(i).toString())));
+      i++;
+    }
+  
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    m_rightIterator.remove();
+    m_leftIterator.remove();
+    RobotContainer.mDriveSubsystem.setRightSetpoint(0);
     RobotContainer.mDriveSubsystem.setLeftPidVelocitySetpoint(0);
-    RobotContainer.mDriveSubsystem.setRightPidVelocitySetpoint(0);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(timer.get() >= timeToRun){
-        LOGGER.warning("" + i);
-      }
-      return timer.get() >= timeToRun;
+    return i >= leftPath.size();  
+    //return timer.get() >= timeToRun;
   }
 }

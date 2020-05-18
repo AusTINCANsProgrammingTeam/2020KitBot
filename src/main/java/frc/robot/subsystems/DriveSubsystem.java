@@ -11,49 +11,40 @@ import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.RobotContainer;
+import frc.robot.commands.drive.DriveCommand;
 
 import com.revrobotics.CANEncoder;
 import com.revrobotics.CANPIDController;
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.ControlType;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANError;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import java.util.logging.*;
 
 
 public class DriveSubsystem extends SubsystemBase {
-    private CANSparkMax mLeft1;
-    private CANSparkMax mLeft2;
-    private CANSparkMax mRight1;
-    private CANSparkMax mRight2;
+    private static CANSparkMax mLeft1 = new CANSparkMax(Constants.DriveLeft1, MotorType.kBrushless);
+    private static CANSparkMax mLeft2 = new CANSparkMax(Constants.DriveLeft2, MotorType.kBrushless);
+    private static CANSparkMax mLeft3 = new CANSparkMax(Constants.DriveLeft3, MotorType.kBrushless);
+    private static CANSparkMax mRight1 = new CANSparkMax(Constants.DriveRight1, MotorType.kBrushless);
+    private static CANSparkMax mRight2 = new CANSparkMax(Constants.DriveRight2, MotorType.kBrushless);
+    private static CANSparkMax mRight3 = new CANSparkMax(Constants.DriveRight3, MotorType.kBrushless);
     private CANPIDController l_pidController;
     private CANPIDController r_pidController;
-    private CANEncoder l_encoder;
-    private CANEncoder r_encoder;
+    public static CANEncoder l_encoder;
+    public static CANEncoder r_encoder;
     private DifferentialDrive differentialDrive;
-    public double kP, kI, kD, kIz, kFF, kMaxOutput, kMinOutput, maxRPM;
+    public double kP = Constants.kPDrive, kI = Constants.kIDrive, kD = Constants.kDDrive, kIz = Constants.kIzDrive, kFF = Constants.kFFDrive,
+     kMaxOutput = Constants.kMaxOutputDrive, kMinOutput = Constants.kMinOutputDrive;
+
+     public double kPTurn = 0, kITurn = Constants.kIDrive, kDTurn = Constants.kDDrive, kIzTurn = Constants.kIzDrive, kFFTurn = Constants.kFFDrive,
+     kMaxOutputTurn = Constants.kMaxOutputDrive, kMinOutputTurn = Constants.kMinOutputDrive;
     private static final Logger LOGGER = Logger.getLogger(DriveSubsystem.class.getName());
 
   public DriveSubsystem() {
-    mLeft1 = new CANSparkMax(1, MotorType.kBrushless);
-    mLeft2 = new CANSparkMax(2, MotorType.kBrushless);
-    mRight1 = new CANSparkMax(3, MotorType.kBrushless);
-    mRight2 = new CANSparkMax(4, MotorType.kBrushless);
-    mLeft1.restoreFactoryDefaults();
-    mLeft2.restoreFactoryDefaults();
-    mRight1.restoreFactoryDefaults();
-    mRight2.restoreFactoryDefaults();
-    mLeft1.enableVoltageCompensation(12);
-    mLeft2.enableVoltageCompensation(12);
-    mRight1.enableVoltageCompensation(12);
-    mRight2.enableVoltageCompensation(12);
-    mLeft1.setIdleMode(IdleMode.kBrake);
-    mLeft2.setIdleMode(IdleMode.kBrake);
-    mRight1.setIdleMode(IdleMode.kBrake);
-    mRight2.setIdleMode(IdleMode.kBrake);
-    mLeft2.follow(mLeft1);
-    mRight2.follow(mRight1);
+    intializeDriveSubystem(mLeft1, mLeft2, mLeft3);
+    intializeDriveSubystem(mRight1, mRight2, mRight3);
     differentialDrive = new DifferentialDrive(mLeft1, mRight1);
 
 
@@ -61,15 +52,9 @@ public class DriveSubsystem extends SubsystemBase {
     r_pidController = mRight1.getPIDController();
 
     l_encoder = mLeft1.getEncoder();
-    r_encoder = mLeft1.getEncoder();
-
-    kP = 0.00010; 
-    kI = 0;
-    kD = .0000; 
-    kIz = 0; 
-    kFF = 0.000175; 
-    kMaxOutput = 1; 
-    kMinOutput = -1;
+    r_encoder = mRight1.getEncoder();
+    l_encoder.setPosition(0);
+    r_encoder.setPosition(0);
 
     l_pidController.setP(kP);
     l_pidController.setI(kI);
@@ -91,7 +76,11 @@ public class DriveSubsystem extends SubsystemBase {
   }
 
   public void arcadeDrive(double velocity, double heading){
-    this.differentialDrive.arcadeDrive(velocity, heading * .70, true);
+    this.differentialDrive.arcadeDrive(velocity, heading, true);
+  }
+
+  public void tankDrive(double lVelocity, double rVelocity){
+    this.differentialDrive.tankDrive(lVelocity, rVelocity);
   }
 
   public void updatePID(){
@@ -104,12 +93,12 @@ public class DriveSubsystem extends SubsystemBase {
   double min = SmartDashboard.getNumber("Min Output", 0);
 
   //if PID coefficients on SmartDashboard have changed, write new values to controller
-  if((p != kP)) { l_pidController.setP(p); r_pidController.setP(p); kP = p; 
-  LOGGER.warning("PID CHANGED");}
-  if((i != kI)) { l_pidController.setI(i); r_pidController.setI(i); kI = i; 
-  LOGGER.warning("PID CHANGED");}
-  if((d != kD)) { l_pidController.setD(d); r_pidController.setD(d); kD = d; 
-  LOGGER.warning(l_pidController.getD() +" D CHANGED");}
+  // if((p != kP)) { l_pidController.setP(p); r_pidController.setP(p); kP = p; 
+  // LOGGER.warning("PID CHANGED");}
+  // if((i != kI)) { l_pidController.setI(i); r_pidController.setI(i); kI = i; 
+  // LOGGER.warning("PID CHANGED");}
+  // if((d != kD)) { l_pidController.setD(d); r_pidController.setD(d); kD = d; 
+  // LOGGER.warning(l_pidController.getD() +" D CHANGED");}
   // if((iz != kIz)) { m_pidController.setIZone(iz); kIz = iz; }
   // if((ff != kFF)) { m_pidController.setFF(ff); kFF = ff; }
   if((max != kMaxOutput) || (min != kMinOutput)) 
@@ -124,9 +113,33 @@ public void setLeftPidVelocitySetpoint(double setpoint)
     l_pidController.setReference(setpoint, ControlType.kVelocity);
 }
 
+public void checkPathEnd(){
+  
+}
+
 public void setRightPidVelocitySetpoint(double setpoint)
 {
     r_pidController.setReference(setpoint, ControlType.kVelocity);
+}
+
+public void setLeftPidPositionSetpoint(double setpoint)
+{
+    l_pidController.setReference(setpoint, ControlType.kPosition);
+}
+
+public void setRightPidPositionSetpoint(double setpoint)
+{
+    r_pidController.setReference(setpoint, ControlType.kPosition);
+}
+
+public void setLeftSetpoint(double setpoint)
+{
+    mLeft1.set(setpoint);
+}
+
+public void setRightSetpoint(double setpoint)
+{
+    mRight1.set(setpoint);
 }
 
 public double leftVelocity()
@@ -139,6 +152,17 @@ public double rightVelocity()
     return r_encoder.getVelocity();
 }
 
+
+public double getLeftEncPosition()
+{
+  return l_encoder.getPosition();
+}
+
+public double getRightEncPosition()
+{
+  return r_encoder.getPosition();
+}
+
 public double fpsToRPM(double fps){
     fps = fps * 12;
     fps = fps/Constants.kWheelCircumference;
@@ -146,9 +170,58 @@ public double fpsToRPM(double fps){
     fps = fps*Constants.kGearRatio;
     return fps;
 }
+
+public void intializeDriveSubystem(CANSparkMax master, CANSparkMax... slaves){
+  master.restoreFactoryDefaults();
+  master.enableVoltageCompensation(12);
+  master.setIdleMode(IdleMode.kBrake);
+  master.setOpenLoopRampRate(.2);
+  master.setSmartCurrentLimit(40);
+ 
+  for(CANSparkMax slave : slaves) {
+    slave.restoreFactoryDefaults();
+    slave.enableVoltageCompensation(12);
+    slave.setIdleMode(IdleMode.kBrake);
+    slave.setOpenLoopRampRate(.2);
+    slave.setSmartCurrentLimit(40);
+    slave.follow(master);
+}
+  }
+
+  public void setTurnPID(){
+    l_pidController.setP(.07);
+    l_pidController.setI(0);
+    l_pidController.setD(0);
+    l_pidController.setIZone(0);
+    l_pidController.setFF(0);
+    r_pidController.setP(.07);
+    r_pidController.setI(0);
+    r_pidController.setD(0);
+    r_pidController.setIZone(0);
+    r_pidController.setFF(0);
+  }
+
+  public void setNormalPID(){
+    l_pidController.setP(kP);
+    l_pidController.setI(kI);
+    l_pidController.setD(kD);
+    l_pidController.setIZone(kIz);
+    l_pidController.setFF(kFF);
+    r_pidController.setP(kP);
+    r_pidController.setI(kI);
+    r_pidController.setD(kD);
+    r_pidController.setIZone(kIz);
+    r_pidController.setFF(kFF);
+  }
+
   @Override
   public void periodic() {
+    SmartDashboard.putNumber("Left Velocity", -1 * RobotContainer.mDriveSubsystem.leftVelocity());    
+    SmartDashboard.putNumber("Right Velocity", -1 * RobotContainer.mDriveSubsystem.rightVelocity());
+    SmartDashboard.putNumber("lift position", RobotContainer.mElevatorSubystem.getPosition());
+    SmartDashboard.putNumber("left encoder", RobotContainer.mDriveSubsystem.getLeftEncPosition());
+    SmartDashboard.putNumber("right encoder", RobotContainer.mDriveSubsystem.getRightEncPosition());
     // This method will be called once per scheduler run
-
   }
 }
+
